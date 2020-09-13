@@ -1,12 +1,12 @@
 CREATE DATABASE `grupo_11`;
 USE grupo_11;
 
-DROP TABLE IF EXISTS `Personas`;
-CREATE TABLE `Personas`(
-PersonaID INT NOT NULL AUTO_INCREMENT,
-Nombre VARCHAR(255),
+DROP TABLE IF EXISTS `personas`;
+CREATE TABLE `personas`(
+idPersona INT(11) NOT NULL AUTO_INCREMENT,
+Nombre VARCHAR(45) NOT NULL,
 Apellido VARCHAR(255),
-Telefono INT,
+Telefono VARCHAR(20) NOT NULL,
 Email VARCHAR(255),
 FechaCumpleaños DATE,
 TipoContactoID INT,
