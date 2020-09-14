@@ -2,7 +2,7 @@ package persistencia.dao.mysql;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,38 +11,94 @@ import java.util.List;
 import persistencia.dao.interfaz.PersonaDAO;
 import dto.PersonaDTO;
 
-public class PersonaDAOSQL implements PersonaDAO
-{
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono) VALUES(?, ?, ?)";
-	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
-	private static final String readall = "SELECT * FROM personas";
-	Connection conexion = Conexion.getConexion().getSQLConexion();
-		
+public class PersonaDAOSQL implements PersonaDAO {
 	
-	public boolean delete(PersonaDTO persona_a_eliminar)
-	{
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
+	Connection conexion = Conexion.getConexion().getSQLConexion();
+	
+	@Override
+	public boolean insert(PersonaDTO p) {
+		CallableStatement cstmt = null;
+		try {
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createContacto(?,?,?,?,?,?,?,?,?,?) }");
+			cstmt.setString(1, p.getNombre());
+			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(3, p.getEmail());
+			cstmt.setDate(4, (Date) p.getFechaNacimiento());
+			cstmt.setString(5, p.getTipoContacto());
+			cstmt.setString(6, p.getCalle());
+			cstmt.setInt(7, Integer.parseInt(p.getAltura()));
+			cstmt.setInt(8, Integer.parseInt(p.getPiso()));
+			cstmt.setString(9, p.getDpto());
+			cstmt.setString(10, p.getLocalidad());
+			if(cstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				cstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean update(PersonaDTO p) {
+		CallableStatement cstmt = null;
+		try {
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updatePersona(?,?,?,?,?,?,?,?,?,?) }");
+			cstmt.setString(1, p.getNombre());
+			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(3, p.getEmail());
+			cstmt.setDate(4, (Date) p.getFechaNacimiento());
+			cstmt.setString(5, p.getCalle());
+			cstmt.setInt(6, Integer.parseInt(p.getAltura()));
+			cstmt.setInt(7, Integer.parseInt(p.getPiso()));
+			cstmt.setString(8, p.getDpto());
+			cstmt.setString(9, p.getTipoContacto());
+			cstmt.setString(10, p.getLocalidad());
+			if(cstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				cstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean delete(PersonaDTO p) {
 		boolean isdeleteExitoso = false;
-		try 
-		{
-			statement = conexion.prepareStatement(delete);
-			statement.setString(1, Integer.toString(persona_a_eliminar.getIdPersona()));
-			if(statement.executeUpdate() > 0)
-			{
-				conexion.commit();
+		CallableStatement cstmt = null;
+		try {
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call deletePersonaById(?)}");
+			cstmt.setInt(1, p.getIdPersona());
+			if(cstmt.executeUpdate() > 0) {
 				isdeleteExitoso = true;
 			}
-		} 
-		catch (SQLException e) 
-		{
+		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				cstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return isdeleteExitoso;
 	}
 	
-	public List<PersonaDTO> readAll()
-	{
+	@Override
+	public List<PersonaDTO> readAll() {
 		CallableStatement cstmt = null;
 		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
 		try {
@@ -65,7 +121,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		return personas;
 	}
 	
-	private PersonaDTO getPersonaDTO(ResultSet rs) throws SQLException {
+	PersonaDTO getPersonaDTO(ResultSet rs) throws SQLException {
 		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono"))
 				.id(rs.getInt("idPersona"))
 				.email(rs.getString("Email"))
@@ -77,11 +133,5 @@ public class PersonaDAOSQL implements PersonaDAO
 				.dpto(rs.getString("Departamento"))
 				.localidad(rs.getString("LocalidadNombre"))
 				.build();
-	}
-
-	@Override
-	public boolean insert(PersonaDTO persona) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
