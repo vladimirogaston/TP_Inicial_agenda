@@ -12,30 +12,22 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dto.PersonaDTO;
+import persistencia.dao.mysql.Conexion;
 
 import javax.swing.JButton;
 
-import persistencia.conexion.Conexion;
-
 public class Vista
 {
-	private JFrame frame;
-	private JTable tablaPersonas;
-	private JButton btnAgregar;
-	private JButton btnBorrar;
-	private JButton btnReporte;
-	private DefaultTableModel modelPersonas;
-	private  String[] nombreColumnas = {"Nombre y apellido","Telefono"};
-
-	public Vista() 
-	{
+	JFrame frame;
+	JTable tablaPersonas;
+	DefaultTableModel modelPersonas;
+	String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha cumple","Tipo","Calle","Altura","Piso","Dpto","Localidad"};
+	JButton btnAgregar;
+	JButton btnBorrar;
+	JButton btnReporte;
+	
+	public Vista() {
 		super();
-		initialize();
-	}
-
-
-	private void initialize() 
-	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -77,11 +69,9 @@ public class Vista
 		panel.add(btnReporte);
 	}
 	
-	public void show()
-	{
+	public void show() {
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.frame.addWindowListener(new WindowAdapter() 
-		{
+		this.frame.addWindowListener(new WindowAdapter()  {
 			@Override
 		    public void windowClosing(WindowEvent e) {
 		        int confirm = JOptionPane.showOptionDialog(
@@ -97,49 +87,53 @@ public class Vista
 		this.frame.setVisible(true);
 	}
 	
-	public JButton getBtnAgregar() 
-	{
-		return btnAgregar;
-	}
-
-	public JButton getBtnBorrar() 
-	{
-		return btnBorrar;
-	}
-	
-	public JButton getBtnReporte() 
-	{
-		return btnReporte;
-	}
-	
-	public DefaultTableModel getModelPersonas() 
-	{
-		return modelPersonas;
-	}
-	
-	public JTable getTablaPersonas()
-	{
-		return tablaPersonas;
-	}
-
-	public String[] getNombreColumnas() 
-	{
-		return nombreColumnas;
-	}
-
-
 	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
+		prepareTableForFillWithNewRows();
+		for (PersonaDTO p : personasEnTabla) this.getModelPersonas().addRow(getObjectFromDto(p));
+	}
+	
+	Object[] getObjectFromDto(PersonaDTO p) {
+		Object[] fila = { 
+				 p.getNombre()
+				,p.getTelefono()
+				,p.getEmail() 
+				,p.getFechaNacimiento()
+				,p.getTipoContacto()
+				,p.getCalle()
+				,p.getAltura()
+				,p.getPiso()
+				,p.getDpto()
+				,p.getLocalidad()};
+		return fila;
+	}
+	
+	void prepareTableForFillWithNewRows() {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
 		this.getModelPersonas().setColumnIdentifiers(this.getNombreColumnas());
+	}
+	
+	public JButton getBtnAgregar() {
+		return btnAgregar;
+	}
 
-		for (PersonaDTO p : personasEnTabla)
-		{
-			String nombre = p.getNombre();
-			String tel = p.getTelefono();
-			Object[] fila = {nombre, tel};
-			this.getModelPersonas().addRow(fila);
-		}
-		
+	public JButton getBtnBorrar() {
+		return btnBorrar;
+	}
+	
+	public JButton getBtnReporte() {
+		return btnReporte;
+	}
+	
+	public DefaultTableModel getModelPersonas() {
+		return modelPersonas;
+	}
+	
+	public JTable getTablaPersonas() {
+		return tablaPersonas;
+	}
+
+	public String[] getNombreColumnas() {
+		return nombreColumnas;
 	}
 }

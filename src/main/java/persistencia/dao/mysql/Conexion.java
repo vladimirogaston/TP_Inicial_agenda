@@ -1,4 +1,4 @@
-package persistencia.conexion;
+package persistencia.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

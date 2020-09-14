@@ -11,12 +11,12 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `updateLocalidad`;
 DELIMITER $$
 CREATE PROCEDURE `updateLocalidad`(
-IN loc_id INT
-,IN loc_nombre VARCHAR (255))
+IN id INT
+,IN nom VARCHAR (255))
 BEGIN
 	UPDATE Localidades
-	SET LocalidadNombre = loc_nombre
-	WHERE LocalidadID = loc_id;
+	SET LocalidadNombre = nom
+	WHERE LocalidadID = id;
 END $$
 DELIMITER ;
 
@@ -48,13 +48,13 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS `updateTipoContacto`;
 DELIMITER $$
-CREATE PROCEDURE `updateLocalidad`(
-IN tipo_contacto_id INT
-,IN tipo_contacto_nombre VARCHAR (255))
+CREATE PROCEDURE `updateTipoContacto`(
+IN id INT
+,IN nom VARCHAR (255))
 BEGIN
 	UPDATE TiposContacto
-	SET TipoContactoNombre = tipo_contacto_nombre
-	WHERE TipoContatoID = tipo_contacto_id;
+	SET TipoContactoNombre = nom
+	WHERE TipoContactoID = id;
 END $$
 DELIMITER ;
 
@@ -78,7 +78,6 @@ DROP PROCEDURE IF EXISTS `createPersona`;
 DELIMITER $$
 CREATE PROCEDURE `createPersona`(
 IN nom VARCHAR(255)
-,IN ape VARCHAR(255)
 ,IN tel INT
 ,IN p_email VARCHAR(255)
 ,IN cumple DATE
@@ -89,7 +88,7 @@ IN nom VARCHAR(255)
 ,IN dom_dpt VARCHAR (255)
 ,loc VARCHAR(255))
 BEGIN
-	INSERT INTO Personas (Nombre, Apellido, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
+	INSERT INTO Personas (Nombre, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
 VALUES (nom, ape, tel, p_email, cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con), dom_calle, dom_alt, dom_piso, dom_dpt, (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc));
 END $$
 DELIMITER ;
@@ -98,7 +97,7 @@ DROP PROCEDURE IF EXISTS `findAllPersonas`;
 DELIMITER $$
 CREATE PROCEDURE `findAllPersonas`()
 BEGIN
-SELECT idPersona, Nombre,Apellido,Telefono,Email,FechaCumpleaños,TipoContactoNombre,Calle,Altura,Piso,Departamento,LocalidadNombre FROM personas INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID;
+SELECT idPersona, Nombre, Telefono,Email,FechaCumpleaños,TipoContactoNombre,Calle,Altura,Piso,Departamento,LocalidadNombre FROM personas INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID;
 END $$
 DELIMITER ;
 
@@ -115,7 +114,6 @@ DELIMITER $$
 CREATE PROCEDURE `updatePersona`(
  IN id INT
 ,IN nom VARCHAR(255)
-,IN ape VARCHAR(255)
 ,IN tel VARCHAR(255)
 ,IN mail VARCHAR(255)
 ,IN cumple DATE
@@ -128,7 +126,7 @@ CREATE PROCEDURE `updatePersona`(
 )
 BEGIN
 	UPDATE personas
-	SET Nombre = nom, Apellido = ape, Telefono = tel, Email = mail, FechaCumpleaños = cumple, Calle = dom_calle
+	SET Nombre = nom, Telefono = tel, Email = mail, FechaCumpleaños = cumple, Calle = dom_calle
 	,Altura = dom_alt, Piso = dom_piso, Departamento = dom_dpt
 	,TipoContactoID = (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo)
 	,LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc)

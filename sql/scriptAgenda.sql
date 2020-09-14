@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS `personas`;
 CREATE TABLE `personas`(
 idPersona INT(11) NOT NULL AUTO_INCREMENT,
 Nombre VARCHAR(45) NOT NULL,
-Apellido VARCHAR(255),
 Telefono VARCHAR(20) NOT NULL,
 Email VARCHAR(255),
 FechaCumpleaños DATE,

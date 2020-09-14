@@ -2,6 +2,7 @@ package presentacion.controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 import modelo.Agenda;
@@ -13,8 +14,8 @@ import dto.PersonaDTO;
 public class Controlador implements ActionListener
 {
 		private Vista vista;
-		private List<PersonaDTO> personasEnTabla;
 		private VentanaPersona ventanaPersona; 
+		private List<PersonaDTO> personasEnTabla;
 		private Agenda agenda;
 		
 		public Controlador(Vista vista, Agenda agenda)
@@ -33,14 +34,26 @@ public class Controlador implements ActionListener
 		}
 
 		private void guardarPersona(ActionEvent p) {
-			String nombre = this.ventanaPersona.getTxtNombre().getText();
-			String tel = ventanaPersona.getTxtTelefono().getText();
-			PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel);
-			this.agenda.agregarPersona(nuevaPersona);
-			this.refrescarTabla();
-			this.ventanaPersona.cerrar();
+			PersonaDTO nuevaPersona = getFromView();
+			agenda.agregarPersona(nuevaPersona);
+			refrescarTabla();
+			ventanaPersona.cerrar();
 		}
 
+		PersonaDTO getFromView() {
+			VentanaPersona view = ventanaPersona;
+			return new PersonaDTO.Builder(view.getFieldNombre(), view.getFieldTelefono())
+					.email(view.getFieldEmail())
+					.fechaNacimiento(view.getFieldFechaDeCumpleaños())
+					.tipoContacto(view.getFieldTipoDeContacto())
+					.calle(view.getFieldCalle())
+					.altura(view.getFieldAltura())
+					.piso(view.gettFieldPiso())
+					.dpto(view.getFieldDepartamento())
+					.localidad(view.getFieldLocalidad())
+					.build();
+		}
+		
 		private void mostrarReporte(ActionEvent r) {
 			ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
 			reporte.mostrar();	
