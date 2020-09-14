@@ -15,7 +15,7 @@ Altura INT,
 Piso INT,
 Departamento VARCHAR(3),
 LocalidadID INT,
-PRIMARY KEY (PersonaID),
+PRIMARY KEY (idPersona),
 FOREIGN KEY (TipoContactoID) REFERENCES TiposContacto (TipoContactoID),
 FOREIGN KEY (LocalidadID) REFERENCES Localidades (LocalidadID)
 );
