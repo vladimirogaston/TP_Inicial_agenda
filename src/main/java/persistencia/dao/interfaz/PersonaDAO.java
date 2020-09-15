@@ -4,12 +4,13 @@ import java.util.List;
 
 import dto.PersonaDTO;
 
-public interface PersonaDAO 
-{
+public interface PersonaDAO {
 	
-	public boolean insert(PersonaDTO persona);
+	boolean update(PersonaDTO p);
+	
+	boolean insert(PersonaDTO persona);
 
-	public boolean delete(PersonaDTO persona_a_eliminar);
+	boolean delete(PersonaDTO persona_a_eliminar);
 	
-	public List<PersonaDTO> readAll();
+	List<PersonaDTO> readAll();
 }
