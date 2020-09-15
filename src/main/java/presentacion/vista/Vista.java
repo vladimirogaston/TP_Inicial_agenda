@@ -40,6 +40,7 @@ public class Vista
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setTitle("Agenda");
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 434, 262);
