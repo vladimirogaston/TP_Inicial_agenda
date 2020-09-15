@@ -176,7 +176,7 @@ public class VentanaPersona extends JFrame {
 	
 	public String getFieldTipoDeContacto() { return comboBoxTipoContacto.getSelectedItem().toString(); }
 	
-	public Date getFieldFechaDeCumpleaños() { return dateChooser.getDate(); }
+	public Date getFieldFechaDeCumpleaños() { return (Date) dateChooser.getDate(); }
 	
 	public String getFieldCalle() { return textField_1Calle.getText(); }
 	
@@ -188,4 +188,3 @@ public class VentanaPersona extends JFrame {
 	
 	public String getFieldLocalidad() { return comboBoxLocalidad.getSelectedItem().toString(); }
 }
-

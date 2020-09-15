@@ -19,11 +19,11 @@ public class PersonaDAOSQL implements PersonaDAO {
 	public boolean insert(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createContacto(?,?,?,?,?,?,?,?,?,?) }");
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createPersona(?,?,?,?,?,?,?,?,?,?) }");	
 			cstmt.setString(1, p.getNombre());
 			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
 			cstmt.setString(3, p.getEmail());
-			cstmt.setDate(4, (Date) p.getFechaNacimiento());
+			cstmt.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
 			cstmt.setString(5, p.getTipoContacto());
 			cstmt.setString(6, p.getCalle());
 			cstmt.setInt(7, Integer.parseInt(p.getAltura()));
@@ -49,17 +49,18 @@ public class PersonaDAOSQL implements PersonaDAO {
 	public boolean update(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updatePersona(?,?,?,?,?,?,?,?,?,?) }");
-			cstmt.setString(1, p.getNombre());
-			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
-			cstmt.setString(3, p.getEmail());
-			cstmt.setDate(4, (Date) p.getFechaNacimiento());
-			cstmt.setString(5, p.getCalle());
-			cstmt.setInt(6, Integer.parseInt(p.getAltura()));
-			cstmt.setInt(7, Integer.parseInt(p.getPiso()));
-			cstmt.setString(8, p.getDpto());
-			cstmt.setString(9, p.getTipoContacto());
-			cstmt.setString(10, p.getLocalidad());
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updatePersona(?,?,?,?,?,?,?,?,?,?,?)}");
+			cstmt.setInt(1, p.getIdPersona());
+			cstmt.setString(2, p.getNombre());
+			cstmt.setInt(3, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(4, p.getEmail());
+			cstmt.setDate(5, (Date) p.getFechaNacimiento());
+			cstmt.setString(6, p.getTipoContacto());
+			cstmt.setString(7, p.getCalle());
+			cstmt.setInt(8, Integer.parseInt(p.getAltura()));
+			cstmt.setInt(9, Integer.parseInt(p.getPiso()));
+			cstmt.setString(10, p.getDpto());
+			cstmt.setString(11, p.getLocalidad());
 			if(cstmt.executeUpdate() > 0) {
 				return true;
 			}

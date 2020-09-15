@@ -1,11 +1,7 @@
 package persistencia.dao.mysql;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Date;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import dto.LocalidadDTO;
@@ -17,10 +13,13 @@ public class PersonaDAOSQLTest {
 	PersonaDAOSQL dao = new PersonaDAOSQL();
 	LocalidadDaoImpl locdao = new LocalidadDaoImpl();
 	TipoContactoDaoImpl tipodao = new TipoContactoDaoImpl();
-	
-	
+		
 	@Test
 	public void testInsert() {
+	}
+	
+	@Test
+	public void testUpdate() {
 	}
 	
 	void cleanAuxDatabases() {
