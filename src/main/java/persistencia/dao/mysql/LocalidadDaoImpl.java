@@ -16,16 +16,16 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 	static final String update = "UPDATE Localidades SET LocalidadNombre = ? WHERE LocalidadID = ?";
 	static final String delete = "DELETE FROM Localidades WHERE LocalidadID = ?";
 	static final String readall = "SELECT * FROM Localidades";
-	
+
 	@Override
 	public boolean insert(LocalidadDTO dto) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
-		try	{
+		try {
 			statement = conexion.prepareStatement(insert);
 			statement.setString(1, dto.getNombre());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
@@ -36,20 +36,20 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		}		
+		}
 		return isInsertExitoso;
-	}	
+	}
 
 	@Override
 	public boolean update(LocalidadDTO dto) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
-		try	{
+		try {
 			statement = conexion.prepareStatement(update);
 			statement.setString(1, dto.getNombre());
 			statement.setInt(2, dto.getId());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
@@ -60,10 +60,10 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		}		
+		}
 		return isInsertExitoso;
 	}
-	
+
 	@Override
 	public boolean delete(LocalidadDTO dto) {
 		PreparedStatement statement;
@@ -72,7 +72,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 		try {
 			statement = conexion.prepareStatement(delete);
 			statement.setInt(1, dto.getId());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
 			}
@@ -81,7 +81,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 		}
 		return isdeleteExitoso;
 	}
-	
+
 	@Override
 	public List<LocalidadDTO> readAll() {
 		ArrayList<LocalidadDTO> lst = new ArrayList<>();
@@ -89,7 +89,8 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			Conexion conexion = Conexion.getConexion();
 			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
 			ResultSet rs = statement.executeQuery();
-			while(rs.next()) lst.add(new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre")));
+			while (rs.next())
+				lst.add(new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

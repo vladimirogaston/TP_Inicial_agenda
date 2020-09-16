@@ -16,16 +16,16 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 	static final String update = "UPDATE TiposContacto SET TipoContactoNombre = ? WHERE TipoContactoID = ?";
 	static final String delete = "DELETE FROM TiposContacto WHERE TipoContactoID = ?";
 	static final String readall = "SELECT * FROM TiposContacto";
-	
+
 	@Override
 	public boolean insert(TipoContactoDTO dto) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
-		try	{
+		try {
 			statement = conexion.prepareStatement(insert);
 			statement.setString(1, dto.getNombre());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
@@ -36,20 +36,20 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		}		
+		}
 		return isInsertExitoso;
-	}	
+	}
 
 	@Override
 	public boolean update(TipoContactoDTO dto) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
-		try	{
+		try {
 			statement = conexion.prepareStatement(update);
 			statement.setString(1, dto.getNombre());
 			statement.setInt(2, dto.getId());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
@@ -60,10 +60,10 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		}		
+		}
 		return isInsertExitoso;
 	}
-	
+
 	@Override
 	public boolean delete(TipoContactoDTO dto) {
 		PreparedStatement statement;
@@ -72,7 +72,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 		try {
 			statement = conexion.prepareStatement(delete);
 			statement.setInt(1, dto.getId());
-			if(statement.executeUpdate() > 0) {
+			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
 			}
@@ -81,7 +81,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 		}
 		return isdeleteExitoso;
 	}
-	
+
 	@Override
 	public List<TipoContactoDTO> readAll() {
 		ArrayList<TipoContactoDTO> lst = new ArrayList<>();
@@ -89,7 +89,8 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 			Conexion conexion = Conexion.getConexion();
 			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
 			ResultSet rs = statement.executeQuery();
-			while(rs.next()) lst.add(new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre")));
+			while (rs.next())
+				lst.add(new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
