@@ -21,10 +21,11 @@ public class Vista
 	JFrame frame;
 	JTable tablaPersonas;
 	DefaultTableModel modelPersonas;
-	String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha cumple","Tipo","Calle","Altura","Piso","Dpto","Localidad"};
+	String[] nombreColumnas = {"Nombre y apellido","Telefono","Email","Fecha cumple","Tipo","Calle","Altura","Piso","Dpto","Localidad","ID"};
 	JButton btnAgregar;
 	JButton btnBorrar;
 	JButton btnReporte;
+	JButton btnEditar;
 	
 	public Vista() {
 		super();
@@ -57,7 +58,7 @@ public class Vista
 		btnAgregar.setBounds(10, 228, 89, 23);
 		panel.add(btnAgregar);
 		
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(109, 228, 89, 23);
 		panel.add(btnEditar);
 		
@@ -108,7 +109,8 @@ public class Vista
 				,p.getAltura()
 				,p.getPiso()
 				,p.getDpto()
-				,p.getLocalidad()};
+				,p.getLocalidad()
+				,p.getIdPersona()};
 		return fila;
 	}
 	
@@ -140,5 +142,9 @@ public class Vista
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
+	}
+
+	public JButton getBtnEditar() {
+		return btnEditar;
 	}
 }
