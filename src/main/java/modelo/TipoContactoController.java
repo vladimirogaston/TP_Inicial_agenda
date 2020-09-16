@@ -9,6 +9,10 @@ public class TipoContactoController {
 	
 	TipoContactoDAO dao;
 	
+	public TipoContactoController(TipoContactoDAO dao) {
+		this.dao = dao;
+	}
+	
 	public List<TipoContactoDTO> readAll() {
 		return dao.readAll();
 	}

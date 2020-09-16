@@ -69,6 +69,10 @@ public class Vista
 		panel.add(btnReporte);
 	}
 	
+	public void showMessages(String message) {
+		JOptionPane.showMessageDialog(null, message);
+	}
+	
 	public void show() {
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.frame.addWindowListener(new WindowAdapter()  {
