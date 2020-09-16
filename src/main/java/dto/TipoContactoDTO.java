@@ -5,6 +5,11 @@ public class TipoContactoDTO {
 	int id;
 	String nombre;
 
+	public TipoContactoDTO(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+	
 	public TipoContactoDTO(int id, String nombre) {
 		super();
 		this.id = id;
