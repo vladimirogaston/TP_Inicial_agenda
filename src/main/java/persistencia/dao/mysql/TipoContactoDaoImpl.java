@@ -31,12 +31,12 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			try {
 				conexion.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new DatabaseException("El nombre del tipo de contacto ya esta en uso.");
 		}
 		return isInsertExitoso;
 	}

@@ -46,7 +46,7 @@ public class VistaAbmTiposDeContacto extends JFrame {
 		lblNewLabel.setBounds(15, 44, 145, 20);
 		panel.add(lblNewLabel);
 
-		textFieldNombre = new JTextField();
+		textFieldNombre = new JTextField("");
 		textFieldNombre.setBounds(175, 38, 332, 26);
 		panel.add(textFieldNombre);
 		textFieldNombre.setColumns(10);

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import dto.LocalidadDTO;
 import dto.TipoContactoDTO;
 import modelo.Agenda;
 import presentacion.vista.VistaAbmTiposDeContacto;
@@ -27,6 +26,18 @@ public class ControladorVistaAbmTiposContacto {
 	}
 
 	void onSalvar(ActionEvent action) {
+		String nom = vista.getTextFieldNombre().getText();
+		if(nom != null && !nom.trim().isEmpty()) {
+			TipoContactoDTO dto = new TipoContactoDTO(nom);
+			try {
+				agenda.agregarTipoDeContacto(dto);
+				vista.getTextFieldNombre().setText("");
+				vaciarTabla();
+				llenarTabla();
+			} catch(DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
+		}
 	}
 
 	void onBorrar(ActionEvent action) {
