@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -113,5 +114,9 @@ public class VistaAbmTiposDeContacto extends JFrame {
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
+	}
+
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
 	}
 }

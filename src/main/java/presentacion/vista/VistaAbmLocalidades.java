@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -113,5 +114,9 @@ public class VistaAbmLocalidades extends JFrame {
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
+	}
+
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
 	}
 }

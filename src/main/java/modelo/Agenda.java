@@ -9,6 +9,7 @@ import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
+import presentacion.controlador.DatabaseException;
 
 public class Agenda {
 	private PersonaDAO persona;
@@ -47,5 +48,9 @@ public class Agenda {
 
 	public void borrarLocalidad(LocalidadDTO localidadDTO) {
 		localidades.delete(localidadDTO);
+	}
+
+	public void borrarTipoDeContacto(TipoContactoDTO tipoContactoDTO) {
+		tipos.delete(tipoContactoDTO);
 	}
 }
