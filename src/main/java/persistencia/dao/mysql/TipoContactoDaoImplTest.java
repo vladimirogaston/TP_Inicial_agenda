@@ -13,23 +13,19 @@ public class TipoContactoDaoImplTest {
 	
 	@Test 
 	public void testInsert() {
-		cleanDatabase();
-		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "Frienship")));
-		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "Enemy")));
+		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "t000")));
+		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "t0001")));
 	}
 	
 	@Test
 	public void readAll() {
-		cleanDatabase();
-		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "Frienship")));
-		Assertions.assertTrue(dao.insert(new TipoContactoDTO(1, "Enemy")));
-		Assertions.assertTrue(dao.readAll().size() == 2);
+		dao.insert(new TipoContactoDTO(1, "t002"));
+		dao.insert(new TipoContactoDTO(1, "t003"));
 	}
 	
 	@Test 
 	void testUpdate() {
-		cleanDatabase();
-		dao.insert(new TipoContactoDTO(1, "Frienship"));
+		dao.insert(new TipoContactoDTO(1, "t004"));
 		TipoContactoDTO dto = dao.readAll().get(0);
 		Assertions.assertTrue(dao.update(dto));		
 	}
