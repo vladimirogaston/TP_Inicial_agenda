@@ -11,18 +11,18 @@ import persistencia.dao.interfaz.PersonaDAO;
 import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
-	
+
 	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?) }";
 	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
 	static final String find = "{call findAllPersonas()}";
 	Connection conexion = Conexion.getConexion().getSQLConexion();
-		
+
 	@Override
 	public boolean insert(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(insert);
+			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(insert);
 			cstmt.setString(1, p.getNombre());
 			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
 			cstmt.setString(3, p.getEmail());
@@ -33,7 +33,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setInt(8, Integer.parseInt(p.getPiso()));
 			cstmt.setString(9, p.getDpto());
 			cstmt.setString(10, p.getLocalidad());
-			if(cstmt.executeUpdate() > 0) {
+			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;
 			}
@@ -48,12 +48,12 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean update(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(update);
+			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(update);
 			cstmt.setInt(1, p.getIdPersona());
 			cstmt.setString(2, p.getNombre());
 			cstmt.setInt(3, Integer.parseInt(p.getTelefono()));
@@ -65,7 +65,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setInt(9, Integer.parseInt(p.getPiso()));
 			cstmt.setString(10, p.getDpto());
 			cstmt.setString(11, p.getLocalidad());
-			if(cstmt.executeUpdate() > 0) {
+			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;
 			}
@@ -80,15 +80,15 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean delete(PersonaDTO p) {
 		boolean isdeleteExitoso = false;
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(delete);
+			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(delete);
 			cstmt.setInt(1, p.getIdPersona());
-			if(cstmt.executeUpdate() > 0) {
+			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				isdeleteExitoso = true;
 			}
@@ -103,17 +103,17 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return isdeleteExitoso;
 	}
-	
+
 	@Override
 	public List<PersonaDTO> readAll() {
 		CallableStatement cstmt = null;
 		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
 		try {
 			String SQL = find;
-			cstmt  = conexion.prepareCall(SQL);
+			cstmt = conexion.prepareCall(SQL);
 			ResultSet resultSet;
 			resultSet = cstmt.executeQuery();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				personas.add(getPersonaDTO(resultSet));
 			}
 		} catch (SQLException e) {
@@ -127,18 +127,13 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return personas;
 	}
-	
+
 	PersonaDTO getPersonaDTO(ResultSet rs) throws SQLException {
-		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono"))
-				.id(rs.getInt("idPersona"))
-				.email(rs.getString("Email"))
-				.fechaNacimiento(rs.getDate("FechaCumpleaños"))
-				.tipoContacto(rs.getString("TipoContactoNombre"))
-				.calle(rs.getString("Calle"))
+		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono")).id(rs.getInt("idPersona"))
+				.email(rs.getString("Email")).fechaNacimiento(rs.getDate("FechaCumpleaños"))
+				.tipoContacto(rs.getString("TipoContactoNombre")).calle(rs.getString("Calle"))
 				.altura(Integer.valueOf(rs.getInt("Altura")).toString())
-				.piso(Integer.valueOf(rs.getInt("Piso")).toString())
-				.dpto(rs.getString("Departamento"))
-				.localidad(rs.getString("LocalidadNombre"))
-				.build();
+				.piso(Integer.valueOf(rs.getInt("Piso")).toString()).dpto(rs.getString("Departamento"))
+				.localidad(rs.getString("LocalidadNombre")).build();
 	}
 }

@@ -9,7 +9,7 @@ import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
 
 public class DAOSQLFactory implements DAOAbstractFactory {
-	
+
 	public PersonaDAO createPersonaDAO() {
 		return new PersonaDAOSQL();
 	}

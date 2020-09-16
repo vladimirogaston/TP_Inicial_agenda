@@ -6,108 +6,99 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-public class PersonaDTO 
-{
+public class PersonaDTO {
 	int idPersona;
-	
+
 	@NotBlank
 	String nombre;
 
 	@NotBlank
 	@Digits(fraction = 0, integer = 10)
 	String telefono;
-	
+
 	@Email
 	String email;
-	
+
 	Date fechaNacimiento;
-	
+
 	@NotBlank
 	String tipoContacto;
-	
+
 	String calle;
-	
+
 	@Digits(fraction = 0, integer = 5)
 	String altura;
-	
+
 	@Digits(fraction = 0, integer = 2)
 	String piso;
-	
+
 	String dpto;
-	
+
 	String localidad;
-	
+
 	public PersonaDTO() {
 		super();
 	}
 
 	public static PersonaDTO makeTestDto() {
-		return new Builder("John", "333")
-				.email("john@qm.com")
-				.fechaNacimiento(new Date())
-				.tipoContacto("Friend")
-				.calle("c1")
-				.altura("1")
-				.piso("1")
-				.dpto("A")
-				.localidad("Waco")
-				.build();
+		return new Builder("John", "333").email("john@qm.com").fechaNacimiento(new Date()).tipoContacto("Friend")
+				.calle("c1").altura("1").piso("1").dpto("A").localidad("Waco").build();
 	}
-	
+
 	public static class Builder {
 		PersonaDTO dto;
-		
+
 		public Builder(String nom, String tel) {
 			dto = new PersonaDTO();
 			dto.nombre = nom;
 			dto.telefono = tel;
 		}
-		
+
 		public Builder id(int id) {
 			dto.idPersona = id;
 			return this;
 		}
-		
+
 		public Builder email(String email) {
-			dto.email =  email;
+			dto.email = email;
 			return this;
 		}
-		
+
 		public Builder fechaNacimiento(Date date) {
 			dto.fechaNacimiento = date;
 			return this;
 		}
-		
+
 		public Builder tipoContacto(String tc) {
 			dto.tipoContacto = tc;
 			return this;
 		}
-		
+
 		public Builder calle(String calle) {
 			dto.calle = calle;
 			return this;
 		}
-		
+
 		public Builder altura(String altura) {
 			dto.altura = altura;
 			return this;
 		}
-		
+
 		public Builder piso(String piso) {
 			dto.piso = piso;
 			return this;
 		}
-		
+
 		public Builder dpto(String dpto) {
 			dto.dpto = dpto;
 			return this;
 		}
-		
+
 		public Builder localidad(String loc) {
 			dto.localidad = loc;
 			return this;
 		}
-		
+
 		public PersonaDTO build() {
 			return dto;
 		}

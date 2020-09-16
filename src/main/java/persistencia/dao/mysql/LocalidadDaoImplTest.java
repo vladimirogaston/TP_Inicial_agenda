@@ -10,7 +10,7 @@ import dto.LocalidadDTO;
 public class LocalidadDaoImplTest {
 
 	LocalidadDaoImpl dao = new LocalidadDaoImpl();
-	
+
 	@Test
 	public void testReadAll() {
 		cleanDatabase();
@@ -20,7 +20,7 @@ public class LocalidadDaoImplTest {
 		Assertions.assertTrue(!lst.isEmpty());
 		Assertions.assertTrue(lst.size() == 2);
 	}
-	
+
 	@Test
 	public void testInsert() {
 		cleanDatabase();
@@ -29,7 +29,7 @@ public class LocalidadDaoImplTest {
 		Assertions.assertTrue(dao.insert(new LocalidadDTO(1, "Missippi")));
 		Assertions.assertTrue(dao.insert(new LocalidadDTO(1, "Atlanta")));
 	}
-	
+
 	@Test
 	public void testUpdate() {
 		cleanDatabase();
@@ -38,13 +38,13 @@ public class LocalidadDaoImplTest {
 		ret.setNombre("Exodus");
 		Assertions.assertTrue(dao.update(ret));
 	}
-	
+
 	void cleanDatabase() {
 		List<LocalidadDTO> lst = dao.readAll();
-		if(!lst.isEmpty()) {
-			for(LocalidadDTO loc : lst) {
+		if (!lst.isEmpty()) {
+			for (LocalidadDTO loc : lst) {
 				dao.delete(loc);
 			}
-		} 
+		}
 	}
 }
