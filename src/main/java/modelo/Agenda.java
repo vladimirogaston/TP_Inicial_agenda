@@ -44,4 +44,8 @@ public class Agenda {
 	public void editar(PersonaDTO nuevaPersona) {
 		persona.update(nuevaPersona);
 	}
+
+	public void borrarLocalidad(LocalidadDTO localidadDTO) {
+		localidades.delete(localidadDTO);
+	}
 }

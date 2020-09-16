@@ -3,16 +3,16 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import dto.LocalidadDTO;
+import dto.TipoContactoDTO;
 import modelo.Agenda;
-import presentacion.vista.VistaAbmLocalidades;
+import presentacion.vista.VistaAbmTiposDeContacto;
 
-public class ControladorVistaAbmLocalidades {
+public class ControladorVistaAbmTiposContacto {
 
-	VistaAbmLocalidades vista;
+	VistaAbmTiposDeContacto vista;
 	Agenda agenda;
 
-	public ControladorVistaAbmLocalidades(VistaAbmLocalidades vista, Agenda agenda) {
+	public ControladorVistaAbmTiposContacto(VistaAbmTiposDeContacto vista, Agenda agenda) {
 		super();
 		this.vista = vista;
 		this.agenda = agenda;
@@ -28,15 +28,11 @@ public class ControladorVistaAbmLocalidades {
 	}
 
 	void onBorrar(ActionEvent action) {
-		int selectedRows = vista.getTable().getSelectedRowCount();
-		if(selectedRows == 1) {
-			final int row = vista.getTable().getSelectedRow();
-			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			final String locNombre = vista.getTableModel().getValueAt(row, 0).toString();
-			agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
-			vaciarTabla();
-			llenarTabla();
-		}
+
+	}
+	
+	void onEditar(ActionEvent action) {
+		
 	}
 	
 	void vaciarTabla() {
@@ -46,8 +42,8 @@ public class ControladorVistaAbmLocalidades {
 	}
 
 	void llenarTabla() {
-		List<LocalidadDTO> localidades = agenda.localidadesDisponibles();
-		for (LocalidadDTO loc : localidades) {
+		List<TipoContactoDTO> localidades = agenda.tiposDisponibles();
+		for (TipoContactoDTO loc : localidades) {
 			Object[] row = { loc.getNombre(), loc.getId() };
 			vista.getTableModel().addRow(row);
 		}

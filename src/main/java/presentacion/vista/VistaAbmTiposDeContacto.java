@@ -1,24 +1,24 @@
 package presentacion.vista;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import java.awt.FlowLayout;
-import javax.swing.JTable;
 
 @SuppressWarnings("serial")
-public class VistaAbmLocalidades extends JFrame {
-
+public class VistaAbmTiposDeContacto extends JFrame {
 	JPanel contentPane;
-	final String[] nombreColumnas = new String[] { "LocalidadNombre", "ID" };
+	final String[] nombreColumnas = new String[] { "TipoContacto", "ID" };
 	JTextField textFieldNombre;
 	JTable table;
 	DefaultTableModel tableModel;
@@ -26,7 +26,7 @@ public class VistaAbmLocalidades extends JFrame {
 	JButton btnNewButtonEliminar;
 	JButton btnNewButtonSalvar;
 
-	public VistaAbmLocalidades() {
+	public VistaAbmTiposDeContacto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
