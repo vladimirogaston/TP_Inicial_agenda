@@ -56,4 +56,8 @@ public class Agenda {
 	public void borrarTipoDeContacto(TipoContactoDTO tipoContactoDTO) {
 		tipos.delete(tipoContactoDTO);
 	}
+
+	public void agregarLocalidad(LocalidadDTO localidadDTO) {
+		this.localidades.insert(localidadDTO);
+	}
 }

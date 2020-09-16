@@ -25,6 +25,18 @@ public class ControladorVistaAbmLocalidades {
 	}
 
 	void onSalvar(ActionEvent action) {
+		String nombre = vista.getTextFieldNombre().getText();
+		if(nombre != null && !nombre.trim().isEmpty()) {
+			LocalidadDTO dto = new LocalidadDTO(nombre);
+			try {
+				agenda.agregarLocalidad(dto);
+				vista.getTextFieldNombre().setText("");
+				vaciarTabla();
+				llenarTabla();
+			} catch(DatabaseException e){
+				vista.showMessage(e.getMessage());
+			}
+		}
 	}
 
 	void onBorrar(ActionEvent action) {
