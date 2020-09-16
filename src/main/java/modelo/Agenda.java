@@ -46,4 +46,8 @@ public class Agenda
 	public List<LocalidadDTO> localidadesDisponibles() {
 		return localidades.readAll();
 	}
+
+	public void editar(PersonaDTO nuevaPersona) {
+		persona.update(nuevaPersona);		
+	}
 }

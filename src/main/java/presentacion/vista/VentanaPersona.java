@@ -1,8 +1,6 @@
 package presentacion.vista;
 
 import java.util.Date;
-import java.util.Set;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,8 +13,9 @@ import com.toedter.calendar.JDateChooser;
 public class VentanaPersona extends JFrame {
 	
 	static final long serialVersionUID = 1L;
-	static VentanaPersona INSTANCE;	
+	static VentanaPersona INSTANCE;
 	JPanel contentPane;
+	Integer personaId;
 	JTextField txtNombre;
 	JTextField txtTelefono;
 	JTextField textFieldEmail;
@@ -164,6 +163,7 @@ public class VentanaPersona extends JFrame {
 		textFieldDpto.setText("");
 		comboBoxLocalidad.removeAllItems();
 		comboBoxTipoContacto.removeAllItems();
+		personaId = null;
 		this.dispose();
 	}	
 	
@@ -194,4 +194,84 @@ public class VentanaPersona extends JFrame {
 	public String getFieldDepartamento() { return textFieldDpto.getText(); }
 	
 	public String getFieldLocalidad() { return comboBoxLocalidad.getSelectedItem().toString(); }
+
+	public JTextField getTextFieldEmail() {
+		return textFieldEmail;
+	}
+
+	public void setTextFieldEmail(JTextField textFieldEmail) {
+		this.textFieldEmail = textFieldEmail;
+	}
+
+	public JTextField getTextField_1Calle() {
+		return textField_1Calle;
+	}
+
+	public void setTextField_1Calle(JTextField textField_1Calle) {
+		this.textField_1Calle = textField_1Calle;
+	}
+
+	public JTextField getTextFieldPiso() {
+		return textFieldPiso;
+	}
+
+	public void setTextFieldPiso(JTextField textFieldPiso) {
+		this.textFieldPiso = textFieldPiso;
+	}
+
+	public JTextField getTextFieldAltura() {
+		return textFieldAltura;
+	}
+
+	public void setTextFieldAltura(JTextField textFieldAltura) {
+		this.textFieldAltura = textFieldAltura;
+	}
+
+	public JTextField getTextFieldDpto() {
+		return textFieldDpto;
+	}
+
+	public void setTextFieldDpto(JTextField textFieldDpto) {
+		this.textFieldDpto = textFieldDpto;
+	}
+
+	public JComboBox<String> getComboBoxLocalidad() {
+		return comboBoxLocalidad;
+	}
+
+	public void setComboBoxLocalidad(JComboBox<String> comboBoxLocalidad) {
+		this.comboBoxLocalidad = comboBoxLocalidad;
+	}
+
+	public JDateChooser getDateChooser() {
+		return dateChooser;
+	}
+
+	public void setDateChooser(JDateChooser dateChooser) {
+		this.dateChooser = dateChooser;
+	}
+
+	public JComboBox<String> getComboBoxTipoContacto() {
+		return comboBoxTipoContacto;
+	}
+
+	public void setComboBoxTipoContacto(JComboBox<String> comboBoxTipoContacto) {
+		this.comboBoxTipoContacto = comboBoxTipoContacto;
+	}
+
+	public void setTxtNombre(JTextField txtNombre) {
+		this.txtNombre = txtNombre;
+	}
+
+	public void setTxtTelefono(JTextField txtTelefono) {
+		this.txtTelefono = txtTelefono;
+	}
+	
+	public Integer getPersonaId() {
+		return personaId;
+	}
+
+	public void setPersonaId(Integer personaId) {
+		this.personaId = personaId;
+	}
 }
