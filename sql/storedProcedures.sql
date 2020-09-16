@@ -88,7 +88,7 @@ CREATE PROCEDURE `createPersona`(
 ,IN dom_dpt VARCHAR (255)
 ,IN loc VARCHAR(255))
 BEGIN
-	INSERT INTO personas (Nombre, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
+	INSERT INTO Personas (Nombre, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
 VALUES (nom, tel, p_email, cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con), dom_calle, dom_alt, dom_piso, dom_dpt, (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc));
 END $$
 DELIMITER ;

@@ -1,6 +1,7 @@
 package persistencia.dao.mysql;
 
-import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,89 +12,87 @@ import persistencia.dao.interfaz.TipoContactoDAO;
 
 public class TipoContactoDaoImpl implements TipoContactoDAO {
 
+	static final String insert = "INSERT INTO TiposContacto (TipoContactoNombre) VALUES(?)";
+	static final String update = "UPDATE TiposContacto SET TipoContactoNombre = ? WHERE TipoContactoID = ?";
+	static final String delete = "DELETE FROM TiposContacto WHERE TipoContactoID = ?";
+	static final String readall = "SELECT * FROM TiposContacto";
+	
 	@Override
-	public boolean update(TipoContactoDTO tContacto) {
-		CallableStatement cstmt = null;
-		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updateTipoContacto(?,?)}");
-			cstmt.setInt(1, tContacto.getId());
-			cstmt.setString(2, tContacto.getNombre());
-			if(cstmt.executeUpdate() > 0) {
-				return true;
+	public boolean insert(TipoContactoDTO dto) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try	{
+			statement = conexion.prepareStatement(insert);
+			statement.setString(1, dto.getNombre());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
 			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
-		}
-		return false;
-	}
+		}		
+		return isInsertExitoso;
+	}	
 
 	@Override
-	public boolean insert(TipoContactoDTO tContacto) {
-		CallableStatement cstmt = null;
-		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createTipoContacto(?) }");
-			cstmt.setString(1, tContacto.getNombre());
-			if(cstmt.executeUpdate() > 0) {
-				return true;
+	public boolean update(TipoContactoDTO dto) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try	{
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, dto.getNombre());
+			statement.setInt(2, dto.getId());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
 			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
-		}
-		return false;
+		}		
+		return isInsertExitoso;
 	}
-
+	
 	@Override
-	public boolean delete(TipoContactoDTO tContacto) {
+	public boolean delete(TipoContactoDTO dto) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;
-		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call deleteTipoContactoById(?)}");
-			cstmt.setInt(1, tContacto.getId());
-			if(cstmt.executeUpdate() > 0) {
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, dto.getId());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return isdeleteExitoso;
 	}
-
+	
 	@Override
 	public List<TipoContactoDTO> readAll() {
-		CallableStatement cstmt = null;
 		ArrayList<TipoContactoDTO> lst = new ArrayList<>();
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call findAllTiposContacto()}");
-			ResultSet rs = cstmt.executeQuery();
-			while(rs.next()) lst.add(new TipoContactoDTO(rs.getInt("TipoContactoID"),rs.getString("TipoContactoNombre")));
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) lst.add(new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return lst;
 	}
-
 }

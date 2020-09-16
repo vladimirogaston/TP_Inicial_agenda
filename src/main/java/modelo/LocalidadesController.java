@@ -9,7 +9,12 @@ public class LocalidadesController {
 	
 	LocalidadDAO dao;
 	
-	List<LocalidadDTO> findAll() {
+	public LocalidadesController(LocalidadDAO dao) {
+		super();
+		this.dao = dao;
+	}
+
+	public List<LocalidadDTO> findAll() {
 		return dao.readAll();
 	}
 }

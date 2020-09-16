@@ -2,9 +2,9 @@ package dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 
 public class PersonaDTO 
 {
@@ -14,7 +14,7 @@ public class PersonaDTO
 	String nombre;
 
 	@NotBlank
-	@Positive
+	@Digits(fraction = 0, integer = 10)
 	String telefono;
 	
 	@Email
@@ -27,8 +27,10 @@ public class PersonaDTO
 	
 	String calle;
 	
+	@Digits(fraction = 0, integer = 5)
 	String altura;
 	
+	@Digits(fraction = 0, integer = 2)
 	String piso;
 	
 	String dpto;
@@ -39,6 +41,19 @@ public class PersonaDTO
 		super();
 	}
 
+	public static PersonaDTO makeTestDto() {
+		return new Builder("John", "333")
+				.email("john@qm.com")
+				.fechaNacimiento(new Date())
+				.tipoContacto("Friend")
+				.calle("c1")
+				.altura("1")
+				.piso("1")
+				.dpto("A")
+				.localidad("Waco")
+				.build();
+	}
+	
 	public static class Builder {
 		PersonaDTO dto;
 		

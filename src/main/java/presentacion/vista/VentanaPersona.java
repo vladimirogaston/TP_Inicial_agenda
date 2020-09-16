@@ -155,17 +155,24 @@ public class VentanaPersona extends JFrame {
 	public JButton getBtnAgregarPersona() {	return btnAgregarPersona; }
 
 	public void cerrar() {
-		this.txtNombre.setText(null);
-		this.txtTelefono.setText(null);
+		txtNombre.setText("");
+		txtTelefono.setText("");
+		textFieldEmail.setText("");
+		textField_1Calle.setText("");
+		textFieldPiso.setText("");
+		textFieldAltura.setText("");
+		textFieldDpto.setText("");
+		comboBoxLocalidad.removeAllItems();
+		comboBoxTipoContacto.removeAllItems();
 		this.dispose();
 	}	
 	
-	public void fillLocalidades(Set<String> localidades) {
-		for(String loc : localidades) comboBoxLocalidad.addItem(loc);
+	public void fillLocalidades(String loc) {
+		comboBoxLocalidad.addItem(loc);
 	}
 	
-	public void fillTiposContacto(Set<String> tipos) {
-		for(String tipo : tipos) comboBoxTipoContacto.addItem(tipo);
+	public void fillTiposContacto(String tipos) {
+		comboBoxTipoContacto.addItem(tipos);
 	}
 	
 	public String getFieldNombre() { return txtNombre.getText(); }
