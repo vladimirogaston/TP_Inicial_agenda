@@ -19,11 +19,26 @@ public class ControladorVistaAbmLocalidades {
 		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
 			onSalvar(a);
 		});
+		vista.getBtnNewButtonEliminar().addActionListener((a) -> {
+			onBorrar(a);
+		});
 	}
 
 	void onSalvar(ActionEvent action) {
 	}
 
+	void onBorrar(ActionEvent action) {
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if(selectedRows == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String locNombre = vista.getTableModel().getValueAt(row, 0).toString();
+			agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
+			vaciarTabla();
+			llenarTabla();
+		}
+	}
+	
 	void vaciarTabla() {
 		vista.getTableModel().setRowCount(0);
 		vista.getTableModel().setColumnCount(0);

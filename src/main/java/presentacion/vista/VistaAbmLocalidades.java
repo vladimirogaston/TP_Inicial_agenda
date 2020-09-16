@@ -91,6 +91,10 @@ public class VistaAbmLocalidades extends JFrame {
 		return textFieldNombre;
 	}
 
+	public JTable getTable() {
+		return table;
+	}
+	
 	public DefaultTableModel getTableModel() {
 		return tableModel;
 	}
