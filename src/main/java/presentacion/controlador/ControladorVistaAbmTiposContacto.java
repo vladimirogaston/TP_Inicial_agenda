@@ -1,8 +1,10 @@
 package presentacion.controlador;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import dto.LocalidadDTO;
 import dto.TipoContactoDTO;
 import modelo.Agenda;
 import presentacion.vista.VistaAbmTiposDeContacto;
@@ -28,7 +30,20 @@ public class ControladorVistaAbmTiposContacto {
 	}
 
 	void onBorrar(ActionEvent action) {
-
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if(selectedRows == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int tcID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String tcNombre = vista.getTableModel().getValueAt(row, 0).toString();
+			try {
+				agenda.borrarTipoDeContacto(new TipoContactoDTO(tcID, tcNombre));
+				vaciarTabla();
+				llenarTabla();
+			} catch (DatabaseException e) {
+				vista.getTable().setSelectionBackground(Color.RED);
+				vista.showMessage(e.getMessage());
+			}
+		}
 	}
 	
 	void onEditar(ActionEvent action) {

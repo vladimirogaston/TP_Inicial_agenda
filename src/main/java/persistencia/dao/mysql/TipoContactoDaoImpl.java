@@ -9,6 +9,7 @@ import java.util.List;
 
 import dto.TipoContactoDTO;
 import persistencia.dao.interfaz.TipoContactoDAO;
+import presentacion.controlador.DatabaseException;
 
 public class TipoContactoDaoImpl implements TipoContactoDAO {
 
@@ -65,7 +66,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 	}
 
 	@Override
-	public boolean delete(TipoContactoDTO dto) {
+	public boolean delete(TipoContactoDTO dto) throws DatabaseException {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;
@@ -77,7 +78,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DatabaseException("Error: no se puede eliminar un tipo en uso.");
 		}
 		return isdeleteExitoso;
 	}
