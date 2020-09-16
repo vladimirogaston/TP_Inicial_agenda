@@ -5,6 +5,11 @@ public class LocalidadDTO {
 	int id;
 	String nombre;
 	
+	public LocalidadDTO(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+	
 	public LocalidadDTO(int id, String nombre) {
 		super();
 		this.id = id;

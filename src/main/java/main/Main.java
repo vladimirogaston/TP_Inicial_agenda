@@ -1,9 +1,7 @@
 package main;
 
-import modelo.Agenda;
-import persistencia.dao.mysql.DAOSQLFactory;
-import presentacion.controlador.Controlador;
-import presentacion.vista.Vista;
+import dto.PersonaDTO;
+import persistencia.dao.mysql.PersonaDAOSQL;
 
 
 public class Main 
@@ -11,9 +9,13 @@ public class Main
 
 	public static void main(String[] args) 
 	{
-		Vista vista = new Vista();
-		Agenda modelo = new Agenda(new DAOSQLFactory());
-		Controlador controlador = new Controlador(vista, modelo);
-		controlador.inicializar();
+		PersonaDTO dto = PersonaDTO.makeTestDto();
+		dto.setIdPersona(2);
+		dto.setNombre("xxxxx");
+		new PersonaDAOSQL().update(dto);
+		//Vista vista = new Vista();
+		//Agenda modelo = new Agenda(new DAOSQLFactory());
+		//Controlador controlador = new Controlador(vista, modelo);
+		//controlador.inicializar();
 	}
 }

@@ -2,7 +2,6 @@ package persistencia.dao.mysql;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,17 +12,21 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
 	
+	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?) }";
+	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?) }";
+	static final String delete = "{call deletePersonaById(?)}";
+	static final String find = "{call findAllPersonas()}";
 	Connection conexion = Conexion.getConexion().getSQLConexion();
-	
+		
 	@Override
 	public boolean insert(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createContacto(?,?,?,?,?,?,?,?,?,?) }");
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(insert);
 			cstmt.setString(1, p.getNombre());
 			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
 			cstmt.setString(3, p.getEmail());
-			cstmt.setDate(4, (Date) p.getFechaNacimiento());
+			cstmt.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
 			cstmt.setString(5, p.getTipoContacto());
 			cstmt.setString(6, p.getCalle());
 			cstmt.setInt(7, Integer.parseInt(p.getAltura()));
@@ -31,6 +34,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setString(9, p.getDpto());
 			cstmt.setString(10, p.getLocalidad());
 			if(cstmt.executeUpdate() > 0) {
+				conexion.commit();
 				return true;
 			}
 		} catch (SQLException e) {
@@ -49,18 +53,20 @@ public class PersonaDAOSQL implements PersonaDAO {
 	public boolean update(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updatePersona(?,?,?,?,?,?,?,?,?,?) }");
-			cstmt.setString(1, p.getNombre());
-			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
-			cstmt.setString(3, p.getEmail());
-			cstmt.setDate(4, (Date) p.getFechaNacimiento());
-			cstmt.setString(5, p.getCalle());
-			cstmt.setInt(6, Integer.parseInt(p.getAltura()));
-			cstmt.setInt(7, Integer.parseInt(p.getPiso()));
-			cstmt.setString(8, p.getDpto());
-			cstmt.setString(9, p.getTipoContacto());
-			cstmt.setString(10, p.getLocalidad());
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(update);
+			cstmt.setInt(1, p.getIdPersona());
+			cstmt.setString(2, p.getNombre());
+			cstmt.setInt(3, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(4, p.getEmail());
+			cstmt.setDate(5, new java.sql.Date(p.getFechaNacimiento().getTime()));
+			cstmt.setString(6, p.getTipoContacto());
+			cstmt.setString(7, p.getCalle());
+			cstmt.setInt(8, Integer.parseInt(p.getAltura()));
+			cstmt.setInt(9, Integer.parseInt(p.getPiso()));
+			cstmt.setString(10, p.getDpto());
+			cstmt.setString(11, p.getLocalidad());
 			if(cstmt.executeUpdate() > 0) {
+				conexion.commit();
 				return true;
 			}
 		} catch (SQLException e) {
@@ -80,9 +86,10 @@ public class PersonaDAOSQL implements PersonaDAO {
 		boolean isdeleteExitoso = false;
 		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call deletePersonaById(?)}");
+			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall(delete);
 			cstmt.setInt(1, p.getIdPersona());
 			if(cstmt.executeUpdate() > 0) {
+				conexion.commit();
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
@@ -102,7 +109,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 		CallableStatement cstmt = null;
 		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
 		try {
-			String SQL = "{ call findAllPersonas() }";
+			String SQL = find;
 			cstmt  = conexion.prepareCall(SQL);
 			ResultSet resultSet;
 			resultSet = cstmt.executeQuery();

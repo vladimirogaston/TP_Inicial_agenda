@@ -1,6 +1,7 @@
 package persistencia.dao.mysql;
 
-import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,88 +12,87 @@ import persistencia.dao.interfaz.LocalidadDAO;
 
 public class LocalidadDaoImpl implements LocalidadDAO {
 
-	@Override
-	public boolean update(LocalidadDTO dto) {
-		CallableStatement cstmt = null;
-		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call updateLocalidad(?,?)}");
-			cstmt.setInt(1, dto.getId());
-			cstmt.setString(2, dto.getNombre());
-			if(cstmt.executeUpdate() > 0) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}	
+	static final String insert = "INSERT INTO Localidades(LocalidadNombre) VALUES(?)";
+	static final String update = "UPDATE Localidades SET LocalidadNombre = ? WHERE LocalidadID = ?";
+	static final String delete = "DELETE FROM Localidades WHERE LocalidadID = ?";
+	static final String readall = "SELECT * FROM Localidades";
 	
 	@Override
 	public boolean insert(LocalidadDTO dto) {
-		CallableStatement cstmt = null;
-		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call createLocalidad(?)}");
-			cstmt.setString(1, dto.getNombre());
-			if(cstmt.executeUpdate() > 0) {
-				return true;
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try	{
+			statement = conexion.prepareStatement(insert);
+			statement.setString(1, dto.getNombre());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
 			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
 			}
-		}
-		return false;
-	}
+		}		
+		return isInsertExitoso;
+	}	
 
 	@Override
+	public boolean update(LocalidadDTO dto) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try	{
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, dto.getNombre());
+			statement.setInt(2, dto.getId());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}		
+		return isInsertExitoso;
+	}
+	
+	@Override
 	public boolean delete(LocalidadDTO dto) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;
-		CallableStatement cstmt = null;
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call deleteLocalidadById(?)}");
-			cstmt.setInt(1, dto.getId());
-			if(cstmt.executeUpdate() > 0) {
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, dto.getId());
+			if(statement.executeUpdate() > 0) {
+				conexion.commit();
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return isdeleteExitoso;
 	}
-		
+	
 	@Override
 	public List<LocalidadDTO> readAll() {
-		CallableStatement cstmt = null;
-		ArrayList<LocalidadDTO> localidades = new ArrayList<LocalidadDTO>();
+		ArrayList<LocalidadDTO> lst = new ArrayList<>();
 		try {
-			cstmt  = Conexion.getConexion().getSQLConexion().prepareCall("{call findAlllocalidades()}");
-			ResultSet rs = cstmt.executeQuery();
-			while(rs.next()) localidades.add(new LocalidadDTO(rs.getInt("LocalidadID"),rs.getString("LocalidadNombre")));
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) lst.add(new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
-		return localidades;
+		return lst;
 	}
 }

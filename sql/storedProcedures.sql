@@ -89,7 +89,7 @@ IN nom VARCHAR(255)
 ,loc VARCHAR(255))
 BEGIN
 	INSERT INTO Personas (Nombre, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
-VALUES (nom, ape, tel, p_email, cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con), dom_calle, dom_alt, dom_piso, dom_dpt, (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc));
+VALUES (nom, tel, p_email, cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con), dom_calle, dom_alt, dom_piso, dom_dpt, (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc));
 END $$
 DELIMITER ;
 

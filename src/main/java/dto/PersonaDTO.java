@@ -39,6 +39,19 @@ public class PersonaDTO
 		super();
 	}
 
+	public static PersonaDTO makeTestDto() {
+		return new Builder("John", "333")
+				.email("john@qm.com")
+				.fechaNacimiento(new Date())
+				.tipoContacto("Friend")
+				.calle("c1")
+				.altura("1")
+				.piso("1")
+				.dpto("A")
+				.localidad("Waco")
+				.build();
+	}
+	
 	public static class Builder {
 		PersonaDTO dto;
 		
@@ -140,5 +153,49 @@ public class PersonaDTO
 
 	public String getLocalidad() {
 		return localidad;
+	}
+
+	public void setIdPersona(int idPersona) {
+		this.idPersona = idPersona;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public void setTipoContacto(String tipoContacto) {
+		this.tipoContacto = tipoContacto;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public void setAltura(String altura) {
+		this.altura = altura;
+	}
+
+	public void setPiso(String piso) {
+		this.piso = piso;
+	}
+
+	public void setDpto(String dpto) {
+		this.dpto = dpto;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
 	}
 }
