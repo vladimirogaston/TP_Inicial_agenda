@@ -10,6 +10,7 @@ import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
+import presentacion.vista.VistaAbmLocalidades;
 import dto.GenericValidator;
 import dto.LocalidadDTO;
 import dto.PersonaDTO;

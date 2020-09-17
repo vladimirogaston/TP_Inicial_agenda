@@ -31,9 +31,18 @@ public class Vista {
 	JButton btnBorrar;
 	JButton btnReporte;
 	JButton btnEditar;
-	private JPanel panel_1;
-
-	public Vista() {
+	JPanel panel_1;
+	JMenuItem mntmNewMenuItemLocalidades;
+	JMenuItem mntmNewMenuItemTipos;
+	static Vista vista;
+	
+	public static Vista getInstance() {
+		if(vista == null) vista = new Vista();
+		return vista;
+	}
+	
+	@SuppressWarnings("serial")
+	Vista() {
 		super();
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -51,14 +60,15 @@ public class Vista {
 		spPersonas.setBounds(0, 39, 904, 270);
 		panel.add(spPersonas);
 
-		modelPersonas = new DefaultTableModel(null, nombreColumnas);
+		modelPersonas = new DefaultTableModel(null, nombreColumnas) {
+			public boolean isCellEditable(int row, int column) { return false; } 
+		};
 		tablaPersonas = new JTable(modelPersonas);
-
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
-
+	
 		spPersonas.setViewportView(tablaPersonas);
 		
 		panel_1 = new JPanel();
@@ -66,35 +76,35 @@ public class Vista {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel_1.setBounds(0, 308, 904, 39);
 		panel.add(panel_1);
-		
+
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		panel_1.add(toolBar);
-		
-				btnAgregar = new JButton("Agregar");
-				toolBar.add(btnAgregar);
-						
-								btnBorrar = new JButton("Borrar");
-								toolBar.add(btnBorrar);
-								
-										btnEditar = new JButton("Editar");
-										toolBar.add(btnEditar);
-						
-								btnReporte = new JButton("Reporte");
-								toolBar.add(btnReporte);
-								
-								JMenuBar menuBar = new JMenuBar();
-								menuBar.setBounds(0, 0, 904, 39);
-								panel.add(menuBar);
-								
-								JMenu mnNewMenu = new JMenu("Opciones");
-								menuBar.add(mnNewMenu);
-								
-								JMenuItem mntmNewMenuItem = new JMenuItem("Localidades");
-								mnNewMenu.add(mntmNewMenuItem);
-								
-								JMenuItem mntmNewMenuItem_1 = new JMenuItem("Tipos");
-								mnNewMenu.add(mntmNewMenuItem_1);
+
+		btnAgregar = new JButton("Agregar");
+		toolBar.add(btnAgregar);
+
+		btnBorrar = new JButton("Borrar");
+		toolBar.add(btnBorrar);
+
+		btnEditar = new JButton("Editar");
+		toolBar.add(btnEditar);
+
+		btnReporte = new JButton("Reporte");
+		toolBar.add(btnReporte);
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 904, 39);
+		panel.add(menuBar);
+
+		JMenu mnNewMenu = new JMenu("Opciones");
+		menuBar.add(mnNewMenu);
+
+		mntmNewMenuItemLocalidades = new JMenuItem("Localidades");
+		mnNewMenu.add(mntmNewMenuItemLocalidades);
+
+		mntmNewMenuItemTipos = new JMenuItem("Tipos");
+		mnNewMenu.add(mntmNewMenuItemTipos);
 	}
 
 	public void showMessages(String message) {
@@ -161,5 +171,13 @@ public class Vista {
 
 	public JButton getBtnEditar() {
 		return btnEditar;
+	}
+
+	public JMenuItem getMntmNewMenuItemLocalidades() {
+		return mntmNewMenuItemLocalidades;
+	}
+
+	public JMenuItem getMntmNewMenuItemTipos() {
+		return mntmNewMenuItemTipos;
 	}
 }
