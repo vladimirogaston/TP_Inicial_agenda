@@ -64,4 +64,8 @@ public class Agenda {
 	public void editarLocalidad(LocalidadDTO localidadDTO) {
 		this.localidades.update(localidadDTO);
 	}
+
+	public void editarTipoDeContacto(TipoContactoDTO tipoContactoDTO) {
+		tipos.update(tipoContactoDTO);
+	}
 }
