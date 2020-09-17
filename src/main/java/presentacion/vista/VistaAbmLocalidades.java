@@ -1,7 +1,6 @@
 package presentacion.vista;
 
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -10,13 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
 
 @SuppressWarnings("serial")
-public class VistaAbmLocalidades extends JFrame {
+public class VistaAbmLocalidades extends JDialog {
 
 	JPanel contentPane;
 	final String[] nombreColumnas = new String[] { "LocalidadNombre", "ID" };
@@ -26,9 +26,15 @@ public class VistaAbmLocalidades extends JFrame {
 	JButton btnNewButtonEditar;
 	JButton btnNewButtonEliminar;
 	JButton btnNewButtonSalvar;
-
-	public VistaAbmLocalidades() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	static VistaAbmLocalidades vista;
+	
+	public static VistaAbmLocalidades getInstance() {
+		if(vista == null) vista = new VistaAbmLocalidades();
+		return vista;
+	}
+	
+	VistaAbmLocalidades() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,6 +92,8 @@ public class VistaAbmLocalidades extends JFrame {
 		tableModel = new DefaultTableModel(null, nombreColumnas);
 		table = new JTable(tableModel);
 		scrollPane_1.setViewportView(table);
+		
+		setModal(true);
 	}
 
 	public JTextField getTextFieldNombre() {

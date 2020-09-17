@@ -5,6 +5,7 @@ import java.util.List;
 
 import dto.LocalidadDTO;
 import modelo.Agenda;
+import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmLocalidades;
 
 public class ControladorVistaAbmLocalidades {
@@ -16,6 +17,7 @@ public class ControladorVistaAbmLocalidades {
 		super();
 		this.vista = vista;
 		this.agenda = agenda;
+		Vista.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->inicializar(a));
 		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
 			onSalvar(a);
 		});
@@ -86,9 +88,10 @@ public class ControladorVistaAbmLocalidades {
 		}
 	}
 
-	public void inicializar() {
+	public void inicializar(ActionEvent action) {
 		vaciarTabla();
 		llenarTabla();
+		vista.getTextFieldNombre().setText("");
 		vista.setVisible(true);
 	}
 }

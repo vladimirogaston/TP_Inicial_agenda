@@ -2,15 +2,16 @@ package presentacion.vista;
 
 import java.util.Date;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+
 import com.toedter.calendar.JDateChooser;
 
-public class VentanaPersona extends JFrame {
+public class VentanaPersona extends JDialog {
 
 	static final long serialVersionUID = 1L;
 	static VentanaPersona INSTANCE;
@@ -39,7 +40,7 @@ public class VentanaPersona extends JFrame {
 	private VentanaPersona() {
 		super();
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setBounds(100, 100, 343, 488);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -143,6 +144,7 @@ public class VentanaPersona extends JFrame {
 		panel.add(dateChooser);
 
 		this.setVisible(false);
+		this.setModal(true);
 	}
 
 	public void mostrarVentana() {

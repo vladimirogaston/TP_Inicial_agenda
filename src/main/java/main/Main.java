@@ -17,15 +17,13 @@ public class Main {
 	
 	public Main() {
 		Agenda modelo = new Agenda(new DAOSQLFactory());
-		controladorContactos = new Controlador(new Vista(), modelo);
-		controladorLocalidades = new ControladorVistaAbmLocalidades(new VistaAbmLocalidades(), modelo);
-		controladorTipos = new ControladorVistaAbmTiposContacto(new VistaAbmTiposDeContacto(), modelo);
+		controladorContactos = new Controlador(Vista.getInstance(), modelo);
+		controladorLocalidades = new ControladorVistaAbmLocalidades(VistaAbmLocalidades.getInstance(), modelo);
+		controladorTipos = new ControladorVistaAbmTiposContacto(VistaAbmTiposDeContacto.getInstance(), modelo);
 	}
 	
 	public void init() {
 		controladorContactos.inicializar();
-		controladorLocalidades.inicializar();
-		controladorTipos.inicializar();
 	}
 	
 	public static void main(String[] args) {

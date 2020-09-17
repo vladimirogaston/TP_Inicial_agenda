@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,7 +17,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class VistaAbmTiposDeContacto extends JFrame {
+public class VistaAbmTiposDeContacto extends JDialog {
 	JPanel contentPane;
 	final String[] nombreColumnas = new String[] { "TipoContacto", "ID" };
 	JTextField textFieldNombre;
@@ -26,9 +26,16 @@ public class VistaAbmTiposDeContacto extends JFrame {
 	JButton btnNewButtonEditar;
 	JButton btnNewButtonEliminar;
 	JButton btnNewButtonSalvar;
-
-	public VistaAbmTiposDeContacto() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	static VistaAbmTiposDeContacto vista;
+	
+	public static VistaAbmTiposDeContacto getInstance() {
+		if(vista == null) vista = new VistaAbmTiposDeContacto();
+		return vista;
+	}
+	
+	
+	VistaAbmTiposDeContacto() {
+		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -86,6 +93,8 @@ public class VistaAbmTiposDeContacto extends JFrame {
 		tableModel = new DefaultTableModel(null, nombreColumnas);
 		table = new JTable(tableModel);
 		scrollPane_1.setViewportView(table);
+		
+		setModal(true);
 	}
 
 	public JTextField getTextFieldNombre() {

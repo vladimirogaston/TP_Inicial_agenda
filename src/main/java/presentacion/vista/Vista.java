@@ -15,6 +15,11 @@ import dto.PersonaDTO;
 import persistencia.dao.mysql.Conexion;
 
 import javax.swing.JButton;
+import javax.swing.JToolBar;
+import java.awt.FlowLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class Vista {
 	JFrame frame;
@@ -26,49 +31,80 @@ public class Vista {
 	JButton btnBorrar;
 	JButton btnReporte;
 	JButton btnEditar;
-
-	public Vista() {
+	JPanel panel_1;
+	JMenuItem mntmNewMenuItemLocalidades;
+	JMenuItem mntmNewMenuItemTipos;
+	static Vista vista;
+	
+	public static Vista getInstance() {
+		if(vista == null) vista = new Vista();
+		return vista;
+	}
+	
+	@SuppressWarnings("serial")
+	Vista() {
 		super();
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setResizable(false);
+		frame.setBounds(100, 100, 910, 392);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Agenda");
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
+		panel.setBounds(0, 0, 904, 347);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(10, 11, 414, 182);
+		spPersonas.setBounds(0, 39, 904, 270);
 		panel.add(spPersonas);
 
-		modelPersonas = new DefaultTableModel(null, nombreColumnas);
+		modelPersonas = new DefaultTableModel(null, nombreColumnas) {
+			public boolean isCellEditable(int row, int column) { return false; } 
+		};
 		tablaPersonas = new JTable(modelPersonas);
-
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
 		tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
-
+	
 		spPersonas.setViewportView(tablaPersonas);
+		
+		panel_1 = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		panel_1.setBounds(0, 308, 904, 39);
+		panel.add(panel_1);
+
+		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		panel_1.add(toolBar);
 
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(10, 228, 89, 23);
-		panel.add(btnAgregar);
-
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 228, 89, 23);
-		panel.add(btnEditar);
+		toolBar.add(btnAgregar);
 
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 228, 89, 23);
-		panel.add(btnBorrar);
+		toolBar.add(btnBorrar);
+
+		btnEditar = new JButton("Editar");
+		toolBar.add(btnEditar);
 
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(307, 228, 89, 23);
-		panel.add(btnReporte);
+		toolBar.add(btnReporte);
+
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 904, 39);
+		panel.add(menuBar);
+
+		JMenu mnNewMenu = new JMenu("Opciones");
+		menuBar.add(mnNewMenu);
+
+		mntmNewMenuItemLocalidades = new JMenuItem("Localidades");
+		mnNewMenu.add(mntmNewMenuItemLocalidades);
+
+		mntmNewMenuItemTipos = new JMenuItem("Tipos");
+		mnNewMenu.add(mntmNewMenuItemTipos);
 	}
 
 	public void showMessages(String message) {
@@ -135,5 +171,13 @@ public class Vista {
 
 	public JButton getBtnEditar() {
 		return btnEditar;
+	}
+
+	public JMenuItem getMntmNewMenuItemLocalidades() {
+		return mntmNewMenuItemLocalidades;
+	}
+
+	public JMenuItem getMntmNewMenuItemTipos() {
+		return mntmNewMenuItemTipos;
 	}
 }

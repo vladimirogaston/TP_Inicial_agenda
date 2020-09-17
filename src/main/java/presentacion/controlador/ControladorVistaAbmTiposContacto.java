@@ -6,6 +6,7 @@ import java.util.List;
 
 import dto.TipoContactoDTO;
 import modelo.Agenda;
+import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmTiposDeContacto;
 
 public class ControladorVistaAbmTiposContacto {
@@ -17,6 +18,7 @@ public class ControladorVistaAbmTiposContacto {
 		super();
 		this.vista = vista;
 		this.agenda = agenda;
+		Vista.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->inicializar(a));
 		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
 			onSalvar(a);
 		});
@@ -75,9 +77,10 @@ public class ControladorVistaAbmTiposContacto {
 		}
 	}
 
-	public void inicializar() {
+	public void inicializar(ActionEvent action) {
 		vaciarTabla();
 		llenarTabla();
+		vista.getTextFieldNombre().setText("");
 		vista.setVisible(true);
 	}
 }
