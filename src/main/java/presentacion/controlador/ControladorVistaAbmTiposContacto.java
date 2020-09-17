@@ -25,6 +25,9 @@ public class ControladorVistaAbmTiposContacto {
 		vista.getBtnNewButtonEliminar().addActionListener((a) -> {
 			onBorrar(a);
 		});
+		vista.getBtnNewButtonEditar().addActionListener((a) -> {
+			onEditar(a);
+		});
 	}
 
 	void onSalvar(ActionEvent action) {
@@ -60,7 +63,21 @@ public class ControladorVistaAbmTiposContacto {
 	}
 	
 	void onEditar(ActionEvent action) {
-		
+		String nuevoNombre = vista.getTextFieldNombre().getText();
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if(selectedRows == 1 && nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
+			final int row = vista.getTable().getSelectedRow();
+			final int idTipoDeContacto = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			TipoContactoDTO nuevoTipoDeContacto = new TipoContactoDTO(idTipoDeContacto, nuevoNombre);
+			try {
+				agenda.editarTipoDeContacto(nuevoTipoDeContacto);
+				vista.getTextFieldNombre().setText("");
+				vaciarTabla();
+				llenarTabla();
+			} catch (DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
+		}
 	}
 	
 	void vaciarTabla() {
