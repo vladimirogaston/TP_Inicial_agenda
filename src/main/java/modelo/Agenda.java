@@ -60,4 +60,8 @@ public class Agenda {
 	public void agregarLocalidad(LocalidadDTO localidadDTO) {
 		this.localidades.insert(localidadDTO);
 	}
+	
+	public void editarLocalidad(LocalidadDTO localidadDTO) {
+		this.localidades.update(localidadDTO);
+	}
 }

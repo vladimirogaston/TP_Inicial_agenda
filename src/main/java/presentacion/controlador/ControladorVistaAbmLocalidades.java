@@ -22,6 +22,9 @@ public class ControladorVistaAbmLocalidades {
 		vista.getBtnNewButtonEliminar().addActionListener((a) -> {
 			onBorrar(a);
 		});
+		vista.getBtnNewButtonEditar().addActionListener((a) -> {
+			onEditar(a);
+		});
 	}
 
 	void onSalvar(ActionEvent action) {
@@ -48,6 +51,24 @@ public class ControladorVistaAbmLocalidades {
 			agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
 			vaciarTabla();
 			llenarTabla();
+		}
+	}
+	
+	void onEditar(ActionEvent action) {
+		String nuevoNombre = vista.getTextFieldNombre().getText();
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if(selectedRows == 1 && nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
+			final int row = vista.getTable().getSelectedRow();
+			final int idLocalidad = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			LocalidadDTO nuevaLocalidad = new LocalidadDTO(idLocalidad, nuevoNombre);
+			try {
+				agenda.editarLocalidad(nuevaLocalidad);
+				vista.getTextFieldNombre().setText("");
+				vaciarTabla();
+				llenarTabla();
+			} catch(DatabaseException e){
+				vista.showMessage(e.getMessage());
+			}
 		}
 	}
 	
