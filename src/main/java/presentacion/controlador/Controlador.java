@@ -58,6 +58,7 @@ public class Controlador implements ActionListener {
 	}
 
 	void ventanaAgregarPersona(ActionEvent a) {
+		ventanaPersona.limpiar();
 		fillComboboxes();
 		this.ventanaPersona.mostrarVentana();
 	}

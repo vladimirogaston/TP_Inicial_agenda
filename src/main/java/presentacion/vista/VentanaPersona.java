@@ -143,6 +143,7 @@ public class VentanaPersona extends JDialog {
 		dateChooser.setBounds(135, 120, 159, 26);
 		panel.add(dateChooser);
 
+		this.setResizable(false);
 		this.setVisible(false);
 		this.setModal(true);
 	}
@@ -163,7 +164,7 @@ public class VentanaPersona extends JDialog {
 		return btnAgregarPersona;
 	}
 
-	public void cerrar() {
+	public void limpiar() {
 		txtNombre.setText("");
 		txtTelefono.setText("");
 		textFieldEmail.setText("");
@@ -174,6 +175,10 @@ public class VentanaPersona extends JDialog {
 		comboBoxLocalidad.removeAllItems();
 		comboBoxTipoContacto.removeAllItems();
 		personaId = null;
+	}
+	
+	public void cerrar() {
+		limpiar();
 		this.dispose();
 	}
 
