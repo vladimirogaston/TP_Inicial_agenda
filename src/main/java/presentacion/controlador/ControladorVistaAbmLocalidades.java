@@ -64,9 +64,13 @@ public class ControladorVistaAbmLocalidades {
 			final int row = vista.getTable().getSelectedRow();
 			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
 			final String locNombre = vista.getTableModel().getValueAt(row, 0).toString();
-			agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
-			vaciarTabla();
-			llenarTabla();
+			try {
+				agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
+				vaciarTabla();
+				llenarTabla();
+			} catch (DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
 		}
 	}
 
