@@ -3,17 +3,30 @@ package main;
 import modelo.Agenda;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.controlador.Controlador;
+import presentacion.controlador.ControladorVistaAbmLocalidades;
+import presentacion.controlador.ControladorVistaAbmTiposContacto;
 import presentacion.vista.Vista;
+import presentacion.vista.VistaAbmLocalidades;
+import presentacion.vista.VistaAbmTiposDeContacto;
 
+public class Main {
 
-public class Main 
-{
-
-	public static void main(String[] args) 
-	{
-		Vista vista = new Vista();
+	Controlador controladorContactos;
+	ControladorVistaAbmLocalidades controladorLocalidades;
+	ControladorVistaAbmTiposContacto controladorTipos;
+	
+	public Main() {
 		Agenda modelo = new Agenda(new DAOSQLFactory());
-		Controlador controlador = new Controlador(vista, modelo);
-		controlador.inicializar();
+		controladorContactos = new Controlador(Vista.getInstance(), modelo);
+		controladorLocalidades = new ControladorVistaAbmLocalidades(VistaAbmLocalidades.getInstance(), modelo);
+		controladorTipos = new ControladorVistaAbmTiposContacto(VistaAbmTiposDeContacto.getInstance(), modelo);
+	}
+	
+	public void init() {
+		controladorContactos.inicializar();
+	}
+	
+	public static void main(String[] args) {
+		new Main().init();
 	}
 }

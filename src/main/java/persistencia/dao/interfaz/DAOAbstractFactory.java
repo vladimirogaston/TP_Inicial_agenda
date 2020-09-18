@@ -1,7 +1,10 @@
 package persistencia.dao.interfaz;
 
+public interface DAOAbstractFactory {
 
-public interface DAOAbstractFactory 
-{
-	public PersonaDAO createPersonaDAO();
+	PersonaDAO createPersonaDAO();
+
+	LocalidadDAO createLocalidadDAO();
+
+	TipoContactoDAO createTipoContactoDAO();
 }
