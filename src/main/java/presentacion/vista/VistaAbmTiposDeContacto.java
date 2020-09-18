@@ -5,12 +5,10 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -20,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
 public class VistaAbmTiposDeContacto extends JDialog {
 	JPanel contentPane;
 	final String[] nombreColumnas = new String[] { "TipoContacto", "ID" };
-	JTextField textFieldNombre;
 	JTable table;
 	DefaultTableModel tableModel;
 	JButton btnNewButtonEditar;
@@ -33,39 +30,22 @@ public class VistaAbmTiposDeContacto extends JDialog {
 		return vista;
 	}
 	
+	public String displayForm() {
+		return JOptionPane.showInputDialog("Ingrese el nombre del tipo");
+	}
 	
 	VistaAbmTiposDeContacto() {
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setBounds(100, 100, 706, 479);
+		setBounds(100, 100, 706, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Formulario de localidades", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
-		panel.setBounds(15, 16, 654, 99);
-		contentPane.add(panel);
-		panel.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Localidad nombre");
-		lblNewLabel.setBounds(15, 44, 145, 20);
-		panel.add(lblNewLabel);
-
-		textFieldNombre = new JTextField("");
-		textFieldNombre.setBounds(175, 38, 332, 26);
-		panel.add(textFieldNombre);
-		textFieldNombre.setColumns(10);
-
-		btnNewButtonSalvar = new JButton("Salvar");
-		btnNewButtonSalvar.setBounds(522, 35, 115, 29);
-		panel.add(btnNewButtonSalvar);
-
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
 				new TitledBorder(null, "Localidades registradas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(15, 144, 654, 266);
+		panel_1.setBounds(15, 16, 654, 266);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
@@ -82,6 +62,9 @@ public class VistaAbmTiposDeContacto extends JDialog {
 		panel_2.add(toolBar);
 
 		btnNewButtonEliminar = new JButton("Eliminar");
+		
+				btnNewButtonSalvar = new JButton("Crear");
+				toolBar.add(btnNewButtonSalvar);
 
 		btnNewButtonEditar = new JButton("Editar");
 		toolBar.add(btnNewButtonEditar);
@@ -90,15 +73,20 @@ public class VistaAbmTiposDeContacto extends JDialog {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane.setViewportView(scrollPane_1);
 
-		tableModel = new DefaultTableModel(null, nombreColumnas);
+		tableModel = new DefaultTableModel(null, nombreColumnas){
+			public boolean isCellEditable(int row, int column) { return false; } 
+		};
 		table = new JTable(tableModel);
 		scrollPane_1.setViewportView(table);
 		
 		setModal(true);
+		ocultarColumnaId();
 	}
 
-	public JTextField getTextFieldNombre() {
-		return textFieldNombre;
+	void ocultarColumnaId() {
+		table.getColumnModel().getColumn(1).setMaxWidth(0);
+		table.getColumnModel().getColumn(1).setMinWidth(0);
+		table.getColumnModel().getColumn(1).setPreferredWidth(0);
 	}
 
 	public JTable getTable() {

@@ -34,7 +34,6 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 			try {
 				conexion.rollback();
 			} catch (SQLException e1) {
-				e1.printStackTrace();
 			}
 			throw new DatabaseException("El nombre del tipo de contacto ya esta en uso.");
 		}
@@ -55,12 +54,11 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			try {
 				conexion.rollback();
 			} catch (SQLException e1) {
-				e1.printStackTrace();
 			}
+			throw new DatabaseException("El nombre del tipo de contacto ya esta en uso.");
 		}
 		return isInsertExitoso;
 	}
@@ -78,7 +76,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			throw new DatabaseException("Error: no se puede eliminar un tipo en uso.");
+			throw new DatabaseException("No se puede eliminar un tipo en uso.");
 		}
 		return isdeleteExitoso;
 	}

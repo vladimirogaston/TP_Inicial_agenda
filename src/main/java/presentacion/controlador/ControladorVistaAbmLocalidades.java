@@ -17,28 +17,42 @@ public class ControladorVistaAbmLocalidades {
 		super();
 		this.vista = vista;
 		this.agenda = agenda;
-		Vista.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->inicializar(a));
-		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
-			onSalvar(a);
-		});
-		vista.getBtnNewButtonEliminar().addActionListener((a) -> {
-			onBorrar(a);
-		});
-		vista.getBtnNewButtonEditar().addActionListener((a) -> {
-			onEditar(a);
-		});
+		vista.getTable().getColumn("ID").setPreferredWidth(0);		
+		Vista.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a) -> inicializar(a));
+		vista.getBtnSalvar().addActionListener((a)->onSalvar(a));
+		vista.getButtonEditar().addActionListener((a)->onEditar(a));
+		vista.getBtnNewButtonEliminar().addActionListener((a)->onBorrar(a));
+	}
+	
+	void onEditar(ActionEvent action) {
+		if(vista.getTable().getSelectedRowCount() == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String locNom = vista.getTableModel().getValueAt(row, 0).toString();
+			String nuevoNom = vista.displayForm();
+			if(nuevoNom != null && !nuevoNom.matches(locNom) && !nuevoNom.trim().isEmpty()) {
+				LocalidadDTO dto = new LocalidadDTO(locID, nuevoNom);
+				try {
+					agenda.editarLocalidad(dto);
+				} catch(DatabaseException e) {
+					vista.showMessage(e.getMessage());
+				} finally {
+					vaciarTabla();
+					llenarTabla();
+				} 
+			}
+		}
 	}
 
 	void onSalvar(ActionEvent action) {
-		String nombre = vista.getTextFieldNombre().getText();
-		if(nombre != null && !nombre.trim().isEmpty()) {
-			LocalidadDTO dto = new LocalidadDTO(nombre);
+		String nom = vista.displayForm();
+		if(nom != null && !nom.trim().isEmpty()) {
+			LocalidadDTO dto = new LocalidadDTO(nom);
 			try {
 				agenda.agregarLocalidad(dto);
-				vista.getTextFieldNombre().setText("");
 				vaciarTabla();
 				llenarTabla();
-			} catch(DatabaseException e){
+			} catch(DatabaseException e) {
 				vista.showMessage(e.getMessage());
 			}
 		}
@@ -46,7 +60,7 @@ public class ControladorVistaAbmLocalidades {
 
 	void onBorrar(ActionEvent action) {
 		int selectedRows = vista.getTable().getSelectedRowCount();
-		if(selectedRows == 1) {
+		if (selectedRows == 1) {
 			final int row = vista.getTable().getSelectedRow();
 			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
 			final String locNombre = vista.getTableModel().getValueAt(row, 0).toString();
@@ -55,25 +69,7 @@ public class ControladorVistaAbmLocalidades {
 			llenarTabla();
 		}
 	}
-	
-	void onEditar(ActionEvent action) {
-		String nuevoNombre = vista.getTextFieldNombre().getText();
-		int selectedRows = vista.getTable().getSelectedRowCount();
-		if(selectedRows == 1 && nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
-			final int row = vista.getTable().getSelectedRow();
-			final int idLocalidad = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			LocalidadDTO nuevaLocalidad = new LocalidadDTO(idLocalidad, nuevoNombre);
-			try {
-				agenda.editarLocalidad(nuevaLocalidad);
-				vista.getTextFieldNombre().setText("");
-				vaciarTabla();
-				llenarTabla();
-			} catch(DatabaseException e){
-				vista.showMessage(e.getMessage());
-			}
-		}
-	}
-	
+
 	void vaciarTabla() {
 		vista.getTableModel().setRowCount(0);
 		vista.getTableModel().setColumnCount(0);
@@ -91,7 +87,6 @@ public class ControladorVistaAbmLocalidades {
 	public void inicializar(ActionEvent action) {
 		vaciarTabla();
 		llenarTabla();
-		vista.getTextFieldNombre().setText("");
 		vista.setVisible(true);
 	}
 }

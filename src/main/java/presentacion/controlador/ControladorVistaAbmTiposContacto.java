@@ -22,21 +22,36 @@ public class ControladorVistaAbmTiposContacto {
 		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
 			onSalvar(a);
 		});
-		vista.getBtnNewButtonEliminar().addActionListener((a) -> {
-			onBorrar(a);
-		});
-		vista.getBtnNewButtonEditar().addActionListener((a) -> {
-			onEditar(a);
-		});
+		vista.getBtnNewButtonEliminar().addActionListener((a)->onBorrar(a));
+		vista.getBtnNewButtonEditar().addActionListener((a)->onEditar(a));
+	}
+	
+	void onEditar(ActionEvent action) {
+		if(vista.getTable().getSelectedRowCount() == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String locNom = vista.getTableModel().getValueAt(row, 0).toString();
+			String nuevoNom = vista.displayForm();
+			if(nuevoNom != null && !nuevoNom.matches(locNom) && !nuevoNom.trim().isEmpty()) {
+				TipoContactoDTO dto = new TipoContactoDTO(locID, nuevoNom);
+				try {
+					agenda.editarTipoDeContacto(dto);
+				} catch(DatabaseException e) {
+					vista.showMessage(e.getMessage());
+				} finally {
+					vaciarTabla();
+					llenarTabla();
+				} 
+			}
+		}
 	}
 
 	void onSalvar(ActionEvent action) {
-		String nom = vista.getTextFieldNombre().getText();
+		String nom = vista.displayForm();
 		if(nom != null && !nom.trim().isEmpty()) {
 			TipoContactoDTO dto = new TipoContactoDTO(nom);
 			try {
 				agenda.agregarTipoDeContacto(dto);
-				vista.getTextFieldNombre().setText("");
 				vaciarTabla();
 				llenarTabla();
 			} catch(DatabaseException e) {
@@ -62,24 +77,6 @@ public class ControladorVistaAbmTiposContacto {
 		}
 	}
 	
-	void onEditar(ActionEvent action) {
-		String nuevoNombre = vista.getTextFieldNombre().getText();
-		int selectedRows = vista.getTable().getSelectedRowCount();
-		if(selectedRows == 1 && nuevoNombre != null && !nuevoNombre.trim().isEmpty()) {
-			final int row = vista.getTable().getSelectedRow();
-			final int idTipoDeContacto = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			TipoContactoDTO nuevoTipoDeContacto = new TipoContactoDTO(idTipoDeContacto, nuevoNombre);
-			try {
-				agenda.editarTipoDeContacto(nuevoTipoDeContacto);
-				vista.getTextFieldNombre().setText("");
-				vaciarTabla();
-				llenarTabla();
-			} catch (DatabaseException e) {
-				vista.showMessage(e.getMessage());
-			}
-		}
-	}
-	
 	void vaciarTabla() {
 		vista.getTableModel().setRowCount(0);
 		vista.getTableModel().setColumnCount(0);
@@ -97,7 +94,6 @@ public class ControladorVistaAbmTiposContacto {
 	public void inicializar(ActionEvent action) {
 		vaciarTabla();
 		llenarTabla();
-		vista.getTextFieldNombre().setText("");
 		vista.setVisible(true);
 	}
 }

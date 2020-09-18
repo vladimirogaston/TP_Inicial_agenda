@@ -5,9 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
@@ -20,13 +18,24 @@ public class VistaAbmLocalidades extends JDialog {
 
 	JPanel contentPane;
 	final String[] nombreColumnas = new String[] { "LocalidadNombre", "ID" };
-	JTextField textFieldNombre;
 	JTable table;
 	DefaultTableModel tableModel;
-	JButton btnNewButtonEditar;
 	JButton btnNewButtonEliminar;
-	JButton btnNewButtonSalvar;
+	private JButton btnSalvar;
+	public JButton getBtnSalvar() {
+		return btnSalvar;
+	}
+
+	public JButton getButtonEditar() {
+		return buttonEditar;
+	}
+
+	private JButton buttonEditar;
 	static VistaAbmLocalidades vista;
+	
+	public String displayForm() {
+		return JOptionPane.showInputDialog("Ingrese el nombre de la localidad");
+	}
 	
 	public static VistaAbmLocalidades getInstance() {
 		if(vista == null) vista = new VistaAbmLocalidades();
@@ -41,30 +50,10 @@ public class VistaAbmLocalidades extends JDialog {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Formulario de localidades", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
-		panel.setBounds(15, 16, 654, 99);
-		contentPane.add(panel);
-		panel.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Localidad nombre");
-		lblNewLabel.setBounds(15, 44, 145, 20);
-		panel.add(lblNewLabel);
-
-		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(175, 38, 332, 26);
-		panel.add(textFieldNombre);
-		textFieldNombre.setColumns(10);
-
-		btnNewButtonSalvar = new JButton("Salvar");
-		btnNewButtonSalvar.setBounds(522, 35, 115, 29);
-		panel.add(btnNewButtonSalvar);
-
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
 				new TitledBorder(null, "Localidades registradas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(15, 144, 654, 266);
+		panel_1.setBounds(15, 16, 654, 394);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
 
@@ -79,25 +68,33 @@ public class VistaAbmLocalidades extends JDialog {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		panel_2.add(toolBar);
+		
+		btnSalvar = new JButton("Crear");
+	
+		toolBar.add(btnSalvar);
+		
+		buttonEditar = new JButton("Editar");
+		toolBar.add(buttonEditar);
 
 		btnNewButtonEliminar = new JButton("Eliminar");
-
-		btnNewButtonEditar = new JButton("Editar");
-		toolBar.add(btnNewButtonEditar);
 		toolBar.add(btnNewButtonEliminar);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane.setViewportView(scrollPane_1);
 
-		tableModel = new DefaultTableModel(null, nombreColumnas);
+		tableModel = new DefaultTableModel(null, nombreColumnas){
+			public boolean isCellEditable(int row, int column) { return false; } 
+		};;
 		table = new JTable(tableModel);
-		scrollPane_1.setViewportView(table);
-		
-		setModal(true);
-	}
 
-	public JTextField getTextFieldNombre() {
-		return textFieldNombre;
+		table.getColumnModel().getColumn(0).setMaxWidth(20);
+		table.getColumnModel().getColumn(0).setMinWidth(20);
+		table.getColumnModel().getColumn(0).setWidth(20);
+		table.getColumnModel().getColumn(0).setPreferredWidth(20);
+
+		
+		scrollPane_1.setViewportView(table);
+		setModal(true);
 	}
 
 	public JTable getTable() {
@@ -108,16 +105,8 @@ public class VistaAbmLocalidades extends JDialog {
 		return tableModel;
 	}
 
-	public JButton getBtnNewButtonEditar() {
-		return btnNewButtonEditar;
-	}
-
 	public JButton getBtnNewButtonEliminar() {
 		return btnNewButtonEliminar;
-	}
-
-	public JButton getBtnNewButtonSalvar() {
-		return btnNewButtonSalvar;
 	}
 
 	public String[] getNombreColumnas() {

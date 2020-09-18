@@ -9,6 +9,7 @@ import java.util.List;
 
 import dto.LocalidadDTO;
 import persistencia.dao.interfaz.LocalidadDAO;
+import presentacion.controlador.DatabaseException;
 
 public class LocalidadDaoImpl implements LocalidadDAO {
 
@@ -30,12 +31,12 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			try {
 				conexion.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new DatabaseException("No se puede salvar una localidad ya registrada");
 		}
 		return isInsertExitoso;
 	}
@@ -54,12 +55,12 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
 			try {
 				conexion.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new DatabaseException("No se puede salvar una localidad ya registrada");
 		}
 		return isInsertExitoso;
 	}
@@ -77,7 +78,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new DatabaseException("No se puede salvar la localidad");
 		}
 		return isdeleteExitoso;
 	}
