@@ -1,6 +1,5 @@
 package presentacion.controlador;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class ControladorVistaAbmTiposContacto {
 				vaciarTabla();
 				llenarTabla();
 			} catch (DatabaseException e) {
-				vista.getTable().setSelectionBackground(Color.RED);
+				//vista.getTable().setSelectionBackground(Color.RED);
 				vista.showMessage(e.getMessage());
 			}
 		}
