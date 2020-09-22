@@ -10,11 +10,11 @@ import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
-import presentacion.vista.VistaAbmLocalidades;
 import dto.GenericValidator;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 
 public class Controlador {
@@ -32,9 +32,22 @@ public class Controlador {
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
+		ventanaPersona.getComboBoxProvincia().addActionListener(a->actualizarListaLocalidades(a));
 		this.agenda = agenda;
 	}
 
+	void actualizarListaLocalidades(ActionEvent a) {
+		Object obj = ventanaPersona.getComboBoxProvincia().getSelectedItem();
+		if(obj != null) {
+			String provinciaSeleccionada = obj.toString();
+			if(provinciaSeleccionada != null) {}
+			ventanaPersona.getComboBoxLocalidad().removeAllItems();
+			for(LocalidadDTO localidad : agenda.localidadPorProvincia(provinciaSeleccionada)) {
+				ventanaPersona.fillLocalidades(localidad.getNombre());
+			}	
+		}
+	}
+	
 	public void inicializar() {
 		this.refrescarTabla();
 		this.vista.show();
@@ -48,13 +61,15 @@ public class Controlador {
 	}
 
 	void fillComboboxes() {
-		for (LocalidadDTO loc : agenda.localidadesDisponibles())
-			ventanaPersona.fillLocalidades(loc.getNombre());
-		for (TipoContactoDTO tc : agenda.tiposDisponibles())
-			ventanaPersona.fillTiposContacto(tc.getNombre());
-		for(PaisDTO pais: agenda.paisesDisponibles()) {
-			ventanaPersona.fillPaises(pais.getNombre());
-		}
+		ventanaPersona.getComboBoxTipoContacto().removeAllItems();
+		for (TipoContactoDTO tc : agenda.tiposDisponibles())ventanaPersona.fillTiposContacto(tc.getNombre());
+		ventanaPersona.getComboBoxProvincia().removeAllItems();
+		for(ProvinciaDTO prov: agenda.provinciasDisponibles())ventanaPersona.fillProvincias(prov.getNombre());
+		String provincia = ventanaPersona.getComboBoxProvincia().getSelectedItem().toString();
+		ventanaPersona.getComboBoxLocalidad().removeAllItems();
+		for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia))ventanaPersona.fillLocalidades(loc.getNombre());
+		ventanaPersona.getComboBoxPais().removeAllItems();
+		for(PaisDTO pais: agenda.paisesDisponibles())ventanaPersona.fillPaises(pais.getNombre());
 	}
 
 	void ventanaAgregarPersona(ActionEvent a) {

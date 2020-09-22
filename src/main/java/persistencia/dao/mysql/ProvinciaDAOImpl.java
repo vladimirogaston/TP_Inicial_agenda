@@ -39,7 +39,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
-				lst.add(new ProvinciaDTO(rs.getInt("PovinciaID"), rs.getString("ProvinciaNombre")));
+				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

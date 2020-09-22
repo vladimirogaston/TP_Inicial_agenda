@@ -339,4 +339,8 @@ public class VentanaPersona extends JDialog {
 	public void fillPaises(String nombre) {
 		comboBoxPais.addItem(nombre);
 	}
+
+	public void fillProvincias(String nombre) {
+		comboBoxProvincia.addItem(nombre);
+	}
 }

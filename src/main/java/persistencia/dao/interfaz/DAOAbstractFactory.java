@@ -7,4 +7,8 @@ public interface DAOAbstractFactory {
 	LocalidadDAO createLocalidadDAO();
 
 	TipoContactoDAO createTipoContactoDAO();
+
+	ProvinciaDAO createProvinciaDAO();
+
+	PaisDAO createPaisDAO();
 }

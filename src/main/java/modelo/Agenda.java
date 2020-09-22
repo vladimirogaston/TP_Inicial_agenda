@@ -9,6 +9,7 @@ import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.LocalidadDAO;
+import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PaisesDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
@@ -19,7 +20,7 @@ public class Agenda {
 	private PersonaDAO persona;
 	LocalidadDAO localidades;
 	TipoContactoDAO tipos;
-	PaisesDAO paises;
+	PaisDAO paises;
 	ProvinciaDAO provincias;
 
 	public List<LocalidadDTO> localidadPorProvincia(String provincia) {
@@ -38,6 +39,8 @@ public class Agenda {
 		this.persona = metodo_persistencia.createPersonaDAO();
 		localidades = metodo_persistencia.createLocalidadDAO();
 		tipos = metodo_persistencia.createTipoContactoDAO();
+		provincias = metodo_persistencia.createProvinciaDAO();
+		paises = metodo_persistencia.createPaisDAO();
 	}
 
 	public void agregarPersona(PersonaDTO nuevaPersona) {
