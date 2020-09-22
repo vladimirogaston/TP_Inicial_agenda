@@ -4,6 +4,14 @@ public class LocalidadDTO {
 
 	int id;
 	String nombre;
+	String localidad;	
+		
+	public LocalidadDTO(int id, String nombre, String localidad) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.localidad = localidad;
+	}
 
 	public LocalidadDTO(String nombre) {
 		super();
