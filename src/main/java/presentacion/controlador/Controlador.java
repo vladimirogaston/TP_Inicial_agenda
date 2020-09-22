@@ -102,7 +102,9 @@ public class Controlador {
 		ventanaPersona.getTextFieldPiso().setText(getValueAt(row, 7));
 		ventanaPersona.getTextFieldDpto().setText(getValueAt(row, 8));
 		ventanaPersona.getComboBoxLocalidad().setSelectedItem(getValueAt(row, 9));
-		ventanaPersona.setPersonaId(Integer.parseInt(getValueAt(row, 10)));
+		ventanaPersona.getComboBoxProvincia().setSelectedItem(getValueAt(row, 10));
+		ventanaPersona.getComboBoxPais().setSelectedItem(getValueAt(row, 11));
+		ventanaPersona.setPersonaId(Integer.parseInt(getValueAt(row, 12)));
 	}
 
 	String getValueAt(int row, int column) {
@@ -131,7 +133,9 @@ public class Controlador {
 				.id(ventanaPersona.getPersonaId() != null ? ventanaPersona.getPersonaId() : 0)
 				.fechaNacimiento(view.getFieldFechaDeCumpleaños()).tipoContacto(view.getFieldTipoDeContacto())
 				.calle(view.getFieldCalle()).altura(view.getFieldAltura()).piso(view.gettFieldPiso())
-				.dpto(view.getFieldDepartamento()).localidad(view.getFieldLocalidad()).build();
+				.dpto(view.getFieldDepartamento()).localidad(view.getFieldLocalidad())
+				.provincia(view.getComboBoxProvincia().getSelectedItem().toString())
+				.pais(view.getComboBoxPais().getSelectedItem().toString()).build();
 	}
 
 	void mostrarReporte(ActionEvent r) {

@@ -13,7 +13,7 @@ import dto.PersonaDTO;
 public class PersonaDAOSQL implements PersonaDAO {
 
 	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?) }";
-	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?) }";
+	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
 	static final String find = "{call findAllPersonas()}";
 	Connection conexion = Conexion.getConexion().getSQLConexion();
@@ -67,6 +67,8 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setInt(9, Integer.parseInt(p.getPiso()));
 			cstmt.setString(10, p.getDpto());
 			cstmt.setString(11, p.getLocalidad());
+			cstmt.setString(12, p.getProvincia());
+			cstmt.setString(13, p.getPais());
 			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;

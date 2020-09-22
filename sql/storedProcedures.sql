@@ -1,10 +1,13 @@
 DROP PROCEDURE IF EXISTS `createLocalidad`;
 DELIMITER $$
 CREATE PROCEDURE `createLocalidad`(
-	IN loc_nombre VARCHAR (255)
+	IN loc_nombre VARCHAR (80),
+	IN prov VARCHAR(80)
 )
 BEGIN
-	INSERT INTO Localidades (LocalidadNombre) VALUES (loc_nombre);
+	INSERT INTO Localidades (LocalidadNombre, ProvinciaID) VALUES (loc_nombre,
+		(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov)
+	);
 END $$
 DELIMITER ;
 
@@ -12,10 +15,12 @@ DROP PROCEDURE IF EXISTS `updateLocalidad`;
 DELIMITER $$
 CREATE PROCEDURE `updateLocalidad`(
 IN id INT
-,IN nom VARCHAR (255))
+,IN nom VARCHAR (255)
+,IN prov VARCHAR(80))
 BEGIN
 	UPDATE Localidades
-	SET LocalidadNombre = nom
+	SET LocalidadNombre = nom,
+	ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov)
 	WHERE LocalidadID = id;
 END $$
 DELIMITER ;
@@ -88,12 +93,12 @@ CREATE PROCEDURE `createPersona`(
 ,IN dom_dpt VARCHAR (255)
 ,IN loc VARCHAR (80)
 ,IN prov VARCHAR (80)
-,IN pais VARCHAR (80)
+,IN pai VARCHAR (80)
 )
 BEGIN
 INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,
-ProvinciaID,PaisID) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto T WHERE T.TipoContactoNombre = tipo_con),
-dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades L WHERE L.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia P WHERE P.ProvinciaNombre = prov),(SELECT PaisID FROM Pais K WHERE K.PaisNombre = pais));
+ProvinciaID,PaisID) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con),
+dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai));
 END $$
 DELIMITER ;
 
@@ -128,6 +133,8 @@ CREATE PROCEDURE `updatePersona`(
 ,IN dom_piso INT
 ,IN dom_dpt VARCHAR(4)
 ,IN loc VARCHAR(255)
+,IN pro VARCHAR(80)
+,IN pai VARCHAR(80)
 )
 BEGIN
 	UPDATE personas
@@ -135,6 +142,8 @@ BEGIN
 	,Altura = dom_alt, Piso = dom_piso, Departamento = dom_dpt
 	,TipoContactoID = (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo)
 	,LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc)
+	,ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = pro)
+	,PaisID = (SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai)
 	WHERE idPersona = id;
 END $$
 DELIMITER ;
