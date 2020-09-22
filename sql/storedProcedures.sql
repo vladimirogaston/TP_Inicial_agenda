@@ -86,10 +86,14 @@ CREATE PROCEDURE `createPersona`(
 ,IN dom_alt INT
 ,IN dom_piso INT
 ,IN dom_dpt VARCHAR (255)
-,IN loc VARCHAR(255))
+,IN loc VARCHAR (80)
+,IN prov VARCHAR (80)
+,IN pais VARCHAR (80)
+)
 BEGIN
-	INSERT INTO Personas (Nombre, Telefono, Email, FechaCumpleaños,TipoContactoID,Calle, Altura, Piso, Departamento, LocalidadID) 
-VALUES (nom, tel, p_email, cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con), dom_calle, dom_alt, dom_piso, dom_dpt, (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc));
+INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,
+ProvinciaID,PaisID) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto T WHERE T.TipoContactoNombre = tipo_con),
+dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades L WHERE L.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia P WHERE P.ProvinciaNombre = prov),(SELECT PaisID FROM Pais K WHERE K.PaisNombre = pais));
 END $$
 DELIMITER ;
 
@@ -97,7 +101,8 @@ DROP PROCEDURE IF EXISTS `findAllPersonas`;
 DELIMITER $$
 CREATE PROCEDURE `findAllPersonas`()
 BEGIN
-SELECT idPersona, Nombre, Telefono,Email,FechaCumpleaños,TipoContactoNombre,Calle,Altura,Piso,Departamento,LocalidadNombre FROM personas INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID;
+SELECT idPersona,Nombre,Telefono,Email,FechaCumpleaños,TipoContactoNombre,Calle,Altura,Piso,Departamento,LocalidadNombre,ProvinciaNombre,
+       PaisNombre FROM personas INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN Provincia ON personas.ProvinciaID = Provincia.ProvinciaID INNER JOIN Pais on personas.PaisID = Pais.PaisID;	
 END $$
 DELIMITER ;
 
