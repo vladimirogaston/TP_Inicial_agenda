@@ -42,7 +42,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			throw new DatabaseException("No se puede salvar una localidad ya registrada");
+			throw new DatabaseException("La Localidad ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -66,7 +66,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			throw new DatabaseException("No se puede salvar una localidad ya registrada");
+			throw new DatabaseException("La Localidad ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -84,7 +84,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			throw new DatabaseException("No se puede salvar la localidad");
+			throw new DatabaseException("No se puede eliminar una Localidad en uso.");
 		}
 		return isdeleteExitoso;
 	}
