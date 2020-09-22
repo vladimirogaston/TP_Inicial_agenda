@@ -44,7 +44,7 @@ public class VistaAbmTiposDeContacto extends JDialog {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
-				new TitledBorder(null, "Localidades registradas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Tipos de Contactos registrados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(15, 16, 654, 266);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
