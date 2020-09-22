@@ -26,7 +26,7 @@ public class Vista {
 	JTable tablaPersonas;
 	DefaultTableModel modelPersonas;
 	String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
-			"Piso", "Dpto", "Localidad", "ID" };
+			"Piso", "Dpto", "Localidad", "Provincia", "Pais" ,"ID" };
 	JButton btnAgregar;
 	JButton btnBorrar;
 	JButton btnReporte;
@@ -135,7 +135,7 @@ public class Vista {
 
 	Object[] getObjectFromDto(PersonaDTO p) {
 		Object[] fila = { p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
-				p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getIdPersona() };
+				p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(), p.getIdPersona() };
 		return fila;
 	}
 

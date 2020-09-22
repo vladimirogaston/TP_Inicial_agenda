@@ -12,7 +12,7 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO {
 
-	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?) }";
+	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
 	static final String find = "{call findAllPersonas()}";
@@ -33,6 +33,8 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setInt(8, Integer.parseInt(p.getPiso()));
 			cstmt.setString(9, p.getDpto());
 			cstmt.setString(10, p.getLocalidad());
+			cstmt.setString(11, p.getProvincia());
+			cstmt.setString(12, p.getPais());
 			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;
@@ -134,6 +136,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 				.tipoContacto(rs.getString("TipoContactoNombre")).calle(rs.getString("Calle"))
 				.altura(Integer.valueOf(rs.getInt("Altura")).toString())
 				.piso(Integer.valueOf(rs.getInt("Piso")).toString()).dpto(rs.getString("Departamento"))
-				.localidad(rs.getString("LocalidadNombre")).build();
+				.localidad(rs.getString("LocalidadNombre"))
+				.provincia(rs.getString("ProvinciaNombre"))
+				.pais(rs.getString("PaisNombre"))
+				.build();
 	}
 }

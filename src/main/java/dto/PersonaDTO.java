@@ -36,6 +36,10 @@ public class PersonaDTO {
 
 	String localidad;
 
+	String provincia;
+	
+	String pais;
+	
 	public PersonaDTO() {
 		super();
 	}
@@ -59,6 +63,16 @@ public class PersonaDTO {
 			return this;
 		}
 
+		public Builder provincia(String provincia) {
+			dto.provincia = provincia;
+			return this;
+		}
+		
+		public Builder pais(String pais) {
+			dto.pais = pais;
+			return this;
+		}
+		
 		public Builder email(String email) {
 			dto.email = email;
 			return this;
@@ -190,5 +204,21 @@ public class PersonaDTO {
 
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
 	}
 }
