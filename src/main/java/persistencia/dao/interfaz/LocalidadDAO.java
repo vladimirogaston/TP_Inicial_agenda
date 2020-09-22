@@ -13,4 +13,6 @@ public interface LocalidadDAO {
 	boolean delete(LocalidadDTO localidad);
 
 	List<LocalidadDTO> readAll();
+
+	List<LocalidadDTO> readPorProvincia(String provincia);
 }

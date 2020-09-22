@@ -3,18 +3,37 @@ package modelo;
 import java.util.List;
 
 import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.LocalidadDAO;
+import persistencia.dao.interfaz.PaisesDAO;
 import persistencia.dao.interfaz.PersonaDAO;
+import persistencia.dao.interfaz.ProvinciaDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
 
 public class Agenda {
+	
 	private PersonaDAO persona;
 	LocalidadDAO localidades;
 	TipoContactoDAO tipos;
+	PaisesDAO paises;
+	ProvinciaDAO provincias;
 
+	public List<LocalidadDTO> localidadPorProvincia(String provincia) {
+		return localidades.readPorProvincia(provincia);
+	}
+	
+	public List<ProvinciaDTO> provinciasDisponibles() {
+		return provincias.readAll();
+	}
+	
+	public List<PaisDTO> paisesDisponibles() {
+		return paises.readAll();
+	}
+	
 	public Agenda(DAOAbstractFactory metodo_persistencia) {
 		this.persona = metodo_persistencia.createPersonaDAO();
 		localidades = metodo_persistencia.createLocalidadDAO();

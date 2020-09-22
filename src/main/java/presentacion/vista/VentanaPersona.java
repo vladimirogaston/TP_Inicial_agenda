@@ -28,6 +28,8 @@ public class VentanaPersona extends JDialog {
 	JDateChooser dateChooser;
 	JComboBox<String> comboBoxTipoContacto;
 	JButton btnAgregarPersona;
+	JComboBox<String> comboBoxProvincia;
+	JComboBox<String> comboBoxPais;
 
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
@@ -41,14 +43,14 @@ public class VentanaPersona extends JDialog {
 		super();
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setBounds(100, 100, 343, 488);
+		setBounds(100, 100, 343, 548);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 416);
+		panel.setBounds(10, 11, 307, 488);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -71,7 +73,7 @@ public class VentanaPersona extends JDialog {
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(186, 368, 113, 23);
+		btnAgregarPersona.setBounds(182, 453, 113, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblEmail = new JLabel("Email");
@@ -88,60 +90,76 @@ public class VentanaPersona extends JDialog {
 		panel.add(lblCumpleaos);
 
 		JLabel lblTipoContacto = new JLabel("Tipo contacto");
-		lblTipoContacto.setBounds(12, 175, 124, 15);
+		lblTipoContacto.setBounds(10, 203, 124, 15);
 		panel.add(lblTipoContacto);
 
 		comboBoxTipoContacto = new JComboBox<String>();
-		comboBoxTipoContacto.setBounds(133, 166, 164, 24);
+		comboBoxTipoContacto.setBounds(133, 198, 164, 24);
 		panel.add(comboBoxTipoContacto);
 
 		JLabel lblCalle = new JLabel("Calle");
-		lblCalle.setBounds(10, 211, 70, 15);
+		lblCalle.setBounds(10, 243, 70, 15);
 		panel.add(lblCalle);
 
 		JLabel lblAltura = new JLabel("Altura");
-		lblAltura.setBounds(10, 247, 70, 15);
+		lblAltura.setBounds(10, 279, 70, 15);
 		panel.add(lblAltura);
 
 		JLabel lblPiso = new JLabel("Piso");
-		lblPiso.setBounds(135, 247, 70, 15);
+		lblPiso.setBounds(135, 279, 70, 15);
 		panel.add(lblPiso);
 
 		textField_1Calle = new JTextField("");
-		textField_1Calle.setBounds(74, 209, 223, 19);
+		textField_1Calle.setBounds(74, 241, 223, 19);
 		panel.add(textField_1Calle);
 		textField_1Calle.setColumns(10);
 
 		textFieldPiso = new JTextField("");
-		textFieldPiso.setBounds(196, 245, 101, 19);
+		textFieldPiso.setBounds(196, 277, 101, 19);
 		panel.add(textFieldPiso);
 		textFieldPiso.setColumns(10);
 
 		textFieldAltura = new JTextField("");
-		textFieldAltura.setBounds(75, 245, 48, 19);
+		textFieldAltura.setBounds(75, 277, 48, 19);
 		panel.add(textFieldAltura);
 		textFieldAltura.setColumns(10);
 
 		JLabel lblDpto = new JLabel("Dpto");
-		lblDpto.setBounds(10, 282, 70, 15);
+		lblDpto.setBounds(10, 314, 70, 15);
 		panel.add(lblDpto);
 
 		textFieldDpto = new JTextField("");
-		textFieldDpto.setBounds(74, 280, 53, 19);
+		textFieldDpto.setBounds(74, 312, 53, 19);
 		panel.add(textFieldDpto);
 		textFieldDpto.setColumns(10);
 
 		JLabel lblLocalidad = new JLabel("Localidad");
-		lblLocalidad.setBounds(10, 324, 70, 15);
+		lblLocalidad.setBounds(10, 396, 70, 15);
 		panel.add(lblLocalidad);
 
 		comboBoxLocalidad = new JComboBox<String>();
-		comboBoxLocalidad.setBounds(133, 319, 164, 24);
+		comboBoxLocalidad.setBounds(133, 391, 164, 24);
 		panel.add(comboBoxLocalidad);
 
 		dateChooser = new JDateChooser();
 		dateChooser.setBounds(135, 120, 159, 26);
 		panel.add(dateChooser);
+		
+		JLabel lblProvincia = new JLabel("Provincia");
+		lblProvincia.setBounds(10, 348, 70, 15);
+		panel.add(lblProvincia);
+		
+		comboBoxProvincia = new JComboBox();
+		comboBoxProvincia.setBounds(133, 343, 162, 24);
+		panel.add(comboBoxProvincia);
+		
+		comboBoxPais = new JComboBox();
+		comboBoxPais.setBounds(133, 162, 162, 24);
+		panel.add(comboBoxPais);
+		
+		JLabel lblPas = new JLabel("País");
+		lblPas.setBounds(10, 167, 70, 15);
+		panel.add(lblPas);
 
 		this.setResizable(false);
 		this.setVisible(false);
@@ -308,5 +326,17 @@ public class VentanaPersona extends JDialog {
 
 	public void setPersonaId(Integer personaId) {
 		this.personaId = personaId;
+	}
+
+	public JComboBox<String> getComboBoxProvincia() {
+		return comboBoxProvincia;
+	}
+
+	public JComboBox<String> getComboBoxPais() {
+		return comboBoxPais;
+	}
+
+	public void fillPaises(String nombre) {
+		comboBoxPais.addItem(nombre);
 	}
 }

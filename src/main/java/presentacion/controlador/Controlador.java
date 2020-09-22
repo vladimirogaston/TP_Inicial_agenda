@@ -13,10 +13,11 @@ import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmLocalidades;
 import dto.GenericValidator;
 import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.TipoContactoDTO;
 
-public class Controlador implements ActionListener {
+public class Controlador {
 
 	Vista vista;
 	VentanaPersona ventanaPersona;
@@ -39,10 +40,6 @@ public class Controlador implements ActionListener {
 		this.vista.show();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-	}
-
 	void borrarPersona(ActionEvent s) {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
 		for (int fila : filasSeleccionadas)
@@ -55,6 +52,9 @@ public class Controlador implements ActionListener {
 			ventanaPersona.fillLocalidades(loc.getNombre());
 		for (TipoContactoDTO tc : agenda.tiposDisponibles())
 			ventanaPersona.fillTiposContacto(tc.getNombre());
+		for(PaisDTO pais: agenda.paisesDisponibles()) {
+			ventanaPersona.fillPaises(pais.getNombre());
+		}
 	}
 
 	void ventanaAgregarPersona(ActionEvent a) {
