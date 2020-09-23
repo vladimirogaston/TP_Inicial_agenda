@@ -40,6 +40,10 @@ public class PersonaDTO {
 	
 	String pais;
 	
+	String equipoFutbol;
+	
+	String codigoPostal;
+	
 	public PersonaDTO() {
 		super();
 	}
@@ -113,6 +117,16 @@ public class PersonaDTO {
 			return this;
 		}
 
+		public Builder equipoFutbol(String eq) {
+			dto.equipoFutbol = eq;
+			return this;
+		}
+		
+		public Builder codigoPostal(String cp) {
+			dto.codigoPostal = cp;
+			return this;
+		}
+		
 		public PersonaDTO build() {
 			return dto;
 		}
@@ -221,4 +235,22 @@ public class PersonaDTO {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
+
+	public String getEquipoFutbol() {
+		return equipoFutbol;
+	}
+
+	public void setEquipoFutbol(String equipoFutbol) {
+		this.equipoFutbol = equipoFutbol;
+	}
+
+	public String getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+	
+	
 }

@@ -20,13 +20,14 @@ import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import java.awt.BorderLayout;
 
 public class Vista {
 	JFrame frame;
 	JTable tablaPersonas;
 	DefaultTableModel modelPersonas;
 	String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
-			"Piso", "Dpto", "Localidad", "Provincia", "Pais" ,"ID" };
+			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal", "ID" };
 	JButton btnAgregar;
 	JButton btnBorrar;
 	JButton btnReporte;
@@ -46,18 +47,17 @@ public class Vista {
 		super();
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 910, 392);
+		frame.setBounds(100, 100, 1132, 391);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		frame.setTitle("Agenda");
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 904, 347);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(0, 39, 904, 270);
+		spPersonas.setBounds(0, 39, 1123, 270);
 		panel.add(spPersonas);
 
 		modelPersonas = new DefaultTableModel(null, nombreColumnas) {
@@ -74,7 +74,7 @@ public class Vista {
 		panel_1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel_1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		panel_1.setBounds(0, 308, 904, 39);
+		panel_1.setBounds(0, 308, 1123, 39);
 		panel.add(panel_1);
 
 		JToolBar toolBar = new JToolBar();
@@ -94,7 +94,7 @@ public class Vista {
 		toolBar.add(btnReporte);
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 904, 39);
+		menuBar.setBounds(0, 0, 1123, 39);
 		panel.add(menuBar);
 
 		JMenu mnNewMenu = new JMenu("Opciones");
@@ -135,7 +135,8 @@ public class Vista {
 
 	Object[] getObjectFromDto(PersonaDTO p) {
 		Object[] fila = { p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
-				p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(), p.getIdPersona() };
+				p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(),
+				p.getEquipoFutbol(), p.getCodigoPostal(), p.getIdPersona() };
 		return fila;
 	}
 

@@ -46,6 +46,8 @@ CREATE TABLE `personas`(
 	LocalidadID INT,
 	ProvinciaID INT,
 	PaisID INT,
+	EquipoFutbol VARCHAR(80),
+	CodigoPostal VARCHAR(80),
 	PRIMARY KEY (idPersona),
 	FOREIGN KEY (TipoContactoID) REFERENCES TiposContacto (TipoContactoID),
 	FOREIGN KEY (LocalidadID) REFERENCES Localidades (LocalidadID),
