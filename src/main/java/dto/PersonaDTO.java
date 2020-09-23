@@ -13,15 +13,15 @@ import javax.validation.constraints.Size;
 public class PersonaDTO {
 	Integer idPersona;
 
-	@Size(max = 4, message = "Maximo 60 caracteres para el código nombre.")
+	@Size(max = 60, message = "Maximo 60 caracteres para el código nombre.")
 	@NotBlank(message = "El nombre es obliatorio.")
 	String nombre;
 
-	@Size(max = 4, message = "Maximo 12 digitos para el teléfono.")
+	@Size(max = 12, message = "Maximo 12 digitos para el teléfono.")
 	@NotBlank(message = "El teléfono es obligatorio.")
 	String telefono;
 
-	@Size(max = 4, message = "Maximo 60 caracteres para el email.")
+	@Size(max = 60, message = "Maximo 60 caracteres para el email.")
 	@Email(message = "El email es debe ser un email.")
 	String email;
 
@@ -33,15 +33,15 @@ public class PersonaDTO {
 
 	String calle;
 
-	@Size(max = 4, message = "Maximo 6 digitos para la altura.")
+	@Size(max = 6, message = "Maximo 6 digitos para la altura.")
 	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "La altura debe ser un número.")
 	String altura;
 
-	@Size(max = 4, message = "Maximo 3 digitos para la piso.")
+	@Size(max = 3, message = "Maximo 3 digitos para la piso.")
 	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El piso debe ser un número.")	
 	String piso;
 
-	@Size(max = 4)
+	@Size(max = 4, message = "Maximo 4 digitos para el dpto.")
 	String dpto;
 	
 	String localidad;
@@ -52,7 +52,7 @@ public class PersonaDTO {
 	
 	String equipoFutbol;
 	
-	@Size(max = 4, message = "Maximo 4 digitos para el código postal.")
+	@Size(max = 6, message = "Maximo 6 digitos para el código postal.")
 	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El codigo postal debe ser un número.")
 	String codigoPostal;
 	

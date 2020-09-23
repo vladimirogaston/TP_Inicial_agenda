@@ -1,5 +1,9 @@
 package main;
 
+import dto.LocalidadDTO;
+import dto.PaisDTO;
+import dto.ProvinciaDTO;
+import dto.TipoContactoDTO;
 import modelo.Agenda;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.controlador.Controlador;
@@ -15,7 +19,7 @@ public class Main {
 	ControladorVistaAbmLocalidades controladorLocalidades;
 	ControladorVistaAbmTiposContacto controladorTipos;
 	
-	public Main() {
+	public Main() {		
 		Agenda modelo = new Agenda(new DAOSQLFactory());
 		controladorContactos = new Controlador(Vista.getInstance(), modelo);
 		controladorLocalidades = new ControladorVistaAbmLocalidades(VistaAbmLocalidades.getInstance(), modelo);
