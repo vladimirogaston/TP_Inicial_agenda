@@ -32,6 +32,8 @@ public class Vista {
 	JButton btnReporte;
 	JButton btnEditar;
 	JPanel panel_1;
+	JMenuItem mntmNewMenuItemPaises;
+	JMenuItem mntmNewMenuItemProvincias;
 	JMenuItem mntmNewMenuItemLocalidades;
 	JMenuItem mntmNewMenuItemTipos;
 	static Vista vista;
@@ -100,6 +102,12 @@ public class Vista {
 		JMenu mnNewMenu = new JMenu("Opciones");
 		menuBar.add(mnNewMenu);
 
+		mntmNewMenuItemPaises = new JMenuItem("Paises");
+		mnNewMenu.add(mntmNewMenuItemPaises);
+		
+		mntmNewMenuItemProvincias = new JMenuItem("Provincias");
+		mnNewMenu.add(mntmNewMenuItemProvincias);
+		
 		mntmNewMenuItemLocalidades = new JMenuItem("Localidades");
 		mnNewMenu.add(mntmNewMenuItemLocalidades);
 
@@ -171,6 +179,14 @@ public class Vista {
 
 	public JButton getBtnEditar() {
 		return btnEditar;
+	}
+	
+	public JMenuItem getMntmNewMenuItemPaises() {
+		return mntmNewMenuItemPaises;
+	}
+
+	public JMenuItem getMntmNewMenuItemProvincias() {
+		return mntmNewMenuItemProvincias;
 	}
 
 	public JMenuItem getMntmNewMenuItemLocalidades() {

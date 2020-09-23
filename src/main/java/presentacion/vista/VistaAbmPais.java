@@ -22,10 +22,10 @@ public class VistaAbmPais extends JDialog {
 
 	private DefaultTableModel tableModel;
 	private JTable table;
-	private final String[] nombreColumnas = new String[] { "LocalidadNombre", "ID" };
+	private final String[] nombreColumnas = new String[] { "PaisNombre", "ID" };
 
 	private JButton btnSalvar;
-	private JButton buttonEditar;
+	private JButton btnEditar;
 	private JButton btnEliminar;
 
 	public static VistaAbmPais getInstance() {
@@ -64,8 +64,8 @@ public class VistaAbmPais extends JDialog {
 		btnSalvar = new JButton("Crear");
 		toolBar.add(btnSalvar);
 
-		buttonEditar = new JButton("Editar");
-		toolBar.add(buttonEditar);
+		btnEditar = new JButton("Editar");
+		toolBar.add(btnEditar);
 
 		btnEliminar = new JButton("Eliminar");
 		toolBar.add(btnEliminar);
@@ -114,8 +114,8 @@ public class VistaAbmPais extends JDialog {
 		return btnSalvar;
 	}
 
-	public JButton getButtonEditar() {
-		return buttonEditar;
+	public JButton getBtnEditar() {
+		return btnEditar;
 	}
 
 	public JButton getBtnEliminar() {
