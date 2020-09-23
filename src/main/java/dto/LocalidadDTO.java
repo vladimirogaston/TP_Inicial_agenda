@@ -4,13 +4,13 @@ public class LocalidadDTO {
 
 	int id;
 	String nombre;
-	String localidad;	
+	String provincia;	
 		
-	public LocalidadDTO(int id, String nombre, String localidad) {
+	public LocalidadDTO(int id, String nombre, String provincia) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
-		this.localidad = localidad;
+		this.provincia = provincia;
 	}
 
 	public LocalidadDTO(String nombre) {
@@ -39,4 +39,18 @@ public class LocalidadDTO {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	@Override
+	public String toString() {
+		return "LocalidadDTO [id=" + id + ", nombre=" + nombre + ", provincia=" + provincia + "]";
+	}
+
 }

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import dto.LocalidadDTO;
+import dto.ProvinciaDTO;
 import modelo.Agenda;
 import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmLocalidades;
@@ -24,30 +25,45 @@ public class ControladorVistaAbmLocalidades {
 		vista.getBtnNewButtonEliminar().addActionListener((a)->onBorrar(a));
 	}
 	
+	String [] obtenerNombreProvincias() {
+		List<ProvinciaDTO> lst = agenda.provinciasDisponibles();
+		String [] provincias = new String[lst.size()];
+		for(int i = 0; i < lst.size(); i++) provincias[i] = lst.get(i).getNombre();
+		return provincias;
+	}
+	
 	void onEditar(ActionEvent action) {
 		if(vista.getTable().getSelectedRowCount() == 1) {
-			final int row = vista.getTable().getSelectedRow();
-			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			final String locNom = vista.getTableModel().getValueAt(row, 0).toString();
-			String nuevoNom = vista.displayForm();
-			if(nuevoNom != null && !nuevoNom.matches(locNom) && !nuevoNom.trim().isEmpty()) {
-				LocalidadDTO dto = new LocalidadDTO(locID, nuevoNom);
-				try {
-					agenda.editarLocalidad(dto);
-				} catch(DatabaseException e) {
-					vista.showMessage(e.getMessage());
-				} finally {
-					vaciarTabla();
-					llenarTabla();
-				} 
+			int row = vista.getTable().getSelectedRow();
+			String locNom = vista.getTableModel().getValueAt(row, 0).toString();
+			String provNom = vista.getTableModel().getValueAt(row, 1).toString();
+			int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
+			String [] provincias = obtenerNombreProvincias();
+			if(provincias != null) {
+				Object [] obj = vista.displayForm(provincias, locNom, provNom);	
+				LocalidadDTO dto = new LocalidadDTO(locID, obj[0].toString(), obj[1].toString());
+				if(dto.getNombre() != null && !dto.getNombre().trim().isEmpty()) {
+					try {
+						agenda.editarLocalidad(dto);
+						vaciarTabla();
+						llenarTabla();
+					} catch(DatabaseException e) {
+						vista.showMessage(e.getMessage());
+					}
+				}
 			}
 		}
 	}
 
 	void onSalvar(ActionEvent action) {
-		String nom = vista.displayForm();
-		if(nom != null && !nom.trim().isEmpty()) {
-			LocalidadDTO dto = new LocalidadDTO(nom);
+		List<ProvinciaDTO> lst = agenda.provinciasDisponibles();
+		String [] provincias = new String[lst.size()];
+		for(int i = 0; i < lst.size(); i++) provincias[i] = lst.get(i).getNombre();
+		Object [] obj = vista.displayForm(provincias);
+		String nuevoNom = obj[0].toString();
+		String nuevaProv = obj[1].toString();
+		if(nuevoNom != null && !nuevoNom.trim().isEmpty()) {
+			LocalidadDTO dto = new LocalidadDTO(1, nuevoNom, nuevaProv);
 			try {
 				agenda.agregarLocalidad(dto);
 				vaciarTabla();
@@ -62,14 +78,13 @@ public class ControladorVistaAbmLocalidades {
 		int selectedRows = vista.getTable().getSelectedRowCount();
 		if (selectedRows == 1) {
 			final int row = vista.getTable().getSelectedRow();
-			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
 			final String locNombre = vista.getTableModel().getValueAt(row, 0).toString();
 			try {
 				agenda.borrarLocalidad(new LocalidadDTO(locID, locNombre));
 				vaciarTabla();
 				llenarTabla();
 			} catch (DatabaseException e) {
-				//vista.getTable().setSelectionBackground(Color.RED);
 				vista.showMessage(e.getMessage());
 			}
 
@@ -85,7 +100,7 @@ public class ControladorVistaAbmLocalidades {
 	void llenarTabla() {
 		List<LocalidadDTO> localidades = agenda.localidadesDisponibles();
 		for (LocalidadDTO loc : localidades) {
-			Object[] row = { loc.getNombre(), loc.getId() };
+			Object[] row = { loc.getNombre(), loc.getProvincia(), loc.getId() };
 			vista.getTableModel().addRow(row);
 		}
 	}
