@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import dto.PaisDTO;
+import dto.TipoContactoDTO;
 import modelo.Agenda;
 import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmPais;
@@ -19,6 +20,7 @@ public class ControladorVistaAbmPais {
 		this.agenda = agenda;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		Vista.getInstance().getMntmNewMenuItemPaises().addActionListener((a) -> inicializar(a));
+		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 	}
 
 	void inicializar(ActionEvent action){
@@ -38,6 +40,20 @@ public class ControladorVistaAbmPais {
 		for(PaisDTO pais : paises) {
 			Object[] row = {pais.getNombre(), pais.getId() };
 			vista.getTableModel().addRow(row);
+		}
+	}
+	
+	void onSalvar(ActionEvent action) {
+		String nombre = vista.displayForm();
+		if(nombre != null && !nombre.trim().isEmpty()) {
+			PaisDTO paisDTO = new PaisDTO(nombre);
+			try {
+				agenda.agregarPais(paisDTO);
+				vaciarTabla();
+				llenarTabla();
+			} catch(DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
 		}
 	}
 

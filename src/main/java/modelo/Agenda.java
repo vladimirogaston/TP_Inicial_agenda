@@ -89,4 +89,8 @@ public class Agenda {
 	public void editarTipoDeContacto(TipoContactoDTO tipoContactoDTO) {
 		tipos.update(tipoContactoDTO);
 	}
+
+	public void agregarPais(PaisDTO paisDTO) {
+		paises.insert(paisDTO);
+	}
 }

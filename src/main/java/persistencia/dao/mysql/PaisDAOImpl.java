@@ -1,5 +1,6 @@
 package persistencia.dao.mysql;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,9 +9,11 @@ import java.util.List;
 
 import dto.PaisDTO;
 import persistencia.dao.interfaz.PaisDAO;
+import presentacion.controlador.DatabaseException;
 
 public class PaisDAOImpl implements PaisDAO {
 
+	static final String insert = "INSERT INTO Pais (PaisNombre) VALUES(?)";
 	final String readall = "SELECT * FROM Pais";
 	
 	@Override
@@ -20,9 +23,25 @@ public class PaisDAOImpl implements PaisDAO {
 	}
 
 	@Override
-	public boolean insert(PaisDTO pais) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insert(PaisDTO paisDTO) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try {
+			statement = conexion.prepareStatement(insert);
+			statement.setString(1, paisDTO.getNombre());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+			}
+			throw new DatabaseException("El Pais ya existe.");
+		}
+		return isInsertExitoso;
 	}
 
 	@Override
