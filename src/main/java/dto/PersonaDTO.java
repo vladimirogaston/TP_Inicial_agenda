@@ -1,39 +1,45 @@
 package dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class PersonaDTO {
-	int idPersona;
+	Integer idPersona;
 
-	@NotBlank
+	@NotBlank(message = "El nombre es obliatorio.")
 	String nombre;
 
-	@NotBlank
-	@Digits(fraction = 0, integer = 10)
+	@NotBlank(message = "El teléfono es obligatorio.")
 	String telefono;
 
-	@Email
+	@Email(message = "El email es debe ser un email.")
 	String email;
 
+	@Past(message = "La fecha debe ser menor a la actual.")
 	Date fechaNacimiento;
 
-	@NotBlank
+	@NotBlank(message = "El tipo de contacto es obligatorio.")
 	String tipoContacto;
 
 	String calle;
 
-	@Digits(fraction = 0, integer = 5)
+	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "La altura debe ser un número.")
 	String altura;
 
-	@Digits(fraction = 0, integer = 2)
+	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El piso debe ser un número.")	
 	String piso;
 
+	@Size(max = 4)
 	String dpto;
-
+	
 	String localidad;
 
 	String provincia;
@@ -46,6 +52,34 @@ public class PersonaDTO {
 	
 	public PersonaDTO() {
 		super();
+	}
+	
+	public List<String> validate() {
+		ArrayList<String> properties = new ArrayList<>();
+		properties.addAll(mandatoryPropertiesToValidate());
+		properties.addAll(optionalPropertiesToValidate());
+		String [] params = new String [properties.size()];
+		return GenericValidator.getInstance().validate(this, properties.toArray(params));
+	}
+	
+	ArrayList<String> mandatoryPropertiesToValidate() {
+		ArrayList<String> properties = new ArrayList<>();
+		properties.add("nombre");
+		properties.add("telefono");
+		return properties;
+	}
+	
+	ArrayList<String> optionalPropertiesToValidate() {
+		ArrayList<String> properties = new ArrayList<String>();
+		if(!email.isBlank()) properties.add("email");
+		if(fechaNacimiento != null) properties.add("fechaNacimiento");
+		if(!calle.isBlank()) properties.add("calle");
+		if(!altura.isBlank()) properties.add("altura");
+		if(!piso.isBlank()) properties.add("piso");
+		if(!dpto.isBlank()) properties.add("dpto");
+		if(!altura.isBlank()) properties.add("localidad");
+		if(!tipoContacto.isBlank()) properties.add("tipoContacto");
+		return properties;
 	}
 
 	public static PersonaDTO makeTestDto() {

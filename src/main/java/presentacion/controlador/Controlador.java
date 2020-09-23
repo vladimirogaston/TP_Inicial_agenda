@@ -3,7 +3,6 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import modelo.Agenda;
@@ -118,7 +117,7 @@ public class Controlador {
 
 	void guardarPersona(ActionEvent p) {
 		PersonaDTO nuevaPersona = getFromView();
-		String errors = GenericValidator.getInstance().validate(nuevaPersona);
+		List<String> errors = nuevaPersona.validate();
 		if (errors.isEmpty()) {
 			if (ventanaPersona.getPersonaId() == null) {
 				agenda.agregarPersona(nuevaPersona);
