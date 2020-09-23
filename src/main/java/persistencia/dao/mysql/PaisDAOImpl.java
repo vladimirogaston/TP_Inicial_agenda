@@ -14,12 +14,30 @@ import presentacion.controlador.DatabaseException;
 public class PaisDAOImpl implements PaisDAO {
 
 	static final String insert = "INSERT INTO Pais (PaisNombre) VALUES(?)";
+	static final String update = "UPDATE Pais SET PaisNombre = ? WHERE PaisID = ?";
 	final String readall = "SELECT * FROM Pais";
 	
 	@Override
-	public boolean update(PaisDTO pais) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(PaisDTO paisDTO) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try {
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, paisDTO.getNombre());
+			statement.setInt(2, paisDTO.getId());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+		} catch (SQLException e) {
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+			}
+			throw new DatabaseException("El Pais ya existe.");
+		}
+		return isInsertExitoso;
 	}
 
 	@Override

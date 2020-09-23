@@ -21,38 +21,59 @@ public class ControladorVistaAbmPais {
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		Vista.getInstance().getMntmNewMenuItemPaises().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
+		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
 	}
 
-	void inicializar(ActionEvent action){
+	void inicializar(ActionEvent action) {
 		vaciarTabla();
 		llenarTabla();
 		vista.setVisible(true);
 	}
-	
+
 	void vaciarTabla() {
 		vista.getTableModel().setRowCount(0);
 		vista.getTableModel().setColumnCount(0);
 		vista.getTableModel().setColumnIdentifiers(vista.getNombreColumnas());
 	}
-	
+
 	void llenarTabla() {
 		List<PaisDTO> paises = agenda.paisesDisponibles();
-		for(PaisDTO pais : paises) {
-			Object[] row = {pais.getNombre(), pais.getId() };
+		for (PaisDTO pais : paises) {
+			Object[] row = { pais.getNombre(), pais.getId() };
 			vista.getTableModel().addRow(row);
 		}
 	}
-	
+
 	void onSalvar(ActionEvent action) {
 		String nombre = vista.displayForm();
-		if(nombre != null && !nombre.trim().isEmpty()) {
+		if (nombre != null && !nombre.trim().isEmpty()) {
 			PaisDTO paisDTO = new PaisDTO(nombre);
 			try {
 				agenda.agregarPais(paisDTO);
 				vaciarTabla();
 				llenarTabla();
-			} catch(DatabaseException e) {
+			} catch (DatabaseException e) {
 				vista.showMessage(e.getMessage());
+			}
+		}
+	}
+
+	void onEditar(ActionEvent action) {
+		if(vista.getTable().getSelectedRowCount() == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int paisID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String paisNombre = vista.getTableModel().getValueAt(row, 0).toString();
+			String nuevoNombre = vista.displayForm();
+			if(nuevoNombre != null && !nuevoNombre.matches(paisNombre) && !nuevoNombre.trim().isEmpty()) {
+				PaisDTO paisDTO = new PaisDTO(paisID, nuevoNombre);
+				try {
+					agenda.editarPais(paisDTO);
+				} catch(DatabaseException e) {
+					vista.showMessage(e.getMessage());
+				} finally {
+					vaciarTabla();
+					llenarTabla();
+				} 
 			}
 		}
 	}

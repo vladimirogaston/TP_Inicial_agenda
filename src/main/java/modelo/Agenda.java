@@ -93,4 +93,8 @@ public class Agenda {
 	public void agregarPais(PaisDTO paisDTO) {
 		paises.insert(paisDTO);
 	}
+
+	public void editarPais(PaisDTO paisDTO) {
+		paises.update(paisDTO);
+	}
 }
