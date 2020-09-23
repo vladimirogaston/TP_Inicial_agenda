@@ -7,17 +7,20 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
 public class VistaAbmLocalidades extends JDialog {
 
 	JPanel contentPane;
-	final String[] nombreColumnas = new String[] { "LocalidadNombre", "ID" };
+	final String[] nombreColumnas = new String[] { "LocalidadNombre","Provincia","ID" };
 	JTable table;
 	DefaultTableModel tableModel;
 	JButton btnNewButtonEliminar;
@@ -33,8 +36,46 @@ public class VistaAbmLocalidades extends JDialog {
 	private JButton buttonEditar;
 	static VistaAbmLocalidades vista;
 	
-	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre de la localidad");
+	public Object [] displayForm(String [] provincias) {
+		Object [] ret = null;
+		if(provincias != null) {
+			JPanel fields = new JPanel(new FlowLayout());
+			JLabel labelnombre = new JLabel("Nombre");
+			JTextField field = new JTextField(10);
+			JComboBox<String> comboBox = new JComboBox<>(provincias);
+			fields.add(labelnombre);
+			fields.add(field);
+			fields.add(comboBox);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			switch (result) {
+			    case JOptionPane.OK_OPTION:
+			        break;
+			}
+			ret = new Object [] { field.getText().toString(), comboBox.getSelectedItem().toString() };
+		}
+		return ret;	
+	}
+	
+	public Object [] displayForm(String [] provincias, String loc, String provincia) {
+		Object [] ret = null;
+		if(provincias != null) {
+			JPanel fields = new JPanel(new FlowLayout());
+			JLabel labelnombre = new JLabel("Nombre");
+			JTextField field = new JTextField(10);
+			JComboBox<String> comboBox = new JComboBox<>(provincias);
+			fields.add(labelnombre);
+			fields.add(field);
+			fields.add(comboBox);
+			comboBox.setSelectedItem(provincia);
+			field.setText(loc);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			switch (result) {
+			    case JOptionPane.OK_OPTION:
+			        break;
+			}
+			ret = new Object [] { field.getText().toString(), comboBox.getSelectedItem().toString() };
+		}
+		return ret;
 	}
 	
 	public static VistaAbmLocalidades getInstance() {

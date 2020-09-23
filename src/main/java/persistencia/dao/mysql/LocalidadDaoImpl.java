@@ -51,8 +51,8 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 		try {
 			statement = conexion.prepareStatement(update);
 			statement.setString(1, dto.getNombre());
-			statement.setInt(2, dto.getId());
-			statement.setString(3, dto.getProvincia());
+			statement.setString(2, dto.getProvincia());
+			statement.setInt(3, dto.getId());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
