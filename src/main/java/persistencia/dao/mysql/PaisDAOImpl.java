@@ -15,6 +15,7 @@ public class PaisDAOImpl implements PaisDAO {
 
 	static final String insert = "INSERT INTO Pais (PaisNombre) VALUES(?)";
 	static final String update = "UPDATE Pais SET PaisNombre = ? WHERE PaisID = ?";
+	static final String delete = "DELETE FROM Pais WHERE PaisID = ?";
 	final String readall = "SELECT * FROM Pais";
 	
 	@Override
@@ -63,9 +64,21 @@ public class PaisDAOImpl implements PaisDAO {
 	}
 
 	@Override
-	public boolean delete(PaisDTO pais) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(PaisDTO paisDTO) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isdeleteExitoso = false;
+		try {
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, paisDTO.getId());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isdeleteExitoso = true;
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException("No se puede eliminar un Pais en uso.");
+		}
+		return isdeleteExitoso;
 	}
 
 	@Override

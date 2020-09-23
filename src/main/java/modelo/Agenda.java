@@ -97,4 +97,8 @@ public class Agenda {
 	public void editarPais(PaisDTO paisDTO) {
 		paises.update(paisDTO);
 	}
+
+	public void borrarPais(PaisDTO paisDTO) {
+		paises.delete(paisDTO);
+	}
 }
