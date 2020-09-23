@@ -22,6 +22,7 @@ public class ControladorVistaAbmPais {
 		Vista.getInstance().getMntmNewMenuItemPaises().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
+		vista.getBtnEliminar().addActionListener((a) -> onEliminar(a));
 	}
 
 	void inicializar(ActionEvent action) {
@@ -74,6 +75,23 @@ public class ControladorVistaAbmPais {
 					vaciarTabla();
 					llenarTabla();
 				} 
+			}
+		}
+	}
+	
+	void onEliminar(ActionEvent action) {
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if(selectedRows == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int paisID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
+			final String paisNombre = vista.getTableModel().getValueAt(row, 0).toString();
+			try {
+				agenda.borrarPais(new PaisDTO(paisID, paisNombre));
+				vaciarTabla();
+				llenarTabla();
+			} catch (DatabaseException e) {
+				//vista.getTable().setSelectionBackground(Color.RED);
+				vista.showMessage(e.getMessage());
 			}
 		}
 	}
