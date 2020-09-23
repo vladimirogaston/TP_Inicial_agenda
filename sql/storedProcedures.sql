@@ -82,25 +82,25 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS `createPersona`;
 DELIMITER $$
 CREATE PROCEDURE `createPersona`(
- IN nom VARCHAR(255)
-,IN tel INT
-,IN p_email VARCHAR(255)
+ IN nom VARCHAR(50)
+,IN tel VARCHAR(50)
+,IN mail VARCHAR(50)
 ,IN cumple DATE
-,IN tipo_con VARCHAR(255)
-,IN dom_calle VARCHAR(255)
-,IN dom_alt INT
-,IN dom_piso INT
-,IN dom_dpt VARCHAR (255)
-,IN loc VARCHAR (80)
-,IN prov VARCHAR (80)
-,IN pai VARCHAR (80)
-,IN equipo VARCHAR (80)
-,IN cp VARCHAR(80)
+,IN tipo_con VARCHAR(50)
+,IN dom_calle VARCHAR(50)
+,IN dom_alt VARCHAR(50)
+,IN dom_piso VARCHAR(50)
+,IN dom_dpt VARCHAR(50)
+,IN loc VARCHAR(50)
+,IN prov VARCHAR(50)
+,IN pai VARCHAR(50)
+,IN eq VARCHAR(50)
+,IN cp VARCHAR(50)
 )
 BEGIN
 INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,
-ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con),
-dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai), equipo, cp);
+ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (nom,tel,mail,cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con),
+dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai), eq, cp);
 END $$
 DELIMITER ;
 
@@ -125,20 +125,20 @@ DROP PROCEDURE IF EXISTS `updatePersona`;
 DELIMITER $$
 CREATE PROCEDURE `updatePersona`(
  IN id INT
-,IN nom VARCHAR(255)
-,IN tel VARCHAR(255)
-,IN mail VARCHAR(255)
+,IN nom VARCHAR(50)
+,IN tel VARCHAR(50)
+,IN mail VARCHAR(50)
 ,IN cumple DATE
-,IN tipo VARCHAR(255)
-,IN dom_calle VARCHAR(255)
-,IN dom_alt INT
-,IN dom_piso INT
-,IN dom_dpt VARCHAR(4)
-,IN loc VARCHAR(255)
-,IN pro VARCHAR(80)
-,IN pai VARCHAR(80)
-,IN eq VARCHAR(80)
-,IN cp VARCHAR(80)
+,IN tipo VARCHAR(50)
+,IN dom_calle VARCHAR(50)
+,IN dom_alt VARCHAR(50)
+,IN dom_piso VARCHAR(50)
+,IN dom_dpt VARCHAR(50)
+,IN loc VARCHAR(50)
+,IN pro VARCHAR(50)
+,IN pai VARCHAR(50)
+,IN eq VARCHAR(50)
+,IN cp VARCHAR(50)
 )
 BEGIN
 	UPDATE personas

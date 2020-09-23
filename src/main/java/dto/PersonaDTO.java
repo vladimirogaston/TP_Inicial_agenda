@@ -13,12 +13,15 @@ import javax.validation.constraints.Size;
 public class PersonaDTO {
 	Integer idPersona;
 
+	@Size(max = 4, message = "Maximo 60 caracteres para el código nombre.")
 	@NotBlank(message = "El nombre es obliatorio.")
 	String nombre;
 
+	@Size(max = 4, message = "Maximo 12 digitos para el teléfono.")
 	@NotBlank(message = "El teléfono es obligatorio.")
 	String telefono;
 
+	@Size(max = 4, message = "Maximo 60 caracteres para el email.")
 	@Email(message = "El email es debe ser un email.")
 	String email;
 
@@ -30,9 +33,11 @@ public class PersonaDTO {
 
 	String calle;
 
+	@Size(max = 4, message = "Maximo 6 digitos para la altura.")
 	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "La altura debe ser un número.")
 	String altura;
 
+	@Size(max = 4, message = "Maximo 3 digitos para la piso.")
 	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El piso debe ser un número.")	
 	String piso;
 
@@ -47,6 +52,8 @@ public class PersonaDTO {
 	
 	String equipoFutbol;
 	
+	@Size(max = 4, message = "Maximo 4 digitos para el código postal.")
+	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El codigo postal debe ser un número.")
 	String codigoPostal;
 	
 	public PersonaDTO() {
@@ -78,6 +85,7 @@ public class PersonaDTO {
 		if(!dpto.isBlank()) properties.add("dpto");
 		if(!altura.isBlank()) properties.add("localidad");
 		if(!tipoContacto.isBlank()) properties.add("tipoContacto");
+		if(!codigoPostal.isBlank()) properties.add("codigoPostal");
 		return properties;
 	}
 
@@ -284,6 +292,4 @@ public class PersonaDTO {
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
-	
-	
 }
