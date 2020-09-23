@@ -94,11 +94,13 @@ CREATE PROCEDURE `createPersona`(
 ,IN loc VARCHAR (80)
 ,IN prov VARCHAR (80)
 ,IN pai VARCHAR (80)
+,IN equipo VARCHAR (80)
+,IN cp VARCHAR(80)
 )
 BEGIN
 INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,
-ProvinciaID,PaisID) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con),
-dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai));
+ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (nom,tel,p_email,cumple, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = tipo_con),
+dom_calle,dom_alt,dom_piso,dom_dpt,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = prov),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai), equipo, cp);
 END $$
 DELIMITER ;
 
@@ -107,7 +109,7 @@ DELIMITER $$
 CREATE PROCEDURE `findAllPersonas`()
 BEGIN
 SELECT idPersona,Nombre,Telefono,Email,FechaCumpleaños,TipoContactoNombre,Calle,Altura,Piso,Departamento,LocalidadNombre,ProvinciaNombre,
-       PaisNombre FROM personas INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN Provincia ON personas.ProvinciaID = Provincia.ProvinciaID INNER JOIN Pais on personas.PaisID = Pais.PaisID;	
+       PaisNombre, EquipoFutbol, CodigoPostal FROM personas INNER JOIN TiposContacto ON personas.TipoContactoID = TiposContacto.TipoContactoID INNER JOIN Localidades ON personas.LocalidadID = Localidades.LocalidadID INNER JOIN Provincia ON personas.ProvinciaID = Provincia.ProvinciaID INNER JOIN Pais on personas.PaisID = Pais.PaisID;	
 END $$
 DELIMITER ;
 
@@ -135,6 +137,8 @@ CREATE PROCEDURE `updatePersona`(
 ,IN loc VARCHAR(255)
 ,IN pro VARCHAR(80)
 ,IN pai VARCHAR(80)
+,IN eq VARCHAR(80)
+,IN cp VARCHAR(80)
 )
 BEGIN
 	UPDATE personas
@@ -144,6 +148,8 @@ BEGIN
 	,LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = loc)
 	,ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = pro)
 	,PaisID = (SELECT PaisID FROM Pais WHERE Pais.PaisNombre = pai)
+	,EquipoFutbol = eq
+	,CodigoPostal = cp
 	WHERE idPersona = id;
 END $$
 DELIMITER ;

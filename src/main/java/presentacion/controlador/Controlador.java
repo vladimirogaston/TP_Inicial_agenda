@@ -3,6 +3,7 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import modelo.Agenda;
@@ -95,7 +96,7 @@ public class Controlador {
 		ventanaPersona.getTxtNombre().setText(getValueAt(row, 0));
 		ventanaPersona.getTxtTelefono().setText(getValueAt(row, 1));
 		ventanaPersona.getTextFieldEmail().setText(getValueAt(row, 2));
-		ventanaPersona.getDateChooser().setDate(new SimpleDateFormat("yyyy-MM-dd").parse(getValueAt(row, 3)));
+		if(!getValueAt(row, 3).isEmpty())ventanaPersona.getDateChooser().setDate(new SimpleDateFormat("yyyy-MM-dd").parse(getValueAt(row, 3)));
 		ventanaPersona.getComboBoxTipoContacto().setSelectedItem((Object) (getValueAt(row, 4)));
 		ventanaPersona.getTextField_1Calle().setText(getValueAt(row, 5));
 		ventanaPersona.getTextFieldAltura().setText(getValueAt(row, 6));
@@ -104,11 +105,15 @@ public class Controlador {
 		ventanaPersona.getComboBoxLocalidad().setSelectedItem(getValueAt(row, 9));
 		ventanaPersona.getComboBoxProvincia().setSelectedItem(getValueAt(row, 10));
 		ventanaPersona.getComboBoxPais().setSelectedItem(getValueAt(row, 11));
-		ventanaPersona.setPersonaId(Integer.parseInt(getValueAt(row, 12)));
+		ventanaPersona.getTextFieldEquipo().setText(getValueAt(row, 12));
+		ventanaPersona.getTextFieldCodigoPostal().setText(getValueAt(row, 13));
+		ventanaPersona.setPersonaId(Integer.parseInt(getValueAt(row, 14)));
 	}
 
 	String getValueAt(int row, int column) {
-		return vista.getModelPersonas().getValueAt(row, column).toString();
+		Object obj = vista.getModelPersonas().getValueAt(row, column);
+		if(obj != null) return vista.getModelPersonas().getValueAt(row, column).toString();
+		else return "";
 	}
 
 	void guardarPersona(ActionEvent p) {
@@ -135,6 +140,8 @@ public class Controlador {
 				.calle(view.getFieldCalle()).altura(view.getFieldAltura()).piso(view.gettFieldPiso())
 				.dpto(view.getFieldDepartamento()).localidad(view.getFieldLocalidad())
 				.provincia(view.getComboBoxProvincia().getSelectedItem().toString())
+				.codigoPostal(view.getTextFieldCodigoPostal().getText())
+				.equipoFutbol(view.getTextFieldEquipo().getText())
 				.pais(view.getComboBoxPais().getSelectedItem().toString()).build();
 	}
 

@@ -30,6 +30,8 @@ public class VentanaPersona extends JDialog {
 	JButton btnAgregarPersona;
 	JComboBox<String> comboBoxProvincia;
 	JComboBox<String> comboBoxPais;
+	private JTextField textFieldEquipo;
+	private JTextField textFieldCodigoPostal;
 
 	public static VentanaPersona getInstance() {
 		if (INSTANCE == null) {
@@ -43,14 +45,14 @@ public class VentanaPersona extends JDialog {
 		super();
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setBounds(100, 100, 343, 548);
+		setBounds(100, 100, 343, 671);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 488);
+		panel.setBounds(10, 11, 307, 604);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -73,7 +75,7 @@ public class VentanaPersona extends JDialog {
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(182, 453, 113, 23);
+		btnAgregarPersona.setBounds(182, 557, 113, 23);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblEmail = new JLabel("Email");
@@ -98,47 +100,47 @@ public class VentanaPersona extends JDialog {
 		panel.add(comboBoxTipoContacto);
 
 		JLabel lblCalle = new JLabel("Calle");
-		lblCalle.setBounds(10, 243, 70, 15);
+		lblCalle.setBounds(10, 347, 70, 15);
 		panel.add(lblCalle);
 
 		JLabel lblAltura = new JLabel("Altura");
-		lblAltura.setBounds(10, 279, 70, 15);
+		lblAltura.setBounds(10, 383, 70, 15);
 		panel.add(lblAltura);
 
 		JLabel lblPiso = new JLabel("Piso");
-		lblPiso.setBounds(135, 279, 70, 15);
+		lblPiso.setBounds(135, 383, 70, 15);
 		panel.add(lblPiso);
 
 		textField_1Calle = new JTextField("");
-		textField_1Calle.setBounds(74, 241, 223, 19);
+		textField_1Calle.setBounds(74, 345, 223, 19);
 		panel.add(textField_1Calle);
 		textField_1Calle.setColumns(10);
 
 		textFieldPiso = new JTextField("");
-		textFieldPiso.setBounds(196, 277, 101, 19);
+		textFieldPiso.setBounds(196, 381, 101, 19);
 		panel.add(textFieldPiso);
 		textFieldPiso.setColumns(10);
 
 		textFieldAltura = new JTextField("");
-		textFieldAltura.setBounds(75, 277, 48, 19);
+		textFieldAltura.setBounds(75, 381, 48, 19);
 		panel.add(textFieldAltura);
 		textFieldAltura.setColumns(10);
 
 		JLabel lblDpto = new JLabel("Dpto");
-		lblDpto.setBounds(10, 314, 70, 15);
+		lblDpto.setBounds(10, 418, 70, 15);
 		panel.add(lblDpto);
 
 		textFieldDpto = new JTextField("");
-		textFieldDpto.setBounds(74, 312, 53, 19);
+		textFieldDpto.setBounds(74, 416, 53, 19);
 		panel.add(textFieldDpto);
 		textFieldDpto.setColumns(10);
 
 		JLabel lblLocalidad = new JLabel("Localidad");
-		lblLocalidad.setBounds(10, 396, 70, 15);
+		lblLocalidad.setBounds(10, 500, 70, 15);
 		panel.add(lblLocalidad);
 
 		comboBoxLocalidad = new JComboBox<String>();
-		comboBoxLocalidad.setBounds(133, 391, 164, 24);
+		comboBoxLocalidad.setBounds(133, 495, 164, 24);
 		panel.add(comboBoxLocalidad);
 
 		dateChooser = new JDateChooser();
@@ -146,11 +148,11 @@ public class VentanaPersona extends JDialog {
 		panel.add(dateChooser);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
-		lblProvincia.setBounds(10, 348, 70, 15);
+		lblProvincia.setBounds(10, 452, 70, 15);
 		panel.add(lblProvincia);
 		
 		comboBoxProvincia = new JComboBox();
-		comboBoxProvincia.setBounds(133, 343, 162, 24);
+		comboBoxProvincia.setBounds(133, 447, 162, 24);
 		panel.add(comboBoxProvincia);
 		
 		comboBoxPais = new JComboBox();
@@ -160,6 +162,24 @@ public class VentanaPersona extends JDialog {
 		JLabel lblPas = new JLabel("País");
 		lblPas.setBounds(10, 167, 70, 15);
 		panel.add(lblPas);
+		
+		JLabel lblNewLabel = new JLabel("Equipo");
+		lblNewLabel.setBounds(11, 248, 107, 20);
+		panel.add(lblNewLabel);
+		
+		textFieldEquipo = new JTextField();
+		textFieldEquipo.setBounds(133, 248, 164, 26);
+		panel.add(textFieldEquipo);
+		textFieldEquipo.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Codigo postal");
+		lblNewLabel_1.setBounds(10, 294, 113, 20);
+		panel.add(lblNewLabel_1);
+		
+		textFieldCodigoPostal = new JTextField();
+		textFieldCodigoPostal.setBounds(133, 291, 164, 26);
+		panel.add(textFieldCodigoPostal);
+		textFieldCodigoPostal.setColumns(10);
 
 		this.setResizable(false);
 		this.setVisible(false);
@@ -342,5 +362,13 @@ public class VentanaPersona extends JDialog {
 
 	public void fillProvincias(String nombre) {
 		comboBoxProvincia.addItem(nombre);
+	}
+
+	public JTextField getTextFieldEquipo() {
+		return textFieldEquipo;
+	}
+
+	public JTextField getTextFieldCodigoPostal() {
+		return textFieldCodigoPostal;
 	}
 }

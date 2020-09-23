@@ -68,7 +68,7 @@ public class VistaAbmLocalidades extends JDialog {
 			fields.add(comboBox);
 			comboBox.setSelectedItem(provincia);
 			field.setText(loc);
-			int result = JOptionPane.showConfirmDialog(null, fields, "Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Editor de localidad", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			switch (result) {
 			    case JOptionPane.OK_OPTION:
 			        break;
