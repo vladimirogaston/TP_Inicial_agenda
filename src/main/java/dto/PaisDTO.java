@@ -6,6 +6,11 @@ public class PaisDTO {
 	
 	String nombre;
 	
+	public PaisDTO(String nombre) {
+		super();
+		this.nombre = nombre;
+	}
+	
 	public PaisDTO(Integer id, String nombre) {
 		super();
 		this.id = id;
