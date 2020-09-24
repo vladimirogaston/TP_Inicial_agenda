@@ -151,11 +151,11 @@ public class VentanaPersona extends JDialog {
 		lblProvincia.setBounds(10, 452, 70, 15);
 		panel.add(lblProvincia);
 		
-		comboBoxProvincia = new JComboBox();
+		comboBoxProvincia = new JComboBox<String>();
 		comboBoxProvincia.setBounds(133, 447, 162, 24);
 		panel.add(comboBoxProvincia);
 		
-		comboBoxPais = new JComboBox();
+		comboBoxPais = new JComboBox<String>();
 		comboBoxPais.setBounds(133, 162, 162, 24);
 		panel.add(comboBoxPais);
 		

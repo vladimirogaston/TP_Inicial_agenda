@@ -18,7 +18,7 @@ public class Main {
 	ControladorVistaAbmTiposContacto controladorTipos;
 	ControladorVistaAbmPais controladorPais;
 	
-	public Main() {
+	public Main() {		
 		Agenda modelo = new Agenda(new DAOSQLFactory());
 		controladorContactos = new Controlador(Vista.getInstance(), modelo);
 		controladorLocalidades = new ControladorVistaAbmLocalidades(VistaAbmLocalidades.getInstance(), modelo);

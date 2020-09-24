@@ -3,14 +3,12 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaPersona;
 import presentacion.vista.Vista;
-import dto.GenericValidator;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
@@ -62,14 +60,22 @@ public class Controlador {
 
 	void fillComboboxes() {
 		ventanaPersona.getComboBoxTipoContacto().removeAllItems();
-		for (TipoContactoDTO tc : agenda.tiposDisponibles())ventanaPersona.fillTiposContacto(tc.getNombre());
+		for (TipoContactoDTO tc : agenda.tiposDisponibles()) {
+			ventanaPersona.fillTiposContacto(tc.getNombre());
+		}
 		ventanaPersona.getComboBoxProvincia().removeAllItems();
-		for(ProvinciaDTO prov: agenda.provinciasDisponibles())ventanaPersona.fillProvincias(prov.getNombre());
+		for(ProvinciaDTO prov: agenda.provinciasDisponibles()) {
+			ventanaPersona.fillProvincias(prov.getNombre());
+		}
 		String provincia = ventanaPersona.getComboBoxProvincia().getSelectedItem().toString();
 		ventanaPersona.getComboBoxLocalidad().removeAllItems();
-		for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia))ventanaPersona.fillLocalidades(loc.getNombre());
+		for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia)) {
+			ventanaPersona.fillLocalidades(loc.getNombre());
+		}
 		ventanaPersona.getComboBoxPais().removeAllItems();
-		for(PaisDTO pais: agenda.paisesDisponibles())ventanaPersona.fillPaises(pais.getNombre());
+		for(PaisDTO pais: agenda.paisesDisponibles()) {
+			ventanaPersona.fillPaises(pais.getNombre());
+		}
 	}
 
 	void ventanaAgregarPersona(ActionEvent a) {
@@ -118,7 +124,7 @@ public class Controlador {
 
 	void guardarPersona(ActionEvent p) {
 		PersonaDTO nuevaPersona = getFromView();
-		String errors = GenericValidator.getInstance().validate(nuevaPersona);
+		List<String> errors = nuevaPersona.validate();
 		if (errors.isEmpty()) {
 			if (ventanaPersona.getPersonaId() == null) {
 				agenda.agregarPersona(nuevaPersona);
@@ -134,15 +140,22 @@ public class Controlador {
 
 	PersonaDTO getFromView() {
 		VentanaPersona view = ventanaPersona;
-		return new PersonaDTO.Builder(view.getFieldNombre(), view.getFieldTelefono()).email(view.getFieldEmail())
+		return new PersonaDTO
+				.Builder(view.getFieldNombre(), view.getFieldTelefono())
+				.email(view.getFieldEmail())
 				.id(ventanaPersona.getPersonaId() != null ? ventanaPersona.getPersonaId() : 0)
-				.fechaNacimiento(view.getFieldFechaDeCumpleaños()).tipoContacto(view.getFieldTipoDeContacto())
-				.calle(view.getFieldCalle()).altura(view.getFieldAltura()).piso(view.gettFieldPiso())
-				.dpto(view.getFieldDepartamento()).localidad(view.getFieldLocalidad())
+				.fechaNacimiento(view.getFieldFechaDeCumpleaños())
+				.tipoContacto(view.getFieldTipoDeContacto())
+				.calle(view.getFieldCalle())
+				.altura(view.getFieldAltura())
+				.piso(view.gettFieldPiso())
+				.dpto(view.getFieldDepartamento())
+				.localidad(view.getFieldLocalidad())
 				.provincia(view.getComboBoxProvincia().getSelectedItem().toString())
 				.codigoPostal(view.getTextFieldCodigoPostal().getText())
 				.equipoFutbol(view.getTextFieldEquipo().getText())
-				.pais(view.getComboBoxPais().getSelectedItem().toString()).build();
+				.pais(view.getComboBoxPais().getSelectedItem().toString())
+				.build();
 	}
 
 	void mostrarReporte(ActionEvent r) {

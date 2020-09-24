@@ -118,6 +118,12 @@ public class Vista {
 	public void showMessages(String message) {
 		JOptionPane.showMessageDialog(null, message);
 	}
+	
+	public void showMessages(List<String> messages) {
+		StringBuilder builder = new StringBuilder();
+		for(String message : messages) builder.append(message + "\n");
+		showMessages(builder.toString());
+	}
 
 	public void show() {
 		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

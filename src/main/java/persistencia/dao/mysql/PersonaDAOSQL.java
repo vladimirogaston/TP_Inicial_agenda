@@ -24,14 +24,14 @@ public class PersonaDAOSQL implements PersonaDAO {
 		try {
 			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(insert);
 			cstmt.setString(1, p.getNombre());
-			cstmt.setInt(2, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(2, p.getTelefono());
 			cstmt.setString(3, p.getEmail());
 			if(p.getFechaNacimiento() != null)cstmt.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
 			else cstmt.setDate(4,null);
 			cstmt.setString(5, p.getTipoContacto());
 			cstmt.setString(6, p.getCalle());
-			cstmt.setInt(7, Integer.parseInt(p.getAltura()));
-			cstmt.setInt(8, Integer.parseInt(p.getPiso()));
+			cstmt.setString(7, p.getAltura());
+			cstmt.setString(8, p.getPiso());
 			cstmt.setString(9, p.getDpto());
 			cstmt.setString(10, p.getLocalidad());
 			cstmt.setString(11, p.getProvincia());
@@ -61,14 +61,14 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(update);
 			cstmt.setInt(1, p.getIdPersona());
 			cstmt.setString(2, p.getNombre());
-			cstmt.setInt(3, Integer.parseInt(p.getTelefono()));
+			cstmt.setString(3, p.getTelefono());
 			cstmt.setString(4, p.getEmail());
 			if(p.getFechaNacimiento() != null)cstmt.setDate(5, new java.sql.Date(p.getFechaNacimiento().getTime()));
 			cstmt.setDate(5, null);
 			cstmt.setString(6, p.getTipoContacto());
 			cstmt.setString(7, p.getCalle());
-			cstmt.setInt(8, Integer.parseInt(p.getAltura()));
-			cstmt.setInt(9, Integer.parseInt(p.getPiso()));
+			cstmt.setString(8, p.getAltura());
+			cstmt.setString(9, p.getPiso());
 			cstmt.setString(10, p.getDpto());
 			cstmt.setString(11, p.getLocalidad());
 			cstmt.setString(12, p.getProvincia());
@@ -142,8 +142,9 @@ public class PersonaDAOSQL implements PersonaDAO {
 		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono")).id(rs.getInt("idPersona"))
 				.email(rs.getString("Email")).fechaNacimiento(rs.getDate("FechaCumpleaños"))
 				.tipoContacto(rs.getString("TipoContactoNombre")).calle(rs.getString("Calle"))
-				.altura(Integer.valueOf(rs.getInt("Altura")).toString())
-				.piso(Integer.valueOf(rs.getInt("Piso")).toString()).dpto(rs.getString("Departamento"))
+				.altura(rs.getString("Altura"))
+				.piso(rs.getString("Piso"))
+				.dpto(rs.getString("Departamento"))
 				.localidad(rs.getString("LocalidadNombre"))
 				.provincia(rs.getString("ProvinciaNombre"))
 				.pais(rs.getString("PaisNombre"))

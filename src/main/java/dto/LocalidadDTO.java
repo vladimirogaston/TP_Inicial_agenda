@@ -2,11 +2,11 @@ package dto;
 
 public class LocalidadDTO {
 
-	int id;
+	Integer id;
 	String nombre;
 	String provincia;	
 		
-	public LocalidadDTO(int id, String nombre, String provincia) {
+	public LocalidadDTO(Integer id, String nombre, String provincia) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -18,7 +18,7 @@ public class LocalidadDTO {
 		this.nombre = nombre;
 	}
 
-	public LocalidadDTO(int id, String nombre) {
+	public LocalidadDTO(Integer id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;

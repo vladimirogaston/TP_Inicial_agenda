@@ -42,6 +42,7 @@ public class ControladorVistaAbmLocalidades {
 			if(provincias != null) {
 				Object [] obj = vista.displayForm(provincias, locNom, provNom);	
 				LocalidadDTO dto = new LocalidadDTO(locID, obj[0].toString(), obj[1].toString());
+				
 				if(dto.getNombre() != null && !dto.getNombre().trim().isEmpty()) {
 					try {
 						agenda.editarLocalidad(dto);
@@ -56,14 +57,12 @@ public class ControladorVistaAbmLocalidades {
 	}
 
 	void onSalvar(ActionEvent action) {
-		List<ProvinciaDTO> lst = agenda.provinciasDisponibles();
-		String [] provincias = new String[lst.size()];
-		for(int i = 0; i < lst.size(); i++) provincias[i] = lst.get(i).getNombre();
+		String [] provincias = obtenerNombreProvincias();
 		Object [] obj = vista.displayForm(provincias);
-		String nuevoNom = obj[0].toString();
-		String nuevaProv = obj[1].toString();
-		if(nuevoNom != null && !nuevoNom.trim().isEmpty()) {
-			LocalidadDTO dto = new LocalidadDTO(1, nuevoNom, nuevaProv);
+		String nombre = obj[0].toString();
+		String provincia = obj[1].toString();
+		if(nombre != null && !nombre.trim().isEmpty()) {
+			LocalidadDTO dto = new LocalidadDTO(null, nombre, provincia);
 			try {
 				agenda.agregarLocalidad(dto);
 				vaciarTabla();
