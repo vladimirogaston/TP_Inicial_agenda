@@ -60,7 +60,7 @@ public class ControladorVistaAbmLocalidades {
 		String [] provincias = obtenerNombreProvincias();
 		Object [] obj = vista.displayForm(provincias);
 		String nombre = obj[0].toString();
-		String provincia = obj[1].toString();
+		String provincia = obj[1] == null ? null : obj[1].toString();
 		if(nombre != null && !nombre.trim().isEmpty()) {
 			LocalidadDTO dto = new LocalidadDTO(null, nombre, provincia);
 			try {

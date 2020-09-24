@@ -12,6 +12,7 @@ import persistencia.dao.interfaz.PaisDAO;
 public class PaisDAOImpl implements PaisDAO {
 
 	final String readall = "SELECT * FROM Pais";
+	static final String readbyid = "SELECT * FROM Pais WHERE PaisID = ?";
 	
 	@Override
 	public boolean update(PaisDTO pais) {
@@ -31,6 +32,22 @@ public class PaisDAOImpl implements PaisDAO {
 		return false;
 	}
 
+	@Override
+	public PaisDTO readByID(Integer id) {
+		PaisDTO dto = null;
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				dto = new PaisDTO(rs.getInt("PaisID"), rs.getString("PaisNombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
 	@Override
 	public List<PaisDTO> readAll() {
 		ArrayList<PaisDTO> lst = new ArrayList<>();

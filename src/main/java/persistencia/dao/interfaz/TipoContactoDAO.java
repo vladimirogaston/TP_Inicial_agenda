@@ -13,4 +13,6 @@ public interface TipoContactoDAO {
 	boolean delete(TipoContactoDTO tContacto);
 
 	List<TipoContactoDTO> readAll();
+	
+	TipoContactoDTO readByID(Integer id);
 }

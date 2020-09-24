@@ -15,4 +15,6 @@ public interface LocalidadDAO {
 	List<LocalidadDTO> readAll();
 
 	List<LocalidadDTO> readPorProvincia(String provincia);
+
+	LocalidadDTO readByID(Integer id);
 }

@@ -103,7 +103,7 @@ public class PersonaDTO {
 			dto.telefono = tel;
 		}
 
-		public Builder id(int id) {
+		public Builder id(Integer id) {
 			dto.idPersona = id;
 			return this;
 		}
@@ -173,7 +173,7 @@ public class PersonaDTO {
 		}
 	}
 
-	public int getIdPersona() {
+	public Integer getIdPersona() {
 		return idPersona;
 	}
 
@@ -292,4 +292,15 @@ public class PersonaDTO {
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
+
+	@Override
+	public String toString() {
+		return "PersonaDTO [idPersona=" + idPersona + ", nombre=" + nombre + ", telefono=" + telefono + ", email="
+				+ email + ", fechaNacimiento=" + fechaNacimiento + ", tipoContacto=" + tipoContacto + ", calle=" + calle
+				+ ", altura=" + altura + ", piso=" + piso + ", dpto=" + dpto + ", localidad=" + localidad
+				+ ", provincia=" + provincia + ", pais=" + pais + ", equipoFutbol=" + equipoFutbol + ", codigoPostal="
+				+ codigoPostal + "]";
+	}
+	
+	
 }

@@ -67,11 +67,15 @@ public class Controlador {
 		for(ProvinciaDTO prov: agenda.provinciasDisponibles()) {
 			ventanaPersona.fillProvincias(prov.getNombre());
 		}
-		String provincia = ventanaPersona.getComboBoxProvincia().getSelectedItem().toString();
-		ventanaPersona.getComboBoxLocalidad().removeAllItems();
-		for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia)) {
-			ventanaPersona.fillLocalidades(loc.getNombre());
+		Object item = ventanaPersona.getComboBoxProvincia().getSelectedItem();
+		if(item != null) {
+			String provincia = ventanaPersona.getComboBoxProvincia().getSelectedItem().toString();
+			ventanaPersona.getComboBoxLocalidad().removeAllItems();
+			for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia)) {
+				ventanaPersona.fillLocalidades(loc.getNombre());
+			}
 		}
+		
 		ventanaPersona.getComboBoxPais().removeAllItems();
 		for(PaisDTO pais: agenda.paisesDisponibles()) {
 			ventanaPersona.fillPaises(pais.getNombre());
@@ -151,10 +155,10 @@ public class Controlador {
 				.piso(view.gettFieldPiso())
 				.dpto(view.getFieldDepartamento())
 				.localidad(view.getFieldLocalidad())
-				.provincia(view.getComboBoxProvincia().getSelectedItem().toString())
+				.provincia(view.getProvincia())
 				.codigoPostal(view.getTextFieldCodigoPostal().getText())
 				.equipoFutbol(view.getTextFieldEquipo().getText())
-				.pais(view.getComboBoxPais().getSelectedItem().toString())
+				.pais(view.getPais())
 				.build();
 	}
 
