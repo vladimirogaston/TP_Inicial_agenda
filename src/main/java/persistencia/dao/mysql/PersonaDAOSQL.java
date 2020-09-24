@@ -2,6 +2,7 @@ package persistencia.dao.mysql;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ public class PersonaDAOSQL implements PersonaDAO {
 	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
-	static final String find = "{call findAllPersonas()}";
 	Connection conexion = Conexion.getConexion().getSQLConexion();
 
 	@Override
@@ -113,43 +113,39 @@ public class PersonaDAOSQL implements PersonaDAO {
 		}
 		return isdeleteExitoso;
 	}
-
-	@Override
-	public List<PersonaDTO> readAll() {
-		CallableStatement cstmt = null;
-		ArrayList<PersonaDTO> personas = new ArrayList<PersonaDTO>();
+	
+	public List<Persona> readAllEntities() {
+		PreparedStatement statement = null;
+		ArrayList<Persona> personas = new ArrayList<Persona>();
 		try {
-			String SQL = find;
-			cstmt = conexion.prepareCall(SQL);
+			statement = conexion.prepareStatement("SELECT * FROM personas");
 			ResultSet resultSet;
-			resultSet = cstmt.executeQuery();
-			while (resultSet.next()) {
-				personas.add(getPersonaDTO(resultSet));
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) { personas.add(getPersona(resultSet));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return personas;
 	}
 
-	PersonaDTO getPersonaDTO(ResultSet rs) throws SQLException {
-		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono")).id(rs.getInt("idPersona"))
-				.email(rs.getString("Email")).fechaNacimiento(rs.getDate("FechaCumpleaños"))
-				.tipoContacto(rs.getString("TipoContactoNombre")).calle(rs.getString("Calle"))
-				.altura(rs.getString("Altura"))
-				.piso(rs.getString("Piso"))
-				.dpto(rs.getString("Departamento"))
-				.localidad(rs.getString("LocalidadNombre"))
-				.provincia(rs.getString("ProvinciaNombre"))
-				.pais(rs.getString("PaisNombre"))
-				.equipoFutbol(rs.getString("EquipoFutbol"))
-				.codigoPostal(rs.getString("CodigoPostal"))
-				.build();
+	Persona getPersona(ResultSet rs) throws SQLException {
+		Persona persona = new Persona();
+		persona.setNombre(rs.getString("Nombre"));
+		persona.setTelefono(rs.getString("Telefono"));
+		persona.getIdPersona();
+		persona.setEmail(rs.getString("Email"));
+		persona.setFechaNacimiento(rs.getDate("FechaCumpleaños"));
+		persona.setTipoContactoID(rs.getInt("TipoContactoID"));
+		persona.setCalle(rs.getString("Calle"));
+		persona.setAltura(rs.getString("Altura"));
+		persona.setPiso(rs.getString("Piso"));
+		persona.setDpto(rs.getString("Departamento"));
+		persona.setLocalidadID(rs.getInt("LocalidadID"));
+		persona.setProvinciaID(rs.getInt("ProvinciaID"));
+		persona.setPaisID(rs.getInt("PaisID"));
+		persona.setEquipoFutbol(rs.getString("EquipoFutbol"));
+		persona.setCodigoPostal(rs.getString("CodigoPostal"));
+		return persona;
 	}
 }

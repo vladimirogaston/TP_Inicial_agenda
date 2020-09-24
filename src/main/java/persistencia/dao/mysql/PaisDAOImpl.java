@@ -17,6 +17,7 @@ public class PaisDAOImpl implements PaisDAO {
 	static final String update = "UPDATE Pais SET PaisNombre = ? WHERE PaisID = ?";
 	static final String delete = "DELETE FROM Pais WHERE PaisID = ?";
 	final String readall = "SELECT * FROM Pais";
+	static final String readbyid = "SELECT * FROM Pais WHERE PaisID = ?";
 	
 	@Override
 	public boolean update(PaisDTO paisDTO) {
@@ -81,6 +82,22 @@ public class PaisDAOImpl implements PaisDAO {
 		return isdeleteExitoso;
 	}
 
+	@Override
+	public PaisDTO readByID(Integer id) {
+		PaisDTO dto = null;
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				dto = new PaisDTO(rs.getInt("PaisID"), rs.getString("PaisNombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
 	@Override
 	public List<PaisDTO> readAll() {
 		ArrayList<PaisDTO> lst = new ArrayList<>();

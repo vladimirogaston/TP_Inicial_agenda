@@ -51,7 +51,8 @@ public class VistaAbmLocalidades extends JDialog {
 			    case JOptionPane.OK_OPTION:
 			        break;
 			}
-			ret = new Object [] { field.getText().toString(), comboBox.getSelectedItem().toString() };
+			String prov = comboBox.getSelectedItem() == null ? null : comboBox.getSelectedItem().toString();
+			ret = new Object [] { field.getText().toString(), prov};
 		}
 		return ret;	
 	}

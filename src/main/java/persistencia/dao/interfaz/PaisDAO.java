@@ -11,6 +11,8 @@ public interface PaisDAO {
 	boolean insert(PaisDTO pais);
 
 	boolean delete(PaisDTO pais);
-
+	
 	List<PaisDTO> readAll();
+	
+	PaisDTO readByID(Integer id);
 }

@@ -241,6 +241,8 @@ public class VentanaPersona extends JDialog {
 	}
 
 	public String getFieldTipoDeContacto() {
+		Object item = comboBoxTipoContacto.getSelectedItem();
+		if(item == null) return "";
 		return comboBoxTipoContacto.getSelectedItem().toString();
 	}
 
@@ -265,6 +267,8 @@ public class VentanaPersona extends JDialog {
 	}
 
 	public String getFieldLocalidad() {
+		Object item = comboBoxLocalidad.getSelectedItem();
+		if(item == null) return "";
 		return comboBoxLocalidad.getSelectedItem().toString();
 	}
 
@@ -370,5 +374,17 @@ public class VentanaPersona extends JDialog {
 
 	public JTextField getTextFieldCodigoPostal() {
 		return textFieldCodigoPostal;
+	}
+
+	public String getProvincia() {
+		Object item = getComboBoxProvincia().getSelectedItem();
+		if(item == null) return "";
+		return getComboBoxProvincia().getSelectedItem().toString();
+	}
+
+	public String getPais() {
+		Object item = getComboBoxPais().getSelectedItem();
+		if(item == null) return "";
+		return getComboBoxPais().getSelectedItem().toString();
 	}
 }

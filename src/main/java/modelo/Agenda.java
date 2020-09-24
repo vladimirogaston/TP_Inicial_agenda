@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import dto.LocalidadDTO;
@@ -13,10 +14,11 @@ import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
 import persistencia.dao.interfaz.TipoContactoDAO;
+import persistencia.dao.mysql.Persona;
 
 public class Agenda {
 	
-	private PersonaDAO persona;
+	PersonaDAO persona;
 	LocalidadDAO localidades;
 	TipoContactoDAO tipos;
 	PaisDAO paises;
@@ -51,7 +53,30 @@ public class Agenda {
 	}
 
 	public List<PersonaDTO> obtenerPersonas() {
-		return this.persona.readAll();
+		LinkedList<PersonaDTO> lst = new LinkedList<>();
+		for(Persona entity : persona.readAllEntities()) {
+			String tc = tipos.readByID(entity.getTipoContactoID()) != null ? tipos.readByID(entity.getTipoContactoID()).getNombre() : null;
+			String loc = localidades.readByID(entity.getLocalidadID()) != null ? localidades.readByID(entity.getLocalidadID()).getNombre() : null;
+			String pro = provincias.readByID(entity.getProvinciaID()) != null ? provincias.readByID(entity.getProvinciaID()).getNombre() : null;
+			String pais = paises.readByID(entity.getPaisID()) != null ? paises.readByID(entity.getPaisID()).getNombre() : null;
+			lst.add(new PersonaDTO
+			.Builder(entity.getNombre(), entity.getTelefono())
+			.email(entity.getEmail())
+			.id(entity.getIdPersona())
+			.fechaNacimiento(entity.getFechaNacimiento())
+			.tipoContacto(tc)
+			.calle(entity.getCalle())
+			.altura(entity.getAltura())
+			.piso(entity.getPiso())
+			.dpto(entity.getDpto())
+			.localidad(loc)
+			.provincia(pro)
+			.codigoPostal(entity.getCodigoPostal())
+			.equipoFutbol(entity.getEquipoFutbol())
+			.pais(pais)
+			.build());
+		}
+		return lst;
 	}
 
 	public List<TipoContactoDTO> tiposDisponibles() {

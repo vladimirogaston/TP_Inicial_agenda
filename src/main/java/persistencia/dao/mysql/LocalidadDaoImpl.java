@@ -16,8 +16,9 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 	static final String insert = "INSERT INTO Localidades(LocalidadNombre, ProvinciaID) VALUES (?, (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?))";
 	static final String update = "UPDATE Localidades SET LocalidadNombre = ?,	ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?) WHERE LocalidadID = ?";
 	static final String delete = "DELETE FROM Localidades WHERE LocalidadID = ?";
-	static final String readall = "SELECT LocalidadID, LocalidadNombre, ProvinciaNombre FROM Localidades L INNER JOIN Provincia P ON L.ProvinciaID = P.ProvinciaID";
-	static final String readbyprovincia = "SELECT LocalidadID, LocalidadNombre, ProvinciaNombre FROM Localidades L INNER JOIN Provincia P ON L.ProvinciaID = P.ProvinciaID WHERE P.ProvinciaNombre = ?";
+	static final String readall = "SELECT LocalidadID, LocalidadNombre, ProvinciaNombre FROM Localidades L LEFT JOIN Provincia P ON L.ProvinciaID = P.ProvinciaID";
+	static final String readbyprovincia = "SELECT LocalidadID, LocalidadNombre, ProvinciaNombre FROM Localidades L LEFT JOIN Provincia P ON L.ProvinciaID = P.ProvinciaID WHERE P.ProvinciaNombre = ?";
+	static final String readbyid = "SELECT * FROM Localidades WHERE LocalidadID = ?";
 	
 	@Override
 	public boolean insert(LocalidadDTO dto) {
@@ -115,5 +116,21 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			e.printStackTrace();
 		}
 		return lst;
+	}
+
+	@Override
+	public LocalidadDTO readByID(Integer id) {
+		LocalidadDTO dto = null;
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				dto = new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre"), rs.getString("ProvinciaNombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 }

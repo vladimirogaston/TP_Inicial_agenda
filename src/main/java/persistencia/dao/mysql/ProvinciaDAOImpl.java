@@ -12,6 +12,7 @@ import persistencia.dao.interfaz.ProvinciaDAO;
 public class ProvinciaDAOImpl implements ProvinciaDAO {
 
 	final String readall = "SELECT * FROM Provincia";
+	static final String readbyid = "SELECT * FROM Provincia WHERE ProvinciaID = ?";
 	
 	@Override
 	public boolean update(ProvinciaDTO p) {
@@ -29,6 +30,22 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 	public boolean delete(ProvinciaDTO persona_a_eliminar) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public ProvinciaDTO readByID(Integer id) {
+		ProvinciaDTO dto = null;
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				dto = new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package persistencia.dao.interfaz;
 import java.util.List;
 
 import dto.PersonaDTO;
+import persistencia.dao.mysql.Persona;
 
 public interface PersonaDAO {
 
@@ -12,5 +13,5 @@ public interface PersonaDAO {
 
 	boolean delete(PersonaDTO persona_a_eliminar);
 
-	List<PersonaDTO> readAll();
+	List<Persona> readAllEntities();
 }

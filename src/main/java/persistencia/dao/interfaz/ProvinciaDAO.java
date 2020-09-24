@@ -13,4 +13,6 @@ public interface ProvinciaDAO {
 	boolean delete(ProvinciaDTO persona_a_eliminar);
 
 	List<ProvinciaDTO> readAll();
+	
+	ProvinciaDTO readByID(Integer id);
 }

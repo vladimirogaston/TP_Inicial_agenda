@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
 import persistencia.dao.interfaz.TipoContactoDAO;
 import presentacion.controlador.DatabaseException;
@@ -17,6 +18,7 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 	static final String update = "UPDATE TiposContacto SET TipoContactoNombre = ? WHERE TipoContactoID = ?";
 	static final String delete = "DELETE FROM TiposContacto WHERE TipoContactoID = ?";
 	static final String readall = "SELECT * FROM TiposContacto";
+	static final String readbyid = "SELECT * FROM TiposContacto WHERE TipoContactoID = ?";
 
 	@Override
 	public boolean insert(TipoContactoDTO dto) {
@@ -94,5 +96,21 @@ public class TipoContactoDaoImpl implements TipoContactoDAO {
 			e.printStackTrace();
 		}
 		return lst;
+	}
+
+	@Override
+	public TipoContactoDTO readByID(Integer id) {
+		TipoContactoDTO dto = null;
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
+			statement.setInt(1, id);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				dto = new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 }
