@@ -210,6 +210,8 @@ public class VentanaPersona extends JDialog {
 		textFieldPiso.setText("");
 		textFieldAltura.setText("");
 		textFieldDpto.setText("");
+		textFieldEquipo.setText("");
+		textFieldCodigoPostal.setText("");
 		comboBoxLocalidad.removeAllItems();
 		comboBoxTipoContacto.removeAllItems();
 		personaId = null;

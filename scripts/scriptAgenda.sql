@@ -47,7 +47,7 @@ CREATE TABLE `personas`(
 	ProvinciaID INT,
 	PaisID INT,
 	EquipoFutbol VARCHAR(50),
-	CodigoPostal VARCHAR(50),
+	CodigoPostal INT,
 	PRIMARY KEY (idPersona),
 	FOREIGN KEY (TipoContactoID) REFERENCES TiposContacto (TipoContactoID),
 	FOREIGN KEY (LocalidadID) REFERENCES Localidades (LocalidadID),
@@ -152,7 +152,7 @@ CREATE PROCEDURE `createPersona`(
 ,IN prov VARCHAR(50)
 ,IN pai VARCHAR(50)
 ,IN eq VARCHAR(50)
-,IN cp VARCHAR(50)
+,IN cp INT
 )
 BEGIN
 INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,
@@ -195,7 +195,7 @@ CREATE PROCEDURE `updatePersona`(
 ,IN pro VARCHAR(50)
 ,IN pai VARCHAR(50)
 ,IN eq VARCHAR(50)
-,IN cp VARCHAR(50)
+,IN cp INT
 )
 BEGIN
 	UPDATE personas

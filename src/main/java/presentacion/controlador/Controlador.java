@@ -60,10 +60,12 @@ public class Controlador {
 
 	void fillComboboxes() {
 		ventanaPersona.getComboBoxTipoContacto().removeAllItems();
+		ventanaPersona.fillTiposContacto("");
 		for (TipoContactoDTO tc : agenda.tiposDisponibles()) {
 			ventanaPersona.fillTiposContacto(tc.getNombre());
 		}
 		ventanaPersona.getComboBoxProvincia().removeAllItems();
+		ventanaPersona.fillProvincias("");
 		for(ProvinciaDTO prov: agenda.provinciasDisponibles()) {
 			ventanaPersona.fillProvincias(prov.getNombre());
 		}
@@ -71,12 +73,13 @@ public class Controlador {
 		if(item != null) {
 			String provincia = ventanaPersona.getComboBoxProvincia().getSelectedItem().toString();
 			ventanaPersona.getComboBoxLocalidad().removeAllItems();
+			ventanaPersona.fillLocalidades("");
 			for (LocalidadDTO loc : agenda.localidadPorProvincia(provincia)) {
 				ventanaPersona.fillLocalidades(loc.getNombre());
 			}
 		}
-		
 		ventanaPersona.getComboBoxPais().removeAllItems();
+		ventanaPersona.fillPaises("");
 		for(PaisDTO pais: agenda.paisesDisponibles()) {
 			ventanaPersona.fillPaises(pais.getNombre());
 		}
