@@ -1,9 +1,5 @@
 package main;
 
-import dto.LocalidadDTO;
-import dto.PaisDTO;
-import dto.ProvinciaDTO;
-import dto.TipoContactoDTO;
 import modelo.Agenda;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.controlador.Controlador;
