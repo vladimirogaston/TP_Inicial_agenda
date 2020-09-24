@@ -71,7 +71,7 @@ public class Agenda {
 			.dpto(entity.getDpto())
 			.localidad(loc)
 			.provincia(pro)
-			.codigoPostal(entity.getCodigoPostal())
+			.codigoPostal(entity.getCodigoPostal() == 0 ? "" : entity.getCodigoPostal().toString())
 			.equipoFutbol(entity.getEquipoFutbol())
 			.pais(pais)
 			.build());

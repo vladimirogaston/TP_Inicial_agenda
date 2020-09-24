@@ -302,5 +302,11 @@ public class PersonaDTO {
 				+ codigoPostal + "]";
 	}
 	
-	
+	public Integer getCodigoPostalInteger() {
+		try {
+			return Integer.parseInt(codigoPostal);			
+		}catch(NumberFormatException e) {
+			return null;
+		}
+	}
 }

@@ -11,11 +11,12 @@ import java.util.List;
 import persistencia.dao.interfaz.PersonaDAO;
 import dto.PersonaDTO;
 
-public class PersonaDAOSQL implements PersonaDAO {
+public class PersonaDAOImpl implements PersonaDAO {
 
 	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
+	static final String findOrderedAndGroupped = "{SELECT * FROM personas GROUP BY EquipoFutbol ORDER BY CodigoPostal, EquipoFutbol DESC}";
 	Connection conexion = Conexion.getConexion().getSQLConexion();
 
 	@Override
@@ -37,7 +38,8 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setString(11, p.getProvincia());
 			cstmt.setString(12, p.getPais());
 			cstmt.setString(13, p.getEquipoFutbol());
-			cstmt.setString(14, p.getCodigoPostal());
+			//cstmt.setObject(14, p.getCodigoPostalInteger(), java.sql.Types.INTEGER);
+			cstmt.setInt(14, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
 			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;
@@ -74,7 +76,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 			cstmt.setString(12, p.getProvincia());
 			cstmt.setString(13, p.getPais());
 			cstmt.setString(14, p.getEquipoFutbol());
-            cstmt.setString(15, p.getCodigoPostal());
+			cstmt.setInt(15, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
 			if (cstmt.executeUpdate() > 0) {
 				conexion.commit();
 				return true;
@@ -114,6 +116,21 @@ public class PersonaDAOSQL implements PersonaDAO {
 		return isdeleteExitoso;
 	}
 	
+	public List<Persona> readOrderedAndGroupped() {
+		PreparedStatement statement = null;
+		ArrayList<Persona> personas = new ArrayList<Persona>();
+		try {
+			statement = conexion.prepareStatement(findOrderedAndGroupped);
+			ResultSet resultSet;
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) { personas.add(getPersona(resultSet));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return personas;
+	}
+	
 	public List<Persona> readAllEntities() {
 		PreparedStatement statement = null;
 		ArrayList<Persona> personas = new ArrayList<Persona>();
@@ -133,7 +150,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 		Persona persona = new Persona();
 		persona.setNombre(rs.getString("Nombre"));
 		persona.setTelefono(rs.getString("Telefono"));
-		persona.getIdPersona();
+		persona.setIdPersona(rs.getInt("idPersona"));
 		persona.setEmail(rs.getString("Email"));
 		persona.setFechaNacimiento(rs.getDate("FechaCumpleaños"));
 		persona.setTipoContactoID(rs.getInt("TipoContactoID"));
@@ -145,7 +162,7 @@ public class PersonaDAOSQL implements PersonaDAO {
 		persona.setProvinciaID(rs.getInt("ProvinciaID"));
 		persona.setPaisID(rs.getInt("PaisID"));
 		persona.setEquipoFutbol(rs.getString("EquipoFutbol"));
-		persona.setCodigoPostal(rs.getString("CodigoPostal"));
+		persona.setCodigoPostal(rs.getInt("CodigoPostal"));
 		return persona;
 	}
 }

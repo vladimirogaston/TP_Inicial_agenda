@@ -32,7 +32,7 @@ public class Persona {
 	
 	String equipoFutbol;
 	
-	String codigoPostal;
+	Integer codigoPostal;
 
 	public Persona() {}
 	
@@ -148,11 +148,11 @@ public class Persona {
 		this.equipoFutbol = equipoFutbol;
 	}
 
-	public String getCodigoPostal() {
+	public Integer getCodigoPostal() {
 		return codigoPostal;
 	}
 
-	public void setCodigoPostal(String codigoPostal) {
+	public void setCodigoPostal(Integer codigoPostal) {
 		this.codigoPostal = codigoPostal;
 	}
 }
