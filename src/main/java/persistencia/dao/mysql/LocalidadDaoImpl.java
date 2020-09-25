@@ -127,7 +127,7 @@ public class LocalidadDaoImpl implements LocalidadDAO {
 			statement.setInt(1, id);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
-				dto = new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre"), rs.getString("ProvinciaNombre"));
+				dto = new LocalidadDTO(rs.getInt("LocalidadID"), rs.getString("LocalidadNombre"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
