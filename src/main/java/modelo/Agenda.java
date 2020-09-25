@@ -28,6 +28,10 @@ public class Agenda {
 		return localidades.readPorProvincia(provincia);
 	}
 	
+	public List<ProvinciaDTO> provinciaPorPais(String pais) {
+		return provincias.readPorPais(pais); 
+	}
+	
 	public List<ProvinciaDTO> provinciasDisponibles() {
 		return provincias.readAll();
 	}
@@ -138,4 +142,5 @@ public class Agenda {
 	public void borrarProvincia(ProvinciaDTO provinciaDTO) {
 		provincias.delete(provinciaDTO);
 	}
+
 }

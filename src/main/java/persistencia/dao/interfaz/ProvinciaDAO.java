@@ -14,5 +14,7 @@ public interface ProvinciaDAO {
 
 	List<ProvinciaDTO> readAll();
 	
+	List<ProvinciaDTO> readPorPais(String pais);
+	
 	ProvinciaDTO readByID(Integer id);
 }
