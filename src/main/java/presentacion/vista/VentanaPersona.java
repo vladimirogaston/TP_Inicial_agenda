@@ -1,17 +1,18 @@
 package presentacion.vista;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Date;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 
 import com.toedter.calendar.JDateChooser;
-import java.awt.Color;
-import java.awt.Font;
 
 public class VentanaPersona extends JDialog {
 
@@ -78,10 +79,10 @@ public class VentanaPersona extends JDialog {
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(10, 484, 113, 23);
+		btnAgregarPersona.setBounds(165, 476, 113, 36);
 		panel.add(btnAgregarPersona);
 
-		JLabel lblEmail = new JLabel("* Email");
+		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(10, 72, 113, 15);
 		panel.add(lblEmail);
 
@@ -90,8 +91,8 @@ public class VentanaPersona extends JDialog {
 		panel.add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 
-		JLabel lblCumpleaos = new JLabel("* Fecha de Nacimiento");
-		lblCumpleaos.setBounds(10, 110, 113, 15);
+		JLabel lblCumpleaos = new JLabel("Fecha de Cumpleaños");
+		lblCumpleaos.setBounds(10, 110, 124, 15);
 		panel.add(lblCumpleaos);
 
 		JLabel lblTipoContacto = new JLabel("Tipo contacto");
@@ -147,7 +148,7 @@ public class VentanaPersona extends JDialog {
 		panel.add(comboBoxLocalidad);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(133, 100, 164, 25);
+		dateChooser.setBounds(184, 100, 113, 25);
 		panel.add(dateChooser);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
@@ -183,10 +184,6 @@ public class VentanaPersona extends JDialog {
 		textFieldCodigoPostal.setBounds(211, 320, 86, 20);
 		panel.add(textFieldCodigoPostal);
 		textFieldCodigoPostal.setColumns(10);
-		
-		JButton btnCerrar = new JButton("Cerrar");
-		btnCerrar.setBounds(173, 484, 113, 23);
-		panel.add(btnCerrar);
 		
 		JLabel lblCampoObligatorio = new JLabel("(*) Campos obligatorios");
 		lblCampoObligatorio.setFont(new Font("Arial", Font.PLAIN, 11));

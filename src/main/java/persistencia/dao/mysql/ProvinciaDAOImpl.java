@@ -17,6 +17,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 	static final String update = "UPDATE Provincia SET ProvinciaNombre = ?,	PaisID = (SELECT PaisID FROM Pais P WHERE P.PaisNombre = ?) WHERE ProvinciaID = ?";
 	static final String delete = "DELETE FROM Provincia WHERE ProvinciaID = ?";
 	final String readall = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia PR LEFT JOIN Pais PA ON PR.PaisID = PA.PaisID";
+	static final String readbyprovincia = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia PR LEFT JOIN Pais PA ON PR.PaisID = PA.PaisID WHERE PA.PaisNombre = ?";
 	static final String readbyid = "SELECT * FROM Provincia WHERE ProvinciaID = ?";
 	
 	@Override
@@ -108,6 +109,22 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 		try {
 			Conexion conexion = Conexion.getConexion();
 			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre"), rs.getString("PaisNombre")));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}
+
+	@Override
+	public List<ProvinciaDTO> readPorPais(String pais) {
+		ArrayList<ProvinciaDTO> lst = new ArrayList<>();
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyprovincia);
+			statement.setString(1, pais);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
 				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre"), rs.getString("PaisNombre")));

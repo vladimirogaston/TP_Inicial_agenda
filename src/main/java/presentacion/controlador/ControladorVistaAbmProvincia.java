@@ -3,7 +3,6 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import modelo.Agenda;

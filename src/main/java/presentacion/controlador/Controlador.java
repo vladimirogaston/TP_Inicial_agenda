@@ -30,17 +30,34 @@ public class Controlador {
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte(r));
 		this.ventanaPersona = VentanaPersona.getInstance();
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(p));
+		ventanaPersona.getComboBoxPais().addActionListener(a->actualizarListaProvincias(a));
 		ventanaPersona.getComboBoxProvincia().addActionListener(a->actualizarListaLocalidades(a));
 		this.agenda = agenda;
 	}
 
-	void actualizarListaLocalidades(ActionEvent a) {
+	private void actualizarListaProvincias(ActionEvent a) {
+		Object obj = ventanaPersona.getComboBoxPais().getSelectedItem();
+		if(obj != null) {
+			String paisSeleccionado = obj.toString();
+			if(paisSeleccionado != null) {
+				ventanaPersona.getComboBoxProvincia().removeAllItems();
+				ventanaPersona.getComboBoxLocalidad().removeAllItems();
+			}
+			for(ProvinciaDTO provincia : agenda.provinciaPorPais(paisSeleccionado)) {
+				ventanaPersona.fillProvincias(provincia.getNombre());
+				System.out.println(provincia);
+			}
+		}
+	}
+
+	private void actualizarListaLocalidades(ActionEvent a) {
 		Object obj = ventanaPersona.getComboBoxProvincia().getSelectedItem();
 		if(obj != null) {
 			String provinciaSeleccionada = obj.toString();
-			if(provinciaSeleccionada != null) {}
-			ventanaPersona.getComboBoxLocalidad().removeAllItems();
+			if(provinciaSeleccionada != null)
+				ventanaPersona.getComboBoxLocalidad().removeAllItems();
 			for(LocalidadDTO localidad : agenda.localidadPorProvincia(provinciaSeleccionada)) {
+				System.out.println(localidad);
 				ventanaPersona.fillLocalidades(localidad.getNombre());
 			}	
 		}
