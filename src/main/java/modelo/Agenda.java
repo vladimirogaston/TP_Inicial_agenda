@@ -130,4 +130,8 @@ public class Agenda {
 	public void agregarProvincia(ProvinciaDTO provinciaDTO) {
 		provincias.insert(provinciaDTO);
 	}
+	
+	public void editarProvincia(ProvinciaDTO provinciaDTO) {
+		provincias.update(provinciaDTO);
+	}
 }

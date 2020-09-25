@@ -22,6 +22,7 @@ public class ControladorVistaAbmProvincia {
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		Vista.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
+		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
 	}
 
 	void inicializar(ActionEvent action) {
@@ -57,6 +58,30 @@ public class ControladorVistaAbmProvincia {
 				llenarTabla();
 			} catch(DatabaseException e) {
 				vista.showMessage(e.getMessage());
+			}
+		}
+	}
+	
+	void onEditar(ActionEvent action) {
+		if(vista.getTable().getSelectedRowCount() == 1) {
+			int row = vista.getTable().getSelectedRow();
+			String provNom = vista.getTableModel().getValueAt(row, 0).toString();
+			String paisNom = vista.getTableModel().getValueAt(row, 1).toString();
+			int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
+			String [] paises = obtenerNombrePaises();
+			if(paises != null) {
+				Object [] obj = vista.displayForm(paises, provNom, paisNom);	
+				ProvinciaDTO provinciaDTO = new ProvinciaDTO(provID, obj[0].toString(), obj[1].toString());
+				
+				if(provinciaDTO.getNombre() != null && !provinciaDTO.getNombre().trim().isEmpty()) {
+					try {
+						agenda.editarProvincia(provinciaDTO);
+						vaciarTabla();
+						llenarTabla();
+					} catch(DatabaseException e) {
+						vista.showMessage(e.getMessage());
+					}
+				}
 			}
 		}
 	}

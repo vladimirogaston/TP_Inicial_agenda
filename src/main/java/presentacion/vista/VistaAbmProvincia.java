@@ -113,6 +113,28 @@ public class VistaAbmProvincia extends JDialog {
 		}
 		return ret;	
 	}
+	
+	public Object [] displayForm(String [] paises, String provincia, String pais) {
+		Object [] ret = null;
+		if(paises != null) {
+			JPanel fields = new JPanel(new FlowLayout());
+			JLabel labelnombre = new JLabel("Nombre");
+			JTextField field = new JTextField(10);
+			JComboBox<String> comboBox = new JComboBox<>(paises);
+			fields.add(labelnombre);
+			fields.add(field);
+			fields.add(comboBox);
+			comboBox.setSelectedItem(provincia);
+			field.setText(provincia);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Editor de Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			switch (result) {
+			    case JOptionPane.OK_OPTION:
+			        break;
+			}
+			ret = new Object [] { field.getText().toString(), comboBox.getSelectedItem().toString() };
+		}
+		return ret;
+	}
 
 	public void showMessage(String message) {
 		JOptionPane.showMessageDialog(null, message);
