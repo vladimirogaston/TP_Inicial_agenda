@@ -46,6 +46,7 @@ public class VentanaPersona extends JDialog {
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setBounds(100, 100, 343, 671);
+		setTitle("Agregar Contacto");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
