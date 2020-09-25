@@ -134,4 +134,8 @@ public class Agenda {
 	public void editarProvincia(ProvinciaDTO provinciaDTO) {
 		provincias.update(provinciaDTO);
 	}
+
+	public void borrarProvincia(ProvinciaDTO provinciaDTO) {
+		provincias.delete(provinciaDTO);
+	}
 }
