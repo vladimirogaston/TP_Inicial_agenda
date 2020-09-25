@@ -1,13 +1,10 @@
 package repositories.jdbc;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import business_logic.DatabaseException;
 import dto.TipoContactoDTO;
 import repositories.TipoContactoDao;
 
@@ -18,103 +15,52 @@ public class TipoContactoDaoImpl implements TipoContactoDao {
 	static final String delete = "DELETE FROM TiposContacto WHERE TipoContactoID = ?";
 	static final String readall = "SELECT * FROM TiposContacto";
 	static final String readbyid = "SELECT * FROM TiposContacto WHERE TipoContactoID = ?";
-
+	Connection connection = Conexion.getConexion().getSQLConexion();
+	
 	@Override
 	public boolean insert(TipoContactoDTO dto) {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isInsertExitoso = false;
-		try {
-			statement = conexion.prepareStatement(insert);
-			statement.setString(1, dto.getNombre());
-			if (statement.executeUpdate() > 0) {
-				conexion.commit();
-				isInsertExitoso = true;
-			}
-		} catch (SQLException e) {
-			try {
-				conexion.rollback();
-			} catch (SQLException e1) {
-			}
-			throw new DatabaseException("El Tipo de Contacto ya existe.");
-		}
-		return isInsertExitoso;
+		return new JdbcTemplate(connection).excecutableQuery(insert, new JdbcTemplate.Param<String>(1, dto.getNombre()));
 	}
 
 	@Override
 	public boolean update(TipoContactoDTO dto) {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isInsertExitoso = false;
-		try {
-			statement = conexion.prepareStatement(update);
-			statement.setString(1, dto.getNombre());
-			statement.setInt(2, dto.getId());
-			if (statement.executeUpdate() > 0) {
-				conexion.commit();
-				isInsertExitoso = true;
-			}
-		} catch (SQLException e) {
-			try {
-				conexion.rollback();
-			} catch (SQLException e1) {
-			}
-			throw new DatabaseException("El Tipo de Contacto ya existe.");
-		}
-		return isInsertExitoso;
-	}
-
-	@Override
-	public boolean delete(TipoContactoDTO dto) throws DatabaseException {
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isdeleteExitoso = false;
-		try {
-			statement = conexion.prepareStatement(delete);
-			statement.setInt(1, dto.getId());
-			if (statement.executeUpdate() > 0) {
-				conexion.commit();
-				isdeleteExitoso = true;
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException("No se puede eliminar un Tipo de Contacto en uso.");
-		}
-		return isdeleteExitoso;
-	}
-
-	@Override
-	public List<TipoContactoDTO> readAll() {
-		ArrayList<TipoContactoDTO> lst = new ArrayList<>();
-		try {
-			Conexion conexion = Conexion.getConexion();
-			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next())
-				lst.add(new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre")));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lst;
-	}
-
-	@Override
-	public TipoContactoDTO readByID(Integer id) {
-		TipoContactoDTO dto = null;
-		try {
-			Conexion conexion = Conexion.getConexion();
-			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readbyid);
-			statement.setInt(1, id);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next())
-				dto = new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return dto;
+		JdbcTemplate.Param<?> [] params = {
+			new JdbcTemplate.Param<String>(1, dto.getNombre()),
+			new JdbcTemplate.Param<Integer>(2, dto.getId())
+		};
+		return new JdbcTemplate(connection).excecutableQuery(update, params);
 	}
 
 	@Override
 	public boolean deleteById(Integer id) {
-		return false;
+		return new JdbcTemplate(connection).excecutableQuery(delete, new JdbcTemplate.Param<Integer>(1, id));
+	}
+
+	@Override
+	public boolean delete(TipoContactoDTO entity) {
+		String query = "DELETE FROM TiposContacto WHERE TipoContactoNombre = ?";
+		return new JdbcTemplate(connection).excecutableQuery(query, new JdbcTemplate.Param<String>(1, entity.getNombre()));
+	}
+	
+	@Override
+	public List<TipoContactoDTO> readAll() {
+		return new ReadJdbcTemplate<TipoContactoDTO>(readall) {
+			@Override
+			protected TipoContactoDTO  makeReturnValueFromResultSet(ResultSet rs){
+				TipoContactoDTO dto = null;
+				try {
+					dto =  new TipoContactoDTO(rs.getInt("TipoContactoID"), rs.getString("TipoContactoNombre"));
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return dto;
+			}
+		}.readAll();
+	}
+
+	@Override
+	public TipoContactoDTO readByID(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
