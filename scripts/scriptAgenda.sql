@@ -19,9 +19,10 @@ DROP TABLE IF EXISTS `Provincia`;
 CREATE TABLE `Provincia`(
 	ProvinciaID INT NOT NULL AUTO_INCREMENT,
 	ProvinciaNombre VARCHAR(255) UNIQUE,
-	PRIMARY KEY (ProvinciaID)
+    PaisID INT,
+	PRIMARY KEY (ProvinciaID),
+    FOREIGN KEY (PaisID) REFERENCES Pais (PaisID)
 );
-
 DROP TABLE IF EXISTS `Localidades`;
 CREATE TABLE `Localidades`(
 	LocalidadID INT NOT NULL AUTO_INCREMENT,
