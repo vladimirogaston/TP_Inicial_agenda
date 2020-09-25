@@ -17,21 +17,21 @@ public class PersonaView extends JDialog {
 
 	static final long serialVersionUID = 1L;
 	static PersonaView INSTANCE;
-	JPanel contentPane;
-	Integer personaId;
-	JTextField txtNombre;
-	JTextField txtTelefono;
-	JTextField textFieldEmail;
-	JTextField textField_1Calle;
-	JTextField textFieldPiso;
-	JTextField textFieldAltura;
-	JTextField textFieldDpto;
-	JComboBox<String> comboBoxLocalidad;
-	JDateChooser dateChooser;
-	JComboBox<String> comboBoxTipoContacto;
-	JButton btnAgregarPersona;
-	JComboBox<String> comboBoxProvincia;
-	JComboBox<String> comboBoxPais;
+	private JPanel contentPane;
+	private Integer personaId;
+	private JTextField txtNombre;
+	private JTextField txtTelefono;
+	private JTextField textFieldEmail;
+	private JTextField textField_1Calle;
+	private JTextField textFieldPiso;
+	private JTextField textFieldAltura;
+	private JTextField textFieldDpto;
+	private JComboBox<String> comboBoxLocalidad;
+	private JDateChooser dateChooser;
+	private JComboBox<String> comboBoxTipoContacto;
+	private JButton btnAgregarPersona;
+	private JComboBox<String> comboBoxProvincia;
+	private JComboBox<String> comboBoxPais;
 	private JTextField textFieldEquipo;
 	private JTextField textFieldCodigoPostal;
 

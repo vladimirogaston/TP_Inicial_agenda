@@ -81,7 +81,7 @@ public class WorkbenchPresenter {
 	private void onUpdateLocalidadesList(ActionEvent a) {
 		String provincia = formView.getNombreProvinciaSeleccionada();
 		if(!provincia.isEmpty()) {
-			List<LocalidadDTO> localidades = ControllersFactoryImpl.getInstance().getLocalidadController().localidadesDisponibles();
+			List<LocalidadDTO> localidades = ControllersFactoryImpl.getInstance().getLocalidadController().localidadPorProvincia(provincia);
 			LocalidadDTO [] target = new LocalidadDTO [localidades.size()];
 			formView.setData(localidades.toArray(target));
 		}

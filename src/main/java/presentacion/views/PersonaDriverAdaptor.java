@@ -11,7 +11,7 @@ import presentacion.views.swing.PersonaView;
 
 public class PersonaDriverAdaptor {
 	
-	PersonaView view = PersonaView.getInstance();
+	private PersonaView view = PersonaView.getInstance();
 	
 	public void clearData() {
 		view.getTxtNombre().setText("");
@@ -26,6 +26,7 @@ public class PersonaDriverAdaptor {
 		view.getComboBoxLocalidad().removeAllItems();
 		view.getComboBoxTipoContacto().removeAllItems();
 		view.getComboBoxPais().removeAllItems();
+		view.getComboBoxProvincia().removeAllItems();
 		view.setPersonaId(null);
 	}
 	
@@ -55,27 +56,34 @@ public class PersonaDriverAdaptor {
 	public void setData(TipoContactoDTO [] tipos) {
 		assert tipos != null;
 		view.getComboBoxTipoContacto().removeAllItems();
+		view.getComboBoxTipoContacto().addItem("- SELECT TIPO -");
 		for (TipoContactoDTO tc : tipos) {
 			view.getComboBoxTipoContacto().addItem(tc.getNombre());
 		}
 	}
 	
 	public void setData(ProvinciaDTO [] provincias) {
+		assert provincias != null;
 		view.getComboBoxProvincia().removeAllItems();
+		view.getComboBoxProvincia().addItem("- SELECT PROVINCIA -");
 		for(ProvinciaDTO prov: provincias) {
 			view.getComboBoxProvincia().addItem(prov.getNombre());
 		}
 	}
 	
 	public void setData(LocalidadDTO [] localidades) {
+		assert localidades != null;
 		view.getComboBoxLocalidad().removeAllItems();
+		view.getComboBoxLocalidad().addItem("- SELECT LOCALIDAD -");
 		for (LocalidadDTO loc : localidades) {
 			view.getComboBoxLocalidad().addItem(loc.getNombre());
 		}
 	}
 	
 	public void setData(PaisDTO [] paises) {
+		assert paises != null;
 		view.getComboBoxPais().removeAllItems();
+		view.getComboBoxPais().addItem("- SELECT PAIS -");
 		for(PaisDTO pais: paises) {
 			view.getComboBoxPais().addItem(pais.getNombre());
 		}
