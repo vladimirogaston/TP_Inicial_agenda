@@ -3,6 +3,7 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import modelo.Agenda;
@@ -20,6 +21,7 @@ public class ControladorVistaAbmProvincia {
 		this.agenda = agenda;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		Vista.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
+		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 	}
 
 	void inicializar(ActionEvent action) {
@@ -39,6 +41,23 @@ public class ControladorVistaAbmProvincia {
 		for (ProvinciaDTO provincia : provincias) {
 			Object[] row = {provincia.getNombre(), provincia.getPais(), provincia.getId() };
 			vista.getTableModel().addRow(row);
+		}
+	}
+	
+	void onSalvar(ActionEvent action) {
+		String [] paises = obtenerNombrePaises();
+		Object [] obj = vista.displayForm(paises);
+		String nombre = obj[0].toString();
+		String pais = obj[1] == null ? null : obj[1].toString();
+		if(nombre != null && !nombre.trim().isEmpty()) {
+			ProvinciaDTO provinciaDTO = new ProvinciaDTO(null, nombre, pais);
+			try {
+				agenda.agregarProvincia(provinciaDTO);
+				vaciarTabla();
+				llenarTabla();
+			} catch(DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
 		}
 	}
 

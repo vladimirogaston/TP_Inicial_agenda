@@ -77,15 +77,15 @@ public class PersonaDTO {
 	
 	ArrayList<String> optionalPropertiesToValidate() {
 		ArrayList<String> properties = new ArrayList<String>();
-		if(!email.isBlank()) properties.add("email");
-		if(fechaNacimiento != null) properties.add("fechaNacimiento");
-		if(!calle.isBlank()) properties.add("calle");
-		if(!altura.isBlank()) properties.add("altura");
-		if(!piso.isBlank()) properties.add("piso");
-		if(!dpto.isBlank()) properties.add("dpto");
-		if(!altura.isBlank()) properties.add("localidad");
-		if(!tipoContacto.isBlank()) properties.add("tipoContacto");
-		if(!codigoPostal.isBlank()) properties.add("codigoPostal");
+//		if(!email.isBlank()) properties.add("email");
+//		if(fechaNacimiento != null) properties.add("fechaNacimiento");
+//		if(!calle.isBlank()) properties.add("calle");
+//		if(!altura.isBlank()) properties.add("altura");
+//		if(!piso.isBlank()) properties.add("piso");
+//		if(!dpto.isBlank()) properties.add("dpto");
+//		if(!altura.isBlank()) properties.add("localidad");
+//		if(!tipoContacto.isBlank()) properties.add("tipoContacto");
+//		if(!codigoPostal.isBlank()) properties.add("codigoPostal");
 		return properties;
 	}
 
