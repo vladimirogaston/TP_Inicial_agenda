@@ -100,18 +100,28 @@ public class PersonaDriverAdaptor {
 	}
 		
 	public String getNombreProvinciaSeleccionada() {
-		Object prov = view.getComboBoxProvincia().getSelectedItem();
-		return prov != null ? prov.toString() : "";
+		Object obj = view.getComboBoxProvincia().getSelectedItem();
+		return obj != null ? obj.toString() : "";
+	}
+	
+	public String getNombrePaisSeleccionado() {
+		Object obj = view.getComboBoxPais().getSelectedItem();
+		return obj != null ? obj.toString() : "";
 	}
 	
 	public void setActionSave(ActionListener listener) {
 		assert listener != null;
 		view.getBtnAgregarPersona().addActionListener(listener);
 	}
-
+	
 	public void setActionProvinciaSelect(ActionListener listener) {
 		assert listener != null;
 		view.getComboBoxProvincia().addActionListener(listener);
+	}
+	
+	public void setActionPaisSelect(ActionListener listener) {
+		assert listener != null;
+		view.getComboBoxPais().addActionListener(listener);
 	}
 	
 	public void open() {

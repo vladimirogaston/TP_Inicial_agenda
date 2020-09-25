@@ -2,8 +2,6 @@ package presentacion.views.swing;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -11,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import dto.PersonaDTO;
 import repositories.jdbc.Conexion;
 
 import javax.swing.JButton;

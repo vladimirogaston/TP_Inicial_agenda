@@ -29,4 +29,8 @@ public class ProvinciaController {
 	public List<ProvinciaDTO> provinciasDisponibles() {
 		return dao.readAll();
 	}
+	
+	public List<ProvinciaDTO> provinciasDisponibles(String pais) {
+		return dao.readByPais(pais);
+	}
 }

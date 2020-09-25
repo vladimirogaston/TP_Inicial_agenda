@@ -124,4 +124,20 @@ public class ProvinciaDaoImpl implements ProvinciaDao {
 		}
 		return lst;
 	}
+
+	@Override
+	public List<ProvinciaDTO> readByPais(String pais) {
+		ArrayList<ProvinciaDTO> lst = new ArrayList<>();
+		try {
+			Conexion conexion = Conexion.getConexion();
+			PreparedStatement statement = conexion.getSQLConexion().prepareStatement("SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia LEFT JOIN Pais ON Provincia.PaisID = Pais.PaisID WHERE PaisNombre = ?");
+			statement.setString(1, pais);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next())
+				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre"), rs.getString("PaisNombre")));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}	
 }

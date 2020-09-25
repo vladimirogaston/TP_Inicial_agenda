@@ -35,6 +35,7 @@ public class WorkbenchPresenter {
 	
 	private void onInjectFormActions() {
 		formView.setActionSave(p -> onSaveUpdate(p));
+		formView.setActionPaisSelect(a->onUpdateProvinciasList(a));
 		formView.setActionProvinciaSelect(a->onUpdateLocalidadesList(a));
 	}
 		
@@ -67,6 +68,15 @@ public class WorkbenchPresenter {
 		List<PersonaDTO> personas = ControllersFactoryImpl.getInstance().getPersonaController().obtenerPersonas();
 		return personas.toArray(new PersonaDTO [personas.size()]);
 	}
+	
+	private void onUpdateProvinciasList(ActionEvent a) {
+		String pais = formView.getNombrePaisSeleccionado();
+		if(!pais.isEmpty()) {
+			List<ProvinciaDTO> provinciaslst = ControllersFactoryImpl.getInstance().getProvinciaController().provinciasDisponibles(pais);
+			ProvinciaDTO [] target = new ProvinciaDTO [provinciaslst.size()];
+			formView.setData(provinciaslst.toArray(target));
+		}
+	}
 
 	private void onUpdateLocalidadesList(ActionEvent a) {
 		String provincia = formView.getNombreProvinciaSeleccionada();
@@ -98,8 +108,6 @@ public class WorkbenchPresenter {
 		List<PaisDTO> paiseslst = ControllersFactoryImpl.getInstance().getPaisController().paisesDisponibles();
 		PaisDTO [] paises = new PaisDTO [paiseslst.size()];
 		formView.setData(paiseslst.toArray(paises));
-		List<ProvinciaDTO> provinciaslst = ControllersFactoryImpl.getInstance().getProvinciaController().provinciasDisponibles();
-		formView.setData(provinciaslst.toArray(new ProvinciaDTO [provinciaslst.size()]));
 	}
 	
 	private void onDisplayReport(ActionEvent r) {
