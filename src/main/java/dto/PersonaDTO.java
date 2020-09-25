@@ -217,7 +217,7 @@ public class PersonaDTO {
 		return localidad;
 	}
 
-	public void setIdPersona(int idPersona) {
+	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
 	}
 

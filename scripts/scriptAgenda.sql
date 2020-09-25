@@ -23,6 +23,7 @@ CREATE TABLE `Provincia`(
 	PRIMARY KEY (ProvinciaID),
     FOREIGN KEY (PaisID) REFERENCES Pais (PaisID)
 );
+
 DROP TABLE IF EXISTS `Localidades`;
 CREATE TABLE `Localidades`(
 	LocalidadID INT NOT NULL AUTO_INCREMENT,
