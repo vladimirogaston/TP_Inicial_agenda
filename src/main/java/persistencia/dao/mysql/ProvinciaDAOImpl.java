@@ -15,6 +15,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 
 	static final String insert = "INSERT INTO Provincia(ProvinciaNombre, PaisID) VALUES (?, (SELECT PaisID FROM Pais P WHERE P.PaisNombre = ?))";
 	static final String update = "UPDATE Provincia SET ProvinciaNombre = ?,	PaisID = (SELECT PaisID FROM Pais P WHERE P.PaisNombre = ?) WHERE ProvinciaID = ?";
+	static final String delete = "DELETE FROM Provincia WHERE ProvinciaID = ?";
 	final String readall = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia PR LEFT JOIN Pais PA ON PR.PaisID = PA.PaisID";
 	static final String readbyid = "SELECT * FROM Provincia WHERE ProvinciaID = ?";
 	
@@ -68,9 +69,21 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 	}
 
 	@Override
-	public boolean delete(ProvinciaDTO persona_a_eliminar) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(ProvinciaDTO provinciaDTO) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isdeleteExitoso = false;
+		try {
+			statement = conexion.prepareStatement(delete);
+			statement.setInt(1, provinciaDTO.getId());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isdeleteExitoso = true;
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException("No se puede eliminar una Provincia en uso.");
+		}
+		return isdeleteExitoso;
 	}
 	
 	@Override

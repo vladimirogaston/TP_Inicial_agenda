@@ -23,6 +23,7 @@ public class ControladorVistaAbmProvincia {
 		Vista.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
+		vista.getBtnEliminar().addActionListener((a) -> onEliminar(a));
 	}
 
 	void inicializar(ActionEvent action) {
@@ -86,6 +87,23 @@ public class ControladorVistaAbmProvincia {
 		}
 	}
 
+	void onEliminar(ActionEvent action) {
+		int selectedRows = vista.getTable().getSelectedRowCount();
+		if (selectedRows == 1) {
+			final int row = vista.getTable().getSelectedRow();
+			final int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
+			final String provNombre = vista.getTableModel().getValueAt(row, 0).toString();
+			try {
+				agenda.borrarProvincia(new ProvinciaDTO(provID, provNombre));
+				vaciarTabla();
+				llenarTabla();
+			} catch (DatabaseException e) {
+				vista.showMessage(e.getMessage());
+			}
+
+		}
+	}
+	
 	String [] obtenerNombrePaises() {
 		List<PaisDTO> listaPaises = agenda.paisesDisponibles();
 		String [] paises = new String[listaPaises.size()];
