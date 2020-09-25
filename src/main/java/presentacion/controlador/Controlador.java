@@ -45,7 +45,6 @@ public class Controlador {
 			}
 			for(ProvinciaDTO provincia : agenda.provinciaPorPais(paisSeleccionado)) {
 				ventanaPersona.fillProvincias(provincia.getNombre());
-				System.out.println(provincia);
 			}
 		}
 	}
@@ -57,7 +56,6 @@ public class Controlador {
 			if(provinciaSeleccionada != null)
 				ventanaPersona.getComboBoxLocalidad().removeAllItems();
 			for(LocalidadDTO localidad : agenda.localidadPorProvincia(provinciaSeleccionada)) {
-				System.out.println(localidad);
 				ventanaPersona.fillLocalidades(localidad.getNombre());
 			}	
 		}

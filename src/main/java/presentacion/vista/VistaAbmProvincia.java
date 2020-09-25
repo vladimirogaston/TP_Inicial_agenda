@@ -43,6 +43,7 @@ public class VistaAbmProvincia extends JDialog {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("ABM Provincia");
 		contentPane.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -103,7 +104,7 @@ public class VistaAbmProvincia extends JDialog {
 			fields.add(labelnombre);
 			fields.add(field);
 			fields.add(comboBox);
-			int result = JOptionPane.showConfirmDialog(null, fields, "Pais", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Nueva Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			switch (result) {
 			    case JOptionPane.OK_OPTION:
 			        break;
@@ -126,7 +127,7 @@ public class VistaAbmProvincia extends JDialog {
 			fields.add(comboBox);
 			comboBox.setSelectedItem(provincia);
 			field.setText(provincia);
-			int result = JOptionPane.showConfirmDialog(null, fields, "Editor de Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Editar Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			switch (result) {
 			    case JOptionPane.OK_OPTION:
 			        break;

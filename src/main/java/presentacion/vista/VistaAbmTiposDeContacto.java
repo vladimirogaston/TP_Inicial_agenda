@@ -24,27 +24,29 @@ public class VistaAbmTiposDeContacto extends JDialog {
 	JButton btnNewButtonEliminar;
 	JButton btnNewButtonSalvar;
 	static VistaAbmTiposDeContacto vista;
-	
+
 	public static VistaAbmTiposDeContacto getInstance() {
-		if(vista == null) vista = new VistaAbmTiposDeContacto();
+		if (vista == null)
+			vista = new VistaAbmTiposDeContacto();
 		return vista;
 	}
-	
+
 	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre del tipo");
+		return JOptionPane.showInputDialog("Nombre del Tipo de Contacto");
 	}
-	
+
 	VistaAbmTiposDeContacto() {
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setBounds(100, 100, 706, 345);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("ABM Tipo de Contacto");
 		contentPane.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(
-				new TitledBorder(null, "Tipos de Contactos registrados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Tipo de Contacto registrado", TitledBorder.LEADING, TitledBorder.TOP,
+				null, null));
 		panel_1.setBounds(15, 16, 654, 266);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
@@ -61,24 +63,26 @@ public class VistaAbmTiposDeContacto extends JDialog {
 		toolBar.setFloatable(false);
 		panel_2.add(toolBar);
 
-		btnNewButtonEliminar = new JButton("Eliminar");
-		
-				btnNewButtonSalvar = new JButton("Crear");
-				toolBar.add(btnNewButtonSalvar);
+		btnNewButtonSalvar = new JButton("Crear");
+		toolBar.add(btnNewButtonSalvar);
 
 		btnNewButtonEditar = new JButton("Editar");
 		toolBar.add(btnNewButtonEditar);
+
+		btnNewButtonEliminar = new JButton("Eliminar");
 		toolBar.add(btnNewButtonEliminar);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane.setViewportView(scrollPane_1);
 
-		tableModel = new DefaultTableModel(null, nombreColumnas){
-			public boolean isCellEditable(int row, int column) { return false; } 
+		tableModel = new DefaultTableModel(null, nombreColumnas) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
 		};
 		table = new JTable(tableModel);
 		scrollPane_1.setViewportView(table);
-		
+
 		setModal(true);
 		ocultarColumnaId();
 	}
@@ -92,7 +96,7 @@ public class VistaAbmTiposDeContacto extends JDialog {
 	public JTable getTable() {
 		return table;
 	}
-	
+
 	public DefaultTableModel getTableModel() {
 		return tableModel;
 	}

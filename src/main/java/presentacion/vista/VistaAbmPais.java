@@ -40,6 +40,7 @@ public class VistaAbmPais extends JDialog {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("ABM Pais");
 		contentPane.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -91,7 +92,7 @@ public class VistaAbmPais extends JDialog {
 	}
 
 	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre de la localidad");
+		return JOptionPane.showInputDialog("Ingrese el nombre del Pais");
 	}
 
 	public void showMessage(String message) {
