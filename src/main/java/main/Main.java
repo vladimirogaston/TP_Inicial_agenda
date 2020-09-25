@@ -5,10 +5,12 @@ import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.controlador.Controlador;
 import presentacion.controlador.ControladorVistaAbmLocalidades;
 import presentacion.controlador.ControladorVistaAbmPais;
+import presentacion.controlador.ControladorVistaAbmProvincia;
 import presentacion.controlador.ControladorVistaAbmTiposContacto;
 import presentacion.vista.Vista;
 import presentacion.vista.VistaAbmLocalidades;
 import presentacion.vista.VistaAbmPais;
+import presentacion.vista.VistaAbmProvincia;
 import presentacion.vista.VistaAbmTiposDeContacto;
 
 public class Main {
@@ -17,6 +19,7 @@ public class Main {
 	ControladorVistaAbmLocalidades controladorLocalidades;
 	ControladorVistaAbmTiposContacto controladorTipos;
 	ControladorVistaAbmPais controladorPais;
+	ControladorVistaAbmProvincia controladorProvincia;
 	
 	public Main() {		
 		Agenda modelo = new Agenda(new DAOSQLFactory());
@@ -24,6 +27,7 @@ public class Main {
 		controladorLocalidades = new ControladorVistaAbmLocalidades(VistaAbmLocalidades.getInstance(), modelo);
 		controladorTipos = new ControladorVistaAbmTiposContacto(VistaAbmTiposDeContacto.getInstance(), modelo);
 		controladorPais = new ControladorVistaAbmPais(VistaAbmPais.getInstance(), modelo);
+		controladorProvincia = new ControladorVistaAbmProvincia(VistaAbmProvincia.getInstance(), modelo);
 	}
 	
 	public void init() {

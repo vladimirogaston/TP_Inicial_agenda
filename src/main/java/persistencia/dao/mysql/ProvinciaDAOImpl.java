@@ -11,7 +11,7 @@ import persistencia.dao.interfaz.ProvinciaDAO;
 
 public class ProvinciaDAOImpl implements ProvinciaDAO {
 
-	final String readall = "SELECT * FROM Provincia";
+	final String readall = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia PR LEFT JOIN Pais PA ON PR.PaisID = PA.PaisID";
 	static final String readbyid = "SELECT * FROM Provincia WHERE ProvinciaID = ?";
 	
 	@Override
@@ -56,7 +56,7 @@ public class ProvinciaDAOImpl implements ProvinciaDAO {
 			PreparedStatement statement = conexion.getSQLConexion().prepareStatement(readall);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next())
-				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre")));
+				lst.add(new ProvinciaDTO(rs.getInt("ProvinciaID"), rs.getString("ProvinciaNombre"), rs.getString("PaisNombre")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
