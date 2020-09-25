@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 import dto.PaisDTO;
 import repositories.PaisDao;
 
@@ -37,7 +37,7 @@ public class PaisDaoImpl implements PaisDao {
 				conexion.rollback();
 			} catch (SQLException e1) {
 			}
-			throw new DatabaseException("El Pais ya existe.");
+			throw new ConflictException("El Pais ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -59,7 +59,7 @@ public class PaisDaoImpl implements PaisDao {
 				conexion.rollback();
 			} catch (SQLException e1) {
 			}
-			throw new DatabaseException("El Pais ya existe.");
+			throw new ConflictException("El Pais ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -77,7 +77,7 @@ public class PaisDaoImpl implements PaisDao {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			throw new DatabaseException("No se puede eliminar un Pais en uso.");
+			throw new ConflictException("No se puede eliminar un Pais en uso.");
 		}
 		return isdeleteExitoso;
 	}

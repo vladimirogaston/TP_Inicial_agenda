@@ -2,7 +2,7 @@ package presentacion;
 
 import java.awt.event.ActionEvent;
 import business_logic.ControllersFactoryImpl;
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 import business_logic.PaisController;
 import dto.PaisDTO;
 import presentacion.views.PaisDriverAdaptor;
@@ -46,7 +46,7 @@ public class PaisPresenter {
 				PaisDTO target = new PaisDTO(input);
 				controller.agregarPais(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -64,7 +64,7 @@ public class PaisPresenter {
 				target.setId(current.getId());
 				controller.editarPais(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -76,7 +76,7 @@ public class PaisPresenter {
 			try {
 				controller.borrarPais(target);
 				reset();
-			} catch(DatabaseException e) {
+			} catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}

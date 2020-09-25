@@ -5,7 +5,7 @@ import java.util.List;
 
 import business_logic.ControllersFactoryImpl;
 import business_logic.LocalidadController;
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 
 import dto.LocalidadDTO;
 import dto.ProvinciaDTO;
@@ -50,7 +50,7 @@ public class LocalidadPresenter {
 			try {
 				controller.agregarLocalidad(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -68,7 +68,7 @@ public class LocalidadPresenter {
 				target.setId(current.getId());
 				controller.editarLocalidad(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -80,7 +80,7 @@ public class LocalidadPresenter {
 			try {
 				controller.borrarLocalidad(target);
 				reset();
-			} catch(DatabaseException e) {
+			} catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}

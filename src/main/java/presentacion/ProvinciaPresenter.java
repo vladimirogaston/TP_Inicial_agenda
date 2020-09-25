@@ -5,7 +5,7 @@ import java.util.List;
 
 import business_logic.ProvinciaController;
 import business_logic.ControllersFactoryImpl;
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import presentacion.views.swing.ProvinciaView;
@@ -57,7 +57,7 @@ public class ProvinciaPresenter {
 				agenda.agregarProvincia(provinciaDTO);
 				vaciarTabla();
 				llenarTabla();
-			} catch(DatabaseException e) {
+			} catch(ConflictException e) {
 				vista.showMessage(e.getMessage());
 			}
 		}
@@ -79,7 +79,7 @@ public class ProvinciaPresenter {
 						agenda.editarProvincia(provinciaDTO);
 						vaciarTabla();
 						llenarTabla();
-					} catch(DatabaseException e) {
+					} catch(ConflictException e) {
 						vista.showMessage(e.getMessage());
 					}
 				}
@@ -97,7 +97,7 @@ public class ProvinciaPresenter {
 				agenda.borrarProvincia(new ProvinciaDTO(provID, provNombre));
 				vaciarTabla();
 				llenarTabla();
-			} catch (DatabaseException e) {
+			} catch (ConflictException e) {
 				vista.showMessage(e.getMessage());
 			}
 

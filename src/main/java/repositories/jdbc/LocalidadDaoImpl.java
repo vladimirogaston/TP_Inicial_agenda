@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 import dto.LocalidadDTO;
 import repositories.LocalidadDao;
 
@@ -39,7 +39,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			throw new DatabaseException("La Localidad ya existe.");
+			throw new ConflictException("La Localidad ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -64,7 +64,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			throw new DatabaseException("La Localidad ya existe.");
+			throw new ConflictException("La Localidad ya existe.");
 		}
 		return isInsertExitoso;
 	}
@@ -82,7 +82,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
-			throw new DatabaseException("No se puede eliminar una Localidad en uso.");
+			throw new ConflictException("No se puede eliminar una Localidad en uso.");
 		}
 		return isdeleteExitoso;
 	}

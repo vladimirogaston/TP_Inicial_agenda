@@ -3,7 +3,7 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import business_logic.TipoController;
 import business_logic.ControllersFactoryImpl;
-import business_logic.DatabaseException;
+import business_logic.ConflictException;
 import dto.TipoContactoDTO;
 import presentacion.views.TiposDriverAdaptor;
 import presentacion.views.swing.ErrorView;
@@ -46,7 +46,7 @@ public class TiposPresenter {
 				TipoContactoDTO target = new TipoContactoDTO(input);
 				controller.agregarTipoDeContacto(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -64,7 +64,7 @@ public class TiposPresenter {
 				target.setId(current.getId());
 				controller.editarTipoDeContacto(target);
 				reset();
-			}catch(DatabaseException e) {
+			}catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -76,7 +76,7 @@ public class TiposPresenter {
 			try {
 				controller.borrarTipoDeContacto(target);
 				reset();
-			} catch(DatabaseException e) {
+			} catch(ConflictException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
