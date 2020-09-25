@@ -3,22 +3,25 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import business_logic.ProvinciaController;
 import business_logic.ControllersFactoryImpl;
-import business_logic.DatabaseException;
 import business_logic.LocalidadController;
+import business_logic.DatabaseException;
+
 import dto.LocalidadDTO;
 import dto.ProvinciaDTO;
-import presentacion.views.LocalidadDialog;
 import presentacion.views.LocalidadDriverAdaptor;
-import presentacion.views.WorkbenchView;
+import presentacion.views.swing.ErrorView;
+import presentacion.views.swing.LocalidadDialog;
+import presentacion.views.swing.WorkbenchView;
 
 public class LocalidadPresenter {
 
 	private LocalidadDriverAdaptor adaptor;
+	private LocalidadController controller;
 	
 	public LocalidadPresenter(LocalidadDriverAdaptor vista) {
 		adaptor = vista;
+		controller = ControllersFactoryImpl.getInstance().getLocalidadController();
 		onInjectWorkbenchAction();
 		onInjectActions();
 	}
@@ -40,11 +43,11 @@ public class LocalidadPresenter {
 	
 	private void onDisplayFormForSave(ActionEvent a) {
 		LocalidadDTO target = new LocalidadDialog()
+				.title("Ingrese los datos de la nueva localidad")
 				.setProvincias(obtenerNombreProvincias())
 				.displayForm();
 		if(target != null) {
 			try {
-				LocalidadController controller = ControllersFactoryImpl.getInstance().getLocalidadController();		
 				controller.agregarLocalidad(target);
 				reset();
 			}catch(DatabaseException e) {
@@ -56,12 +59,12 @@ public class LocalidadPresenter {
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		LocalidadDTO current = adaptor.getData();
 		LocalidadDTO target = new LocalidadDialog()
+				.title("Ingrese los nuevos datos de la localidad")
 				.setText(current.getNombre())
 				.setProvincias(obtenerNombreProvincias())
 				.displayForm();
 		if(target != null) {
 			try {
-				LocalidadController controller = ControllersFactoryImpl.getInstance().getLocalidadController();		
 				target.setId(current.getId());
 				controller.editarLocalidad(target);
 				reset();
@@ -75,7 +78,6 @@ public class LocalidadPresenter {
 		LocalidadDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				LocalidadController controller = ControllersFactoryImpl.getInstance().getLocalidadController();		
 				controller.borrarLocalidad(target);
 				reset();
 			} catch(DatabaseException e) {
@@ -84,17 +86,14 @@ public class LocalidadPresenter {
 		}
 	}
 	
-	String [] obtenerNombreProvincias() {
-		ProvinciaController auxController = ControllersFactoryImpl.getInstance().getProvinciaController();
-		List<ProvinciaDTO> lst = auxController.provinciasDisponibles();
+	private String [] obtenerNombreProvincias() {
+		List<ProvinciaDTO> lst = ControllersFactoryImpl.getInstance().getProvinciaController().provinciasDisponibles();
 		String [] provincias = new String[lst.size()];
-		for(int i = 0; i < lst.size(); i++) provincias[i] = lst.get(i).getNombre();
-		return provincias;
+		return lst.toArray(provincias);
 	}
 	
 	private void reset() {
 		adaptor.clearData();
-		LocalidadController controller = ControllersFactoryImpl.getInstance().getLocalidadController();		
 		adaptor.setData(controller.localidadesDisponibles());
 	}
 }

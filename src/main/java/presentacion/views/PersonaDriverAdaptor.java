@@ -7,6 +7,7 @@ import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
+import presentacion.views.swing.PersonaView;
 
 public class PersonaDriverAdaptor {
 	

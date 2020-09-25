@@ -1,40 +1,37 @@
-package presentacion.views;
+package presentacion.views.swing;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
+import java.awt.FlowLayout;
+import javax.swing.JTable;
+
 @SuppressWarnings("serial")
-public class PaisView extends JDialog {
+public class LocalidadesView extends JDialog {
 
-	private static PaisView vista;
-	private JPanel contentPane;
-
-	private DefaultTableModel tableModel;
+	JPanel contentPane;
+	final String[] nombreColumnas = new String[] { "LocalidadNombre","Provincia","ID" };
 	private JTable table;
-	private final String[] nombreColumnas = new String[] { "PaisNombre", "ID" };
-
+	private DefaultTableModel tableModel;
+	private JButton btnNewButtonEliminar;
 	private JButton btnSalvar;
-	private JButton btnEditar;
-	private JButton btnEliminar;
-
-	public static PaisView getInstance() {
-		if (vista == null)
-			vista = new PaisView();
+	private JButton buttonEditar;
+	static LocalidadesView vista;
+		
+	public static LocalidadesView getInstance() {
+		if(vista == null) vista = new LocalidadesView();
 		return vista;
 	}
-
-	PaisView() {
+	
+	private LocalidadesView() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
@@ -44,7 +41,7 @@ public class PaisView extends JDialog {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
-				new TitledBorder(null, "Pais registrado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Localidades registradas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(15, 16, 654, 394);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
@@ -60,25 +57,23 @@ public class PaisView extends JDialog {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		panel_2.add(toolBar);
-
+		
 		btnSalvar = new JButton("Crear");
+	
 		toolBar.add(btnSalvar);
+		
+		buttonEditar = new JButton("Editar");
+		toolBar.add(buttonEditar);
 
-		btnEditar = new JButton("Editar");
-		toolBar.add(btnEditar);
-
-		btnEliminar = new JButton("Eliminar");
-		toolBar.add(btnEliminar);
+		btnNewButtonEliminar = new JButton("Eliminar");
+		toolBar.add(btnNewButtonEliminar);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane.setViewportView(scrollPane_1);
 
-		tableModel = new DefaultTableModel(null, nombreColumnas) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		;
+		tableModel = new DefaultTableModel(null, nombreColumnas){
+			public boolean isCellEditable(int row, int column) { return false; } 
+		};;
 		table = new JTable(tableModel);
 
 		table.getColumnModel().getColumn(0).setMaxWidth(20);
@@ -86,24 +81,21 @@ public class PaisView extends JDialog {
 		table.getColumnModel().getColumn(0).setWidth(20);
 		table.getColumnModel().getColumn(0).setPreferredWidth(20);
 
+		
 		scrollPane_1.setViewportView(table);
 		setModal(true);
 	}
 
-	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre de la localidad");
+	public JTable getTable() {
+		return table;
 	}
-
-	public void showMessage(String message) {
-		JOptionPane.showMessageDialog(null, message);
-	}
-
+	
 	public DefaultTableModel getTableModel() {
 		return tableModel;
 	}
 
-	public JTable getTable() {
-		return table;
+	public JButton getBtnNewButtonEliminar() {
+		return btnNewButtonEliminar;
 	}
 
 	public String[] getNombreColumnas() {
@@ -114,12 +106,11 @@ public class PaisView extends JDialog {
 		return btnSalvar;
 	}
 
-	public JButton getBtnEditar() {
-		return btnEditar;
+	public JButton getButtonEditar() {
+		return buttonEditar;
 	}
-
-	public JButton getBtnEliminar() {
-		return btnEliminar;
+	
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message);
 	}
-
 }

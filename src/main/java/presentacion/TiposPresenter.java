@@ -1,99 +1,89 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
-
-import business_logic.PersonaController;
 import business_logic.TipoController;
 import business_logic.ControllersFactoryImpl;
 import business_logic.DatabaseException;
 import dto.TipoContactoDTO;
-import presentacion.views.TiposView;
-import presentacion.views.WorkbenchView;
+import presentacion.views.TiposDriverAdaptor;
+import presentacion.views.swing.ErrorView;
+import presentacion.views.swing.InputDialog;
+import presentacion.views.swing.WorkbenchView;
 
 public class TiposPresenter {
 
-	TiposView vista;
-	TipoController controller = ControllersFactoryImpl.getInstance().getTipoController();
+	private TiposDriverAdaptor adaptor;
+	private TipoController controller;
 
-	public TiposPresenter(TiposView vista) {
-		super();
-		this.vista = vista;
-		WorkbenchView.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->inicializar(a));
-		vista.getBtnNewButtonSalvar().addActionListener((a) -> {
-			onSalvar(a);
-		});
-		vista.getBtnNewButtonEliminar().addActionListener((a)->onBorrar(a));
-		vista.getBtnNewButtonEditar().addActionListener((a)->onEditar(a));
+	public TiposPresenter(TiposDriverAdaptor adaptor) {
+		this.adaptor = adaptor;
+		controller = ControllersFactoryImpl.getInstance().getTipoController();
+		onInjectWorkbenchAction();
+		onInjectActions();
+	}
+
+	private void onInjectWorkbenchAction() {
+		WorkbenchView.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->onInit(a));
+	}
+
+	private void onInit(ActionEvent a) {
+		reset();
+		adaptor.open();
 	}
 	
-	void onEditar(ActionEvent action) {
-		if(vista.getTable().getSelectedRowCount() == 1) {
-			final int row = vista.getTable().getSelectedRow();
-			final int locID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			final String locNom = vista.getTableModel().getValueAt(row, 0).toString();
-			String nuevoNom = vista.displayForm();
-			if(nuevoNom != null && !nuevoNom.matches(locNom) && !nuevoNom.trim().isEmpty()) {
-				TipoContactoDTO dto = new TipoContactoDTO(locID, nuevoNom);
-				try {
-					controller.editarTipoDeContacto(dto);
-				} catch(DatabaseException e) {
-					vista.showMessage(e.getMessage());
-				} finally {
-					vaciarTabla();
-					llenarTabla();
-				} 
+	private void onInjectActions() {
+		adaptor.setActionSave(a -> onDisplayFormForSave(a));
+		adaptor.setActionUpdate(a -> onDisplayFormForUpdate(a));
+		adaptor.setActionDelete(s -> onDelete(s));
+	}
+	
+	private void onDisplayFormForSave(ActionEvent a) {
+		String input = new InputDialog()
+				.title("Ingrese el nombre del nuevo tipo de contacto")
+				.displayForm();
+		if(input != null) {
+			try {
+				TipoContactoDTO target = new TipoContactoDTO(input);
+				controller.agregarTipoDeContacto(target);
+				reset();
+			}catch(DatabaseException e) {
+				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
-
-	void onSalvar(ActionEvent action) {
-		String nom = vista.displayForm();
-		if(nom != null && !nom.trim().isEmpty()) {
-			TipoContactoDTO dto = new TipoContactoDTO(nom);
+	
+	private void onDisplayFormForUpdate(ActionEvent a) {
+		TipoContactoDTO current = adaptor.getData();
+		String input = new InputDialog()
+				.title("Ingrese el nuevo nombre del tipo de contacto")
+				.setText(current.getNombre())
+				.displayForm();
+		if(input != null) {
 			try {
-				controller.agregarTipoDeContacto(dto);
-				vaciarTabla();
-				llenarTabla();
+				TipoContactoDTO target = new TipoContactoDTO(input);
+				target.setId(current.getId());
+				controller.editarTipoDeContacto(target);
+				reset();
+			}catch(DatabaseException e) {
+				new ErrorView().showMessages(e.getMessage());
+			}
+		}
+	}
+	
+	private void onDelete(ActionEvent s) {
+		TipoContactoDTO target = adaptor.getData();
+		if(target != null) {
+			try {
+				controller.borrarTipoDeContacto(target);
+				reset();
 			} catch(DatabaseException e) {
-				vista.showMessage(e.getMessage());
-			}
-		}
-	}
-
-	void onBorrar(ActionEvent action) {
-		int selectedRows = vista.getTable().getSelectedRowCount();
-		if(selectedRows == 1) {
-			final int row = vista.getTable().getSelectedRow();
-			final int tcID = Integer.parseInt(vista.getTableModel().getValueAt(row, 1).toString());
-			final String tcNombre = vista.getTableModel().getValueAt(row, 0).toString();
-			try {
-				controller.borrarTipoDeContacto(new TipoContactoDTO(tcID, tcNombre));
-				vaciarTabla();
-				llenarTabla();
-			} catch (DatabaseException e) {
-				vista.showMessage(e.getMessage());
+				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
-	void vaciarTabla() {
-		vista.getTableModel().setRowCount(0);
-		vista.getTableModel().setColumnCount(0);
-		vista.getTableModel().setColumnIdentifiers(vista.getNombreColumnas());
-	}
-
-	void llenarTabla() {
-		List<TipoContactoDTO> localidades = controller.tiposDisponibles();
-		for (TipoContactoDTO loc : localidades) {
-			Object[] row = { loc.getNombre(), loc.getId() };
-			vista.getTableModel().addRow(row);
-		}
-	}
-
-	public void inicializar(ActionEvent action) {
-		vaciarTabla();
-		llenarTabla();
-		vista.setVisible(true);
+	private void reset() {
+		adaptor.clearData();
+		adaptor.setData(controller.tiposDisponibles());
 	}
 }

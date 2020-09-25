@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import dto.PersonaDTO;
+import presentacion.views.swing.WorkbenchView;
 
 public class WorkbenchDriverAdaptor {
 	
@@ -59,7 +60,7 @@ public class WorkbenchDriverAdaptor {
 	public void clearData() {
 		view.getModelPersonas().setRowCount(0);
 		view.getModelPersonas().setColumnCount(0);
-		view.getModelPersonas().setColumnIdentifiers(WorkbenchView.nombreColumnas);
+		view.getModelPersonas().setColumnIdentifiers(view.getNombreColumnas());
 	}
 	
 	public void open() {

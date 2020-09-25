@@ -11,10 +11,10 @@ import java.util.Set;
 
 public class GenericValidator {
 
-	static Validator validator;
-	static GenericValidator instance = new GenericValidator();
+	private static Validator validator;
+	private static GenericValidator instance = new GenericValidator();
 
-	GenericValidator() {
+	protected GenericValidator() {
 		super();
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
@@ -45,7 +45,7 @@ public class GenericValidator {
 		return getErrors(constraintViolations);
 	}
 
-	<T> List<String> getErrors(Set<ConstraintViolation<T>> constraintViolations) {
+	private <T> List<String> getErrors(Set<ConstraintViolation<T>> constraintViolations) {
 		List<String> errors = new LinkedList<>();
 		constraintViolations.stream().forEach(violation->errors.add(violation.getMessage()));
 		return errors;

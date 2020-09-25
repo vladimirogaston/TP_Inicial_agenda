@@ -16,7 +16,7 @@ public class ProvinciaDaoImpl implements ProvinciaDao {
 	static final String insert = "INSERT INTO Provincia(ProvinciaNombre, PaisID) VALUES (?, (SELECT PaisID FROM Pais P WHERE P.PaisNombre = ?))";
 	static final String update = "UPDATE Provincia SET ProvinciaNombre = ?,	PaisID = (SELECT PaisID FROM Pais P WHERE P.PaisNombre = ?) WHERE ProvinciaID = ?";
 	static final String delete = "DELETE FROM Provincia WHERE ProvinciaID = ?";
-	final String readall = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia PR LEFT JOIN Pais PA ON PR.PaisID = PA.PaisID";
+	static final String readall = "SELECT ProvinciaID, ProvinciaNombre, PaisNombre FROM Provincia LEFT JOIN Pais ON Provincia.PaisID = Pais.PaisID";
 	static final String readbyid = "SELECT * FROM Provincia WHERE ProvinciaID = ?";
 	
 	@Override

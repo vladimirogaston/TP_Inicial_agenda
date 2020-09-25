@@ -7,6 +7,7 @@ import business_logic.ControllersFactoryImpl;
 import presentacion.views.PersonaDriverAdaptor;
 import presentacion.views.ReporteView;
 import presentacion.views.WorkbenchDriverAdaptor;
+import presentacion.views.swing.ErrorView;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;

@@ -1,4 +1,4 @@
-package presentacion.views;
+package presentacion.views.swing;
 
 import java.awt.FlowLayout;
 
@@ -18,15 +18,25 @@ public class LocalidadDialog extends JDialog {
 	private JLabel textLabel;
 	private JTextField textField;
 	private JComboBox<String> comboBox;
+	private String title;
 	
 	public LocalidadDialog() {
 		contentPane = new JPanel(new FlowLayout());
 		textLabel = new JLabel("Nombre");
-		textField = new JTextField("");
+		textField = new JTextField(10);
+		textField.setText("");
 		comboBox = new JComboBox<>();
 		contentPane.add(textLabel);
 		contentPane.add(textField);
 		contentPane.add(comboBox);
+		title = "";
+	}
+	
+	public LocalidadDialog title(String title) {
+		assert title != null;
+		assert title.trim().isEmpty();
+		this.title = title;
+		return this;
 	}
 	
 	public LocalidadDialog setProvincias(String [] nombresProvincias) {
@@ -42,7 +52,7 @@ public class LocalidadDialog extends JDialog {
 	}
 	
 	public LocalidadDTO displayForm() {
-		int result = JOptionPane.showConfirmDialog(null, contentPane, "Localidad", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(null, contentPane, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		switch (result) {
 		    case JOptionPane.OK_OPTION:
 		        break;

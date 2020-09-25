@@ -1,43 +1,39 @@
-package presentacion.views;
+package presentacion.views.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class ProvinciaView extends JDialog {
+public class PaisView extends JDialog {
 
-	private static ProvinciaView vista;
+	private static PaisView vista;
 	private JPanel contentPane;
 
 	private DefaultTableModel tableModel;
 	private JTable table;
-	private final String[] nombreColumnas = new String[] { "Provincia", "Pais", "ID" };
+	private final String[] nombreColumnas = new String[] { "PaisNombre", "ID" };
 
 	private JButton btnSalvar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
 
-	public static ProvinciaView getInstance() {
+	public static PaisView getInstance() {
 		if (vista == null)
-			vista = new ProvinciaView();
+			vista = new PaisView();
 		return vista;
 	}
 
-	public ProvinciaView() {
+	private PaisView() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
@@ -47,7 +43,7 @@ public class ProvinciaView extends JDialog {
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
-				new TitledBorder(null, "Provincia registrada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Pais registrado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel_1.setBounds(15, 16, 654, 394);
 		contentPane.add(panel_1);
 		panel_1.setLayout(new BorderLayout(0, 0));
@@ -92,53 +88,6 @@ public class ProvinciaView extends JDialog {
 		scrollPane_1.setViewportView(table);
 		setModal(true);
 	}
-	
-	public Object[] displayForm(String[] paises) {
-		Object [] ret = null;
-		if(paises != null) {
-			JPanel fields = new JPanel(new FlowLayout());
-			JLabel labelnombre = new JLabel("Nombre");
-			JTextField field = new JTextField(10);
-			JComboBox<String> comboBox = new JComboBox<>(paises);
-			fields.add(labelnombre);
-			fields.add(field);
-			fields.add(comboBox);
-			int result = JOptionPane.showConfirmDialog(null, fields, "Pais", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-			switch (result) {
-			    case JOptionPane.OK_OPTION:
-			        break;
-			}
-			String prov = comboBox.getSelectedItem() == null ? null : comboBox.getSelectedItem().toString();
-			ret = new Object [] { field.getText().toString(), prov};
-		}
-		return ret;	
-	}
-	
-	public Object [] displayForm(String [] paises, String provincia, String pais) {
-		Object [] ret = null;
-		if(paises != null) {
-			JPanel fields = new JPanel(new FlowLayout());
-			JLabel labelnombre = new JLabel("Nombre");
-			JTextField field = new JTextField(10);
-			JComboBox<String> comboBox = new JComboBox<>(paises);
-			fields.add(labelnombre);
-			fields.add(field);
-			fields.add(comboBox);
-			comboBox.setSelectedItem(provincia);
-			field.setText(provincia);
-			int result = JOptionPane.showConfirmDialog(null, fields, "Editor de Provincia", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-			switch (result) {
-			    case JOptionPane.OK_OPTION:
-			        break;
-			}
-			ret = new Object [] { field.getText().toString(), comboBox.getSelectedItem().toString() };
-		}
-		return ret;
-	}
-
-	public void showMessage(String message) {
-		JOptionPane.showMessageDialog(null, message);
-	}
 
 	public DefaultTableModel getTableModel() {
 		return tableModel;
@@ -163,5 +112,4 @@ public class ProvinciaView extends JDialog {
 	public JButton getBtnEliminar() {
 		return btnEliminar;
 	}
-	
 }

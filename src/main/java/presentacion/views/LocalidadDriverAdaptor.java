@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import dto.LocalidadDTO;
+import presentacion.views.swing.LocalidadesView;
 
 public class LocalidadDriverAdaptor {
 	
@@ -36,17 +37,14 @@ public class LocalidadDriverAdaptor {
 	}
 
 	public void setActionSave(ActionListener object) {
-		// TODO Auto-generated method stub
-		
+		view.getBtnSalvar().addActionListener(object);
 	}
 
 	public void setActionUpdate(ActionListener object) {
-		// TODO Auto-generated method stub
-		
+		view.getButtonEditar().addActionListener(object);
 	}
 
 	public void setActionDelete(ActionListener object) {
-		// TODO Auto-generated method stub
-		
+		view.getBtnNewButtonEliminar().addActionListener(object);
 	}
 }

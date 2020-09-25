@@ -1,11 +1,10 @@
-package presentacion.views;
+package presentacion.views.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,25 +15,22 @@ import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
 public class TiposView extends JDialog {
-	JPanel contentPane;
+	
 	final String[] nombreColumnas = new String[] { "TipoContacto", "ID" };
-	JTable table;
-	DefaultTableModel tableModel;
-	JButton btnNewButtonEditar;
-	JButton btnNewButtonEliminar;
-	JButton btnNewButtonSalvar;
-	static TiposView vista;
+	private JPanel contentPane;
+	private JTable table;
+	private DefaultTableModel tableModel;
+	private JButton btnNewButtonEditar;
+	private JButton btnNewButtonEliminar;
+	private JButton btnNewButtonSalvar;
+	private static TiposView vista;
 	
 	public static TiposView getInstance() {
 		if(vista == null) vista = new TiposView();
 		return vista;
 	}
 	
-	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre del tipo");
-	}
-	
-	TiposView() {
+	private TiposView() {
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		setBounds(100, 100, 706, 345);
 		contentPane = new JPanel();
@@ -80,13 +76,6 @@ public class TiposView extends JDialog {
 		scrollPane_1.setViewportView(table);
 		
 		setModal(true);
-		ocultarColumnaId();
-	}
-
-	void ocultarColumnaId() {
-		table.getColumnModel().getColumn(1).setMaxWidth(0);
-		table.getColumnModel().getColumn(1).setMinWidth(0);
-		table.getColumnModel().getColumn(1).setPreferredWidth(0);
 	}
 
 	public JTable getTable() {
@@ -111,9 +100,5 @@ public class TiposView extends JDialog {
 
 	public String[] getNombreColumnas() {
 		return nombreColumnas;
-	}
-
-	public void showMessage(String message) {
-		JOptionPane.showMessageDialog(null, message);
 	}
 }
