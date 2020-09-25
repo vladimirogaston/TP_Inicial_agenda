@@ -126,4 +126,8 @@ public class Agenda {
 	public void borrarPais(PaisDTO paisDTO) {
 		paises.delete(paisDTO);
 	}
+
+	public void agregarProvincia(ProvinciaDTO provinciaDTO) {
+		provincias.insert(provinciaDTO);
+	}
 }

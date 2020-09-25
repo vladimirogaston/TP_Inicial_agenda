@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -90,8 +93,25 @@ public class VistaAbmProvincia extends JDialog {
 		setModal(true);
 	}
 	
-	public String displayForm() {
-		return JOptionPane.showInputDialog("Ingrese el nombre de la provincia");
+	public Object[] displayForm(String[] paises) {
+		Object [] ret = null;
+		if(paises != null) {
+			JPanel fields = new JPanel(new FlowLayout());
+			JLabel labelnombre = new JLabel("Nombre");
+			JTextField field = new JTextField(10);
+			JComboBox<String> comboBox = new JComboBox<>(paises);
+			fields.add(labelnombre);
+			fields.add(field);
+			fields.add(comboBox);
+			int result = JOptionPane.showConfirmDialog(null, fields, "Pais", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			switch (result) {
+			    case JOptionPane.OK_OPTION:
+			        break;
+			}
+			String prov = comboBox.getSelectedItem() == null ? null : comboBox.getSelectedItem().toString();
+			ret = new Object [] { field.getText().toString(), prov};
+		}
+		return ret;	
 	}
 
 	public void showMessage(String message) {
