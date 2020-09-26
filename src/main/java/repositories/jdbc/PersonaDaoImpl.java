@@ -21,7 +21,7 @@ public class PersonaDaoImpl implements PersonaDao {
 			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
 			"LEFT JOIN Localidades L ON P.LocalidadID = L.LocalidadID\r\n" + 
 			"LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID\r\n" + 
-			"LEFT JOIN Pais K ON P.PaisID = K.PaisID";
+			"LEFT JOIN Pais K ON P.PaisID = K.PaisID ORDER BY CodigoPostal";
 	static final String readById = "SELECT idPersona, Nombre, Telefono, Email, FechaCumpleaños, TipoContactoNombre, Calle, Altura, Piso, Departamento, LocalidadNombre,\r\n" + 
 			"ProvinciaNombre, PaisNombre, EquipoFutbol, CodigoPostal \r\n" + 
 			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
