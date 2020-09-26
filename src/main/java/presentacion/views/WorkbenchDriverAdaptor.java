@@ -12,7 +12,8 @@ public class WorkbenchDriverAdaptor {
 				
 	public PersonaDTO getData() {
 		int row = view.getTablaPersonas().getSelectedRow();
-		PersonaDTO dto = new PersonaDTO.Builder(getValueAt(row, 0), getValueAt(row, 1))
+		PersonaDTO dto = new PersonaDTO
+				.Builder(getValueAt(row, 0), getValueAt(row, 1))
 				.email(getValueAt(row, 2))
 				.tipoContacto(getValueAt(row, 4))
 				.calle(getValueAt(row, 5))
@@ -25,7 +26,6 @@ public class WorkbenchDriverAdaptor {
 				.equipoFutbol(getValueAt(row, 12))
 				.codigoPostal(getValueAt(row, 13))
 				.build();
-		
 		try {
 			dto.setIdPersona(Integer.parseInt(getValueAt(row, 14)));
 		}catch(NumberFormatException e) {
@@ -42,16 +42,20 @@ public class WorkbenchDriverAdaptor {
 
 	String getValueAt(int row, int column) {
 		Object obj = view.getModelPersonas().getValueAt(row, column);
-		if(obj != null) return view.getModelPersonas().getValueAt(row, column).toString();
+		if(obj != null) {
+			return view.getModelPersonas().getValueAt(row, column).toString();
+		}
 		else return "";
 	}
 	
 	public void setData(PersonaDTO [] personas) {
 		for(PersonaDTO p : personas) {
 			if(p != null) {
-				Object[] fila = { p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
-						p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(),
-						p.getEquipoFutbol(), p.getCodigoPostal(), p.getIdPersona() };
+				Object[] fila = { 
+					p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
+					p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(),
+					p.getEquipoFutbol(), p.getCodigoPostal(), p.getId()
+				};
 				view.getModelPersonas().addRow(fila);	
 			}
 		}

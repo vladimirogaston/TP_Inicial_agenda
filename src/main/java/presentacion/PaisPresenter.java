@@ -1,9 +1,9 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
-import business_logic.ControllersFactoryImpl;
-import business_logic.ConflictException;
+
 import business_logic.PaisController;
+import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import presentacion.views.PaisDriverAdaptor;
 import presentacion.views.swing.ErrorView;
@@ -12,12 +12,14 @@ import presentacion.views.swing.WorkbenchView;
 
 public class PaisPresenter {
 
-	private PaisDriverAdaptor adaptor;
+	private PaisDriverAdaptor view;
 	private PaisController controller;
 
-	public PaisPresenter(PaisDriverAdaptor vista) {
-		adaptor = vista;
-		controller = ControllersFactoryImpl.getInstance().getPaisController();
+	public PaisPresenter(PaisDriverAdaptor vista, PaisController controller) {
+		assert vista != null;
+		assert controller != null;
+		this.view = vista;
+		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
 	}
@@ -28,13 +30,13 @@ public class PaisPresenter {
 
 	private void onInit(ActionEvent a) {
 		reset();
-		adaptor.open();
+		view.open();
 	}
 	
 	private void onInjectActions() {
-		adaptor.setActionSave(a -> onDisplayFormForSave(a));
-		adaptor.setActionUpdate(a -> onDisplayFormForUpdate(a));
-		adaptor.setActionDelete(s -> onDelete(s));
+		view.setActionSave(a -> onDisplayFormForSave(a));
+		view.setActionUpdate(a -> onDisplayFormForUpdate(a));
+		view.setActionDelete(s -> onDelete(s));
 	}
 	
 	private void onDisplayFormForSave(ActionEvent a) {
@@ -44,16 +46,16 @@ public class PaisPresenter {
 		if(input != null) {
 			try {
 				PaisDTO target = new PaisDTO(input);
-				controller.agregarPais(target);
+				controller.save(target);
 				reset();
-			}catch(ConflictException e) {
+			}catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
 	private void onDisplayFormForUpdate(ActionEvent a) {
-		PaisDTO current = adaptor.getData();
+		PaisDTO current = view.getData();
 		String input = new InputDialog()
 				.title("Ingrese los nuevos datos del nuevo pais")
 				.setText(current.getNombre())
@@ -62,28 +64,28 @@ public class PaisPresenter {
 			try {
 				PaisDTO target = new PaisDTO(input);
 				target.setId(current.getId());
-				controller.editarPais(target);
+				controller.update(target);
 				reset();
-			}catch(ConflictException e) {
+			}catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
 	private void onDelete(ActionEvent s) {
-		PaisDTO target = adaptor.getData();
+		PaisDTO target = view.getData();
 		if(target != null) {
 			try {
-				controller.borrarPais(target);
+				controller.delete(target);
 				reset();
-			} catch(ConflictException e) {
+			} catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
 	private void reset() {
-		adaptor.clearData();
-		adaptor.setData(controller.paisesDisponibles());
+		view.clearData();
+		view.setData(controller.readAll());
 	}
 }

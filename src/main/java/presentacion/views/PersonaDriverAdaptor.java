@@ -38,7 +38,7 @@ public class PersonaDriverAdaptor {
 		return new PersonaDTO
 				.Builder(view.getTxtNombre().getText(), view.getTxtTelefono().getText())
 				.email(view.getFieldEmail())
-				.id(view.getPersonaId() != null ? view.getPersonaId() : 0)
+				.id(view.getPersonaId() != null ? view.getPersonaId() : null)
 				.fechaNacimiento(view.getFieldFechaDeCumpleaños())
 				.tipoContacto(tipo != null ? tipo.toString() : null)
 				.calle(view.getTextField_1Calle().getText())
@@ -93,7 +93,7 @@ public class PersonaDriverAdaptor {
 		view.getTxtNombre().setText(persona.getNombre()); 
 		view.getTxtTelefono().setText(persona.getTelefono());
 		view.getTextFieldEmail().setText(persona.getEmail());;
-		view.setPersonaId(persona.getIdPersona());
+		view.setPersonaId(persona.getId());
 		if(persona.getFechaNacimiento() != null)view.getDateChooser().setDate(persona.getFechaNacimiento());
 		view.getComboBoxTipoContacto().setSelectedItem(persona.getTipoContacto());
 		view.getTextField_1Calle().setText(persona.getCalle());

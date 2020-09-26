@@ -7,8 +7,6 @@ public interface GenericDao<T, ID> {
 	boolean update(T entity);
 
 	boolean insert(T entity);
-
-	boolean delete(T entity);
 	
 	boolean deleteById(ID id);
 	

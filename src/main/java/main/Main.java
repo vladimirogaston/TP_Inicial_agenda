@@ -1,6 +1,8 @@
 package main;
 
 import presentacion.WorkbenchPresenter;
+import business_logic.ControllersFactory;
+import business_logic.local.ControllersFactoryImpl;
 import presentacion.LocalidadPresenter;
 import presentacion.PaisPresenter;
 import presentacion.ProvinciaPresenter;
@@ -24,11 +26,14 @@ public class Main {
 	
 	public Main() {		
 		DaosFactory.setFactory(new DaosFactoryImpl());
+		ControllersFactory.setDaosFactory(DaosFactory.getFactory());
+		ControllersFactory.setFactory(new ControllersFactoryImpl());
+		
 		controladorContactos = new WorkbenchPresenter(new WorkbenchDriverAdaptor(), new PersonaDriverAdaptor());
-		controladorLocalidades = new LocalidadPresenter(new LocalidadDriverAdaptor());
-		controladorTipos = new TiposPresenter(new TiposDriverAdaptor());
-		controladorPais = new PaisPresenter(new PaisDriverAdaptor());
-		controladorProvincia = new ProvinciaPresenter(ProvinciaView.getInstance());
+		controladorLocalidades = new LocalidadPresenter(new LocalidadDriverAdaptor(), ControllersFactory.getFactory().getLocalidadController());
+		controladorTipos = new TiposPresenter(new TiposDriverAdaptor(), ControllersFactory.getFactory().getTipoController());
+		controladorPais = new PaisPresenter(new PaisDriverAdaptor(), ControllersFactory.getFactory().getPaisController());
+		controladorProvincia = new ProvinciaPresenter(ProvinciaView.getInstance(), ControllersFactory.getFactory().getProvinciaController());
 	}
 	
 	public void init() {

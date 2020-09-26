@@ -25,6 +25,7 @@ public class PaisDriverAdaptor {
 	}
 	
 	public PaisDTO getData() {
+		if(view.getTable().getSelectedRowCount() != 1) return null;
 		int row = view.getTable().getSelectedRow();
 		String nom = view.getTableModel().getValueAt(row, 0).toString();
 		int id = Integer.parseInt(view.getTableModel().getValueAt(row, 1).toString());

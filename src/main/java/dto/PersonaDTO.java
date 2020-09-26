@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class PersonaDTO {
+	
 	Integer idPersona;
 
 	@Size(max = 60, message = "Maximo 60 caracteres para el código nombre.")
@@ -99,72 +100,72 @@ public class PersonaDTO {
 
 		public Builder(String nom, String tel) {
 			dto = new PersonaDTO();
-			dto.nombre = nom;
-			dto.telefono = tel;
+			dto.setNombre(nom);
+			dto.setTelefono(tel);
 		}
 
 		public Builder id(Integer id) {
-			dto.idPersona = id;
+			dto.setIdPersona(id);
 			return this;
 		}
 
 		public Builder provincia(String provincia) {
-			dto.provincia = provincia;
+			dto.setProvincia(provincia);
 			return this;
 		}
 		
 		public Builder pais(String pais) {
-			dto.pais = pais;
+			dto.setPais(pais);
 			return this;
 		}
 		
 		public Builder email(String email) {
-			dto.email = email;
+			dto.setEmail(email);
 			return this;
 		}
 
-		public Builder fechaNacimiento(Date date) {
-			dto.fechaNacimiento = date;
+		public Builder fechaNacimiento(Date fechaNacimiento) {
+			dto.setFechaNacimiento(fechaNacimiento);
 			return this;
 		}
 
 		public Builder tipoContacto(String tc) {
-			dto.tipoContacto = tc;
+			dto.setTipoContacto(tc);
 			return this;
 		}
 
 		public Builder calle(String calle) {
-			dto.calle = calle;
+			dto.setCalle(calle);
 			return this;
 		}
 
 		public Builder altura(String altura) {
-			dto.altura = altura;
+			dto.setAltura(altura);
 			return this;
 		}
 
 		public Builder piso(String piso) {
-			dto.piso = piso;
+			dto.setPiso(piso);
 			return this;
 		}
 
 		public Builder dpto(String dpto) {
-			dto.dpto = dpto;
+			dto.setDpto(dpto);
 			return this;
 		}
 
 		public Builder localidad(String loc) {
-			dto.localidad = loc;
+			dto.setLocalidad(loc);
 			return this;
 		}
 
 		public Builder equipoFutbol(String eq) {
-			dto.equipoFutbol = eq;
+			dto.setEquipoFutbol(eq);
 			return this;
 		}
 		
 		public Builder codigoPostal(String cp) {
-			dto.codigoPostal = cp;
+			dto.setCodigoPostal(cp);
 			return this;
 		}
 		
@@ -173,7 +174,7 @@ public class PersonaDTO {
 		}
 	}
 
-	public Integer getIdPersona() {
+	public Integer getId() {
 		return idPersona;
 	}
 

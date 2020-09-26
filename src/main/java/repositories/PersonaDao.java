@@ -6,6 +6,6 @@ import dto.PersonaDTO;
 import repositories.jdbc.Persona;
 
 public interface PersonaDao extends GenericDao<PersonaDTO, Integer>{
-	
-	List<Persona> readAllEntities();
+
+	PersonaDTO readByPhone(String telefono);
 }

@@ -25,9 +25,13 @@ public class TiposDriverAdaptor {
 	}
 	
 	public TipoContactoDTO getData() {
+		int rows = view.getTable().getSelectedRowCount();
+		if(rows != 1) return null;
 		int row = view.getTable().getSelectedRow();
 		String nom = view.getTableModel().getValueAt(row, 0).toString();
-		int id = Integer.parseInt(view.getTableModel().getValueAt(row, 1).toString());
+		Object obj = view.getTableModel().getValueAt(row, 1);
+		Integer id = null;
+		if(obj != null) id = Integer.parseInt(view.getTableModel().getValueAt(row, 1).toString());
 		return new TipoContactoDTO(id, nom);
 	}
 	

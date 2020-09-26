@@ -13,18 +13,42 @@ import repositories.PersonaDao;
 
 public class PersonaDaoImpl implements PersonaDao {
 
-	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
+	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
 	static final String delete = "{call deletePersonaById(?)}";
-	static final String findOrderedAndGroupped = "{SELECT * FROM personas GROUP BY EquipoFutbol ORDER BY CodigoPostal, EquipoFutbol DESC}";
-	Connection conexion = Conexion.getConexion().getSQLConexion();
+	static final String readAll = "SELECT idPersona, Nombre, Telefono, Email, FechaCumpleaños, TipoContactoNombre, Calle, Altura, Piso, Departamento, LocalidadNombre,\r\n" + 
+			"ProvinciaNombre, PaisNombre, EquipoFutbol, CodigoPostal \r\n" + 
+			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
+			"LEFT JOIN Localidades L ON P.LocalidadID = L.LocalidadID\r\n" + 
+			"LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID\r\n" + 
+			"LEFT JOIN Pais K ON P.PaisID = K.PaisID";
+	static final String readById = "SELECT idPersona, Nombre, Telefono, Email, FechaCumpleaños, TipoContactoNombre, Calle, Altura, Piso, Departamento, LocalidadNombre,\r\n" + 
+			"ProvinciaNombre, PaisNombre, EquipoFutbol, CodigoPostal \r\n" + 
+			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
+			"LEFT JOIN Localidades L ON P.LocalidadID = L.LocalidadID\r\n" + 
+			"LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID\r\n" + 
+			"LEFT JOIN Pais K ON P.PaisID = K.PaisID WHERE P.idPersona = ?";
+	static final String readByPhone = "SELECT idPersona, Nombre, Telefono, Email, FechaCumpleaños, TipoContactoNombre, Calle, Altura, Piso, Departamento, LocalidadNombre,\r\n" + 
+			"ProvinciaNombre, PaisNombre, EquipoFutbol, CodigoPostal \r\n" + 
+			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
+			"LEFT JOIN Localidades L ON P.LocalidadID = L.LocalidadID\r\n" + 
+			"LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID\r\n" + 
+			"LEFT JOIN Pais K ON P.PaisID = K.PaisID WHERE persona.Telefono = ?";
+	
+	
+	private Connection connection;
+	
+	public PersonaDaoImpl(Connection connection) {
+		assert connection != null;
+		this.connection = connection;
+	}
 	
 	@Override
 	public boolean update(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(update);
-			cstmt.setInt(1, p.getIdPersona());
+			cstmt = connection.prepareCall(update);
+			cstmt.setInt(1, p.getId());
 			cstmt.setString(2, p.getNombre());
 			cstmt.setString(3, p.getTelefono());
 			cstmt.setString(4, p.getEmail());
@@ -41,7 +65,7 @@ public class PersonaDaoImpl implements PersonaDao {
 			cstmt.setString(14, p.getEquipoFutbol());
 			cstmt.setInt(15, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
 			if (cstmt.executeUpdate() > 0) {
-				conexion.commit();
+				connection.commit();
 				return true;
 			}
 		} catch (SQLException e) {
@@ -55,16 +79,17 @@ public class PersonaDaoImpl implements PersonaDao {
 		}
 		return false;
 	}
+	
 	@Override
 	public boolean insert(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
-			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(insert);
+			cstmt = connection.prepareCall(insert);
 			cstmt.setString(1, p.getNombre());
 			cstmt.setString(2, p.getTelefono());
 			cstmt.setString(3, p.getEmail());
 			if(p.getFechaNacimiento() != null)cstmt.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
-			else cstmt.setDate(4,null);
+			cstmt.setDate(4, null);
 			cstmt.setString(5, p.getTipoContacto());
 			cstmt.setString(6, p.getCalle());
 			cstmt.setString(7, p.getAltura());
@@ -74,10 +99,9 @@ public class PersonaDaoImpl implements PersonaDao {
 			cstmt.setString(11, p.getProvincia());
 			cstmt.setString(12, p.getPais());
 			cstmt.setString(13, p.getEquipoFutbol());
-			//cstmt.setObject(14, p.getCodigoPostalInteger(), java.sql.Types.INTEGER);
 			cstmt.setInt(14, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
 			if (cstmt.executeUpdate() > 0) {
-				conexion.commit();
+				connection.commit();
 				return true;
 			}
 		} catch (SQLException e) {
@@ -91,20 +115,16 @@ public class PersonaDaoImpl implements PersonaDao {
 		}
 		return false;
 	}
-	@Override
-	public boolean delete(PersonaDTO entity) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 	@Override
 	public boolean deleteById(Integer id) {
 		boolean isdeleteExitoso = false;
 		CallableStatement cstmt = null;
 		try {
-			cstmt = Conexion.getConexion().getSQLConexion().prepareCall(delete);
+			cstmt = connection.prepareCall(delete);
 			cstmt.setInt(1, id);
 			if (cstmt.executeUpdate() > 0) {
-				conexion.commit();
+				connection.commit();
 				isdeleteExitoso = true;
 			}
 		} catch (SQLException e) {
@@ -120,13 +140,12 @@ public class PersonaDaoImpl implements PersonaDao {
 	}
 	
 	@Override
-	public List<Persona> readAllEntities() {
+	public List<PersonaDTO> readAll() {
 		PreparedStatement statement = null;
-		ArrayList<Persona> personas = new ArrayList<Persona>();
+		ArrayList<PersonaDTO> personas = new ArrayList<>();
 		try {
-			statement = conexion.prepareStatement("SELECT * FROM personas");
-			ResultSet resultSet;
-			resultSet = statement.executeQuery();
+			statement = connection.prepareStatement(readAll);
+			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) { personas.add(getPersona(resultSet));
 			}
 		} catch (SQLException e) {
@@ -137,31 +156,47 @@ public class PersonaDaoImpl implements PersonaDao {
 
 	@Override
 	public PersonaDTO readByID(Integer id) {
-		return null;
+		PersonaDTO persona = null;
+		try {
+			PreparedStatement statement = connection.prepareStatement(readById);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) { persona = getPersona(resultSet); }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return persona;
 	}
 	
 	@Override
-	public List<PersonaDTO> readAll() {
-		return null;
+	public PersonaDTO readByPhone(String phone) {
+		PersonaDTO persona = null;
+		try {
+			PreparedStatement statement = connection.prepareStatement(readById);
+			statement.setString(1, phone);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) { persona = getPersona(resultSet); }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return persona;
 	}
 	
-	Persona getPersona(ResultSet rs) throws SQLException {
-		Persona persona = new Persona();
-		persona.setNombre(rs.getString("Nombre"));
-		persona.setTelefono(rs.getString("Telefono"));
-		persona.setIdPersona(rs.getInt("idPersona"));
-		persona.setEmail(rs.getString("Email"));
-		persona.setFechaNacimiento(rs.getDate("FechaCumpleaños"));
-		persona.setTipoContactoID(rs.getInt("TipoContactoID"));
-		persona.setCalle(rs.getString("Calle"));
-		persona.setAltura(rs.getString("Altura"));
-		persona.setPiso(rs.getString("Piso"));
-		persona.setDpto(rs.getString("Departamento"));
-		persona.setLocalidadID(rs.getInt("LocalidadID"));
-		persona.setProvinciaID(rs.getInt("ProvinciaID"));
-		persona.setPaisID(rs.getInt("PaisID"));
-		persona.setEquipoFutbol(rs.getString("EquipoFutbol"));
-		persona.setCodigoPostal(rs.getInt("CodigoPostal"));
-		return persona;
+	PersonaDTO getPersona(ResultSet rs) throws SQLException {
+		return new PersonaDTO.Builder(rs.getString("Nombre"), rs.getString("Telefono"))
+				.id(rs.getInt("idPersona"))
+				.email(rs.getString("Email"))
+				.fechaNacimiento(rs.getDate("FechaCumpleaños"))
+				.tipoContacto(rs.getString("TipoContactoNombre"))
+				.calle(rs.getString("Calle"))
+				.altura(rs.getString("Altura"))
+				.piso(rs.getString("Piso"))
+				.dpto(rs.getString("Departamento"))
+				.localidad(rs.getString("LocalidadNombre"))
+				.provincia(rs.getString("ProvinciaNombre"))
+				.pais(rs.getString("PaisNombre"))
+				.equipoFutbol(rs.getString("EquipoFutbol"))
+				.codigoPostal(Integer.toString(rs.getInt("CodigoPostal")))
+				.build();
 	}
 }

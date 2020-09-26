@@ -3,10 +3,9 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import business_logic.ControllersFactoryImpl;
+import business_logic.ControllersFactory;
 import business_logic.LocalidadController;
-import business_logic.ConflictException;
-
+import business_logic.exceptions.ForbiddenException;
 import dto.LocalidadDTO;
 import dto.ProvinciaDTO;
 import presentacion.views.LocalidadDriverAdaptor;
@@ -19,9 +18,11 @@ public class LocalidadPresenter {
 	private LocalidadDriverAdaptor adaptor;
 	private LocalidadController controller;
 	
-	public LocalidadPresenter(LocalidadDriverAdaptor vista) {
-		adaptor = vista;
-		controller = ControllersFactoryImpl.getInstance().getLocalidadController();
+	public LocalidadPresenter(LocalidadDriverAdaptor vista, LocalidadController controller) {
+		assert vista != null;
+		assert controller != null;
+		this.adaptor = vista;
+		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
 	}
@@ -48,9 +49,9 @@ public class LocalidadPresenter {
 				.displayForm();
 		if(target != null) {
 			try {
-				controller.agregarLocalidad(target);
+				controller.save(target);
 				reset();
-			}catch(ConflictException e) {
+			}catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -66,9 +67,9 @@ public class LocalidadPresenter {
 		if(target != null) {
 			try {
 				target.setId(current.getId());
-				controller.editarLocalidad(target);
+				controller.update(target);
 				reset();
-			}catch(ConflictException e) {
+			}catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -78,22 +79,22 @@ public class LocalidadPresenter {
 		LocalidadDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				controller.borrarLocalidad(target);
+				controller.delete(target);
 				reset();
-			} catch(ConflictException e) {
+			} catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
 	private String [] obtenerNombreProvincias() {
-		List<ProvinciaDTO> lst = ControllersFactoryImpl.getInstance().getProvinciaController().provinciasDisponibles();
+		List<ProvinciaDTO> lst = ControllersFactory.getFactory().getProvinciaController().readAll();
 		String [] provincias = new String[lst.size()];
 		return lst.toArray(provincias);
 	}
 	
 	private void reset() {
 		adaptor.clearData();
-		adaptor.setData(controller.localidadesDisponibles());
+		adaptor.setData(controller.readAll());
 	}
 }

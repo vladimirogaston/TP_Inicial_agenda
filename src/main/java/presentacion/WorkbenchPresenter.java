@@ -3,7 +3,8 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
-import business_logic.ControllersFactoryImpl;
+import business_logic.ControllersFactory;
+import business_logic.PersonaController;
 import presentacion.views.PersonaDriverAdaptor;
 import presentacion.views.ReporteView;
 import presentacion.views.WorkbenchDriverAdaptor;
@@ -41,20 +42,24 @@ public class WorkbenchPresenter {
 		
 	private void onDelete(ActionEvent s) {
 		PersonaDTO dto = workbenchView.getData();
-		ControllersFactoryImpl.getInstance().getPersonaController().borrarPersona(dto);
-		workbenchView.clearData();
-		PersonaDTO [] personas = getData();
- 		workbenchView.setData(personas);
+		if(dto != null) {
+			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
+			controller.delete(dto);
+			workbenchView.clearData();
+			PersonaDTO [] personas = getData();
+	 		workbenchView.setData(personas);	
+		}
 	}
 	
 	private void onSaveUpdate(ActionEvent p) {
 		PersonaDTO target = formView.getData();
-		List<String> errors = target.validate();
+		List<String> errors = formView.getData().validate();
 		if (errors.isEmpty()) {
-			if (target.getIdPersona() == null) {
-				ControllersFactoryImpl.getInstance().getPersonaController().agregarPersona(target);
+			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
+			if (target.getId() == null) {
+				controller.save(target);
 			} else {
-				ControllersFactoryImpl.getInstance().getPersonaController().editar(target);
+				controller.update(target);
 			}
 			workbenchView.clearData();
 			workbenchView.setData(getData());
@@ -65,14 +70,14 @@ public class WorkbenchPresenter {
 	}	
 	
 	private PersonaDTO [] getData() {
-		List<PersonaDTO> personas = ControllersFactoryImpl.getInstance().getPersonaController().obtenerPersonas();
+		List<PersonaDTO> personas = ControllersFactory.getFactory().getPersonaController().readAll();
 		return personas.toArray(new PersonaDTO [personas.size()]);
 	}
 	
 	private void onUpdateProvinciasList(ActionEvent a) {
 		String pais = formView.getNombrePaisSeleccionado();
 		if(!pais.isEmpty()) {
-			List<ProvinciaDTO> provinciaslst = ControllersFactoryImpl.getInstance().getProvinciaController().provinciasDisponibles(pais);
+			List<ProvinciaDTO> provinciaslst = ControllersFactory.getFactory().getProvinciaController().readByPais(pais);
 			ProvinciaDTO [] target = new ProvinciaDTO [provinciaslst.size()];
 			formView.setData(provinciaslst.toArray(target));
 		}
@@ -81,7 +86,7 @@ public class WorkbenchPresenter {
 	private void onUpdateLocalidadesList(ActionEvent a) {
 		String provincia = formView.getNombreProvinciaSeleccionada();
 		if(!provincia.isEmpty()) {
-			List<LocalidadDTO> localidades = ControllersFactoryImpl.getInstance().getLocalidadController().localidadPorProvincia(provincia);
+			List<LocalidadDTO> localidades = ControllersFactory.getFactory().getLocalidadController().readByProvincia(provincia);
 			LocalidadDTO [] target = new LocalidadDTO [localidades.size()];
 			formView.setData(localidades.toArray(target));
 		}
@@ -102,16 +107,16 @@ public class WorkbenchPresenter {
 	}
 
 	private void fillOptionsList() {
-		List<TipoContactoDTO> tiposlst = ControllersFactoryImpl.getInstance().getTipoController().tiposDisponibles();
+		List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().getTipoController().readAll();
 		TipoContactoDTO [] tipos = new TipoContactoDTO[tiposlst.size()];
 		formView.setData(tiposlst.toArray(tipos));
-		List<PaisDTO> paiseslst = ControllersFactoryImpl.getInstance().getPaisController().paisesDisponibles();
+		List<PaisDTO> paiseslst = ControllersFactory.getFactory().getPaisController().readAll();
 		PaisDTO [] paises = new PaisDTO [paiseslst.size()];
 		formView.setData(paiseslst.toArray(paises));
 	}
 	
 	private void onDisplayReport(ActionEvent r) {
-		List<PersonaDTO> target = ControllersFactoryImpl.getInstance().getPersonaController().obtenerPersonas();
+		List<PersonaDTO> target = ControllersFactory.getFactory().getPersonaController().readAll();
 		ReporteView reporte = new ReporteView(target);
 		reporte.mostrar();
 	}

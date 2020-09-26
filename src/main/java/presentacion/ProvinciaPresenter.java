@@ -3,9 +3,9 @@ package presentacion;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+import business_logic.ControllersFactory;
 import business_logic.ProvinciaController;
-import business_logic.ControllersFactoryImpl;
-import business_logic.ConflictException;
+import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import presentacion.views.swing.ProvinciaView;
@@ -14,11 +14,12 @@ import presentacion.views.swing.WorkbenchView;
 public class ProvinciaPresenter {
 
 	private ProvinciaView vista;
-	private ProvinciaController agenda = ControllersFactoryImpl.getInstance().getProvinciaController();
-
-	public ProvinciaPresenter(ProvinciaView vista) {
+	private ProvinciaController controller;
+	
+	public ProvinciaPresenter(ProvinciaView vista, ProvinciaController controller) {
 		super();
 		this.vista = vista;
+		this.controller = controller;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
@@ -39,7 +40,7 @@ public class ProvinciaPresenter {
 	}
 
 	void llenarTabla() {
-		List<ProvinciaDTO> provincias = agenda.provinciasDisponibles();
+		List<ProvinciaDTO> provincias = controller.readAll();
 		for (ProvinciaDTO provincia : provincias) {
 			Object[] row = {provincia.getNombre(), provincia.getPais(), provincia.getId() };
 			vista.getTableModel().addRow(row);
@@ -54,10 +55,10 @@ public class ProvinciaPresenter {
 		if(nombre != null && !nombre.trim().isEmpty()) {
 			ProvinciaDTO provinciaDTO = new ProvinciaDTO(null, nombre, pais);
 			try {
-				agenda.agregarProvincia(provinciaDTO);
+				controller.save(provinciaDTO);
 				vaciarTabla();
 				llenarTabla();
-			} catch(ConflictException e) {
+			} catch(ForbiddenException e) {
 				vista.showMessage(e.getMessage());
 			}
 		}
@@ -76,10 +77,10 @@ public class ProvinciaPresenter {
 				
 				if(provinciaDTO.getNombre() != null && !provinciaDTO.getNombre().trim().isEmpty()) {
 					try {
-						agenda.editarProvincia(provinciaDTO);
+						controller.update(provinciaDTO);
 						vaciarTabla();
 						llenarTabla();
-					} catch(ConflictException e) {
+					} catch(ForbiddenException e) {
 						vista.showMessage(e.getMessage());
 					}
 				}
@@ -94,10 +95,10 @@ public class ProvinciaPresenter {
 			final int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
 			final String provNombre = vista.getTableModel().getValueAt(row, 0).toString();
 			try {
-				agenda.borrarProvincia(new ProvinciaDTO(provID, provNombre));
+				controller.delete(new ProvinciaDTO(provID, provNombre));
 				vaciarTabla();
 				llenarTabla();
-			} catch (ConflictException e) {
+			} catch (ForbiddenException e) {
 				vista.showMessage(e.getMessage());
 			}
 
@@ -105,7 +106,7 @@ public class ProvinciaPresenter {
 	}
 	
 	String [] obtenerNombrePaises() {
-		List<PaisDTO> listaPaises = ControllersFactoryImpl.getInstance().getPaisController().paisesDisponibles();
+		List<PaisDTO> listaPaises = ControllersFactory.getFactory().getPaisController().readAll();
 		String [] paises = new String[listaPaises.size()];
 		for(int i = 0; i < listaPaises.size(); i++) paises[i] = listaPaises.get(i).getNombre();
 		return paises;

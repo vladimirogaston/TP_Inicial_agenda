@@ -5,44 +5,46 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import business_logic.ControllersFactoryImpl;
+import business_logic.local.ControllersFactoryImpl;
 import repositories.DaosFactory;
 import repositories.jdbc.DaosFactoryImpl;
 
 public class ControllersFactoryImplTest {
-
+	
 	@Before
 	public void setUp() {
 		DaosFactory.setFactory(new DaosFactoryImpl());
+		ControllersFactory.setDaosFactory(DaosFactory.getFactory());
+		ControllersFactory.setFactory(new ControllersFactoryImpl());
 	}
 	
 	@Test
 	public void testGetInstance() {
-		assertNotNull(ControllersFactoryImpl.getInstance());
+		assertNotNull(ControllersFactory.getFactory());
 	}
 	
 	@Test
 	public void testGetPersonaController() {
-		assertNotNull(ControllersFactoryImpl.getInstance().getPersonaController());
+		assertNotNull(ControllersFactory.getFactory());
 	}
 
 	@Test
 	public void testGetLocalidadController() {
-		assertNotNull(ControllersFactoryImpl.getInstance().getLocalidadController());
+		assertNotNull(ControllersFactory.getFactory().getLocalidadController());
 	}
 
 	@Test
 	public void testGetProvinciaController() {
-		assertNotNull(ControllersFactoryImpl.getInstance().getProvinciaController());
+		assertNotNull(ControllersFactory.getFactory().getProvinciaController());
 	}
 
 	@Test
 	public void testGetPaisController() {
-		assertNotNull(ControllersFactoryImpl.getInstance().getPaisController());
+		assertNotNull(ControllersFactory.getFactory().getPaisController());
 	}
 
 	@Test
 	public void testGetTipoController() {
-		assertNotNull(ControllersFactoryImpl.getInstance().getTipoController());
+		assertNotNull(ControllersFactory.getFactory().getTipoController());
 	}
 }

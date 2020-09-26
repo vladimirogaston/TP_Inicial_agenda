@@ -3,6 +3,8 @@
  */
 package repositories.jdbc;
 
+import java.sql.Connection;
+
 import repositories.DaosFactory;
 import repositories.LocalidadDao;
 import repositories.PaisDao;
@@ -12,19 +14,20 @@ import repositories.TipoContactoDao;
 
 public class DaosFactoryImpl extends DaosFactory {
 
-	PersonaDao personaDao;
-	LocalidadDao localidadDao;
-	PaisDao paisDao;
-	ProvinciaDao provinciaDao;
-	TipoContactoDao tipoDao;
+	private PersonaDao personaDao;
+	private LocalidadDao localidadDao;
+	private PaisDao paisDao;
+	private ProvinciaDao provinciaDao;
+	private TipoContactoDao tipoDao;
 	
 	public DaosFactoryImpl() {
 		super();
-		personaDao = new PersonaDaoImpl();
-		localidadDao = new LocalidadDaoImpl();
-		paisDao = new PaisDaoImpl();
-		provinciaDao = new ProvinciaDaoImpl();
-		tipoDao = new TipoContactoDaoImpl();
+		Connection connection = Conexion.getConexion().getSQLConexion();
+		personaDao = new PersonaDaoImpl(connection);
+		localidadDao = new LocalidadDaoImpl(connection);
+		paisDao = new PaisDaoImpl(connection);
+		provinciaDao = new ProvinciaDaoImpl(connection);
+		tipoDao = new TipoContactoDaoImpl(connection);
 	}
 	
 	@Override

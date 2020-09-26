@@ -24,11 +24,11 @@ public class LocalidadDTO {
 		this.nombre = nombre;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -52,5 +52,4 @@ public class LocalidadDTO {
 	public String toString() {
 		return "LocalidadDTO [id=" + id + ", nombre=" + nombre + ", provincia=" + provincia + "]";
 	}
-
 }

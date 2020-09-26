@@ -1,9 +1,9 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
+
 import business_logic.TipoController;
-import business_logic.ControllersFactoryImpl;
-import business_logic.ConflictException;
+import business_logic.exceptions.ForbiddenException;
 import dto.TipoContactoDTO;
 import presentacion.views.TiposDriverAdaptor;
 import presentacion.views.swing.ErrorView;
@@ -15,9 +15,9 @@ public class TiposPresenter {
 	private TiposDriverAdaptor adaptor;
 	private TipoController controller;
 
-	public TiposPresenter(TiposDriverAdaptor adaptor) {
+	public TiposPresenter(TiposDriverAdaptor adaptor, TipoController controller) {
 		this.adaptor = adaptor;
-		controller = ControllersFactoryImpl.getInstance().getTipoController();
+		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
 	}
@@ -32,40 +32,42 @@ public class TiposPresenter {
 	}
 	
 	private void onInjectActions() {
-		adaptor.setActionSave(a -> onDisplayFormForSave(a));
-		adaptor.setActionUpdate(a -> onDisplayFormForUpdate(a));
+		adaptor.setActionSave(a -> onSave(a));
+		adaptor.setActionUpdate(a -> onUpdate(a));
 		adaptor.setActionDelete(s -> onDelete(s));
 	}
 	
-	private void onDisplayFormForSave(ActionEvent a) {
+	private void onSave(ActionEvent a) {
 		String input = new InputDialog()
 				.title("Ingrese el nombre del nuevo tipo de contacto")
 				.displayForm();
 		if(input != null) {
 			try {
 				TipoContactoDTO target = new TipoContactoDTO(input);
-				controller.agregarTipoDeContacto(target);
+				controller.save(target);
 				reset();
-			}catch(ConflictException e) {
+			}catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
 	}
 	
-	private void onDisplayFormForUpdate(ActionEvent a) {
+	private void onUpdate(ActionEvent a) {
 		TipoContactoDTO current = adaptor.getData();
-		String input = new InputDialog()
-				.title("Ingrese el nuevo nombre del tipo de contacto")
-				.setText(current.getNombre())
-				.displayForm();
-		if(input != null) {
-			try {
-				TipoContactoDTO target = new TipoContactoDTO(input);
-				target.setId(current.getId());
-				controller.editarTipoDeContacto(target);
-				reset();
-			}catch(ConflictException e) {
-				new ErrorView().showMessages(e.getMessage());
+		if(current != null) {
+			String input = new InputDialog()
+					.title("Ingrese el tipo de contacto")
+					.setText(current.getNombre())
+					.displayForm();
+			if(input != null) {
+				try {
+					TipoContactoDTO target = new TipoContactoDTO(input);
+					target.setId(current.getId());
+					controller.update(target);
+					reset();
+				}catch(ForbiddenException e) {
+					new ErrorView().showMessages(e.getMessage());
+				}
 			}
 		}
 	}
@@ -74,9 +76,9 @@ public class TiposPresenter {
 		TipoContactoDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				controller.borrarTipoDeContacto(target);
+				controller.delete(target);
 				reset();
-			} catch(ConflictException e) {
+			} catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());
 			}
 		}
@@ -84,6 +86,6 @@ public class TiposPresenter {
 	
 	private void reset() {
 		adaptor.clearData();
-		adaptor.setData(controller.tiposDisponibles());
+		adaptor.setData(controller.readAll());
 	}
 }
