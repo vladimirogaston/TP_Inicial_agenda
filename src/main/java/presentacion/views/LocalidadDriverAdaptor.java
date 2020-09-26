@@ -25,6 +25,9 @@ public class LocalidadDriverAdaptor {
 	}
 	
 	public LocalidadDTO getData() {
+		if(view.getTable().getSelectedColumnCount() != 1) {
+			return null;
+		}
 		int row = view.getTable().getSelectedRow();
 		String locNom = view.getTableModel().getValueAt(row, 0).toString();
 		String provNom = view.getTableModel().getValueAt(row, 1).toString();

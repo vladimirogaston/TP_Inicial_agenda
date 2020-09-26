@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dto.LocalidadDTO;
+import dto.ProvinciaDTO;
 
 public class LocalidadDialog extends JDialog {
 
@@ -39,9 +40,9 @@ public class LocalidadDialog extends JDialog {
 		return this;
 	}
 	
-	public LocalidadDialog setProvincias(String [] nombresProvincias) {
+	public LocalidadDialog setProvincias(ProvinciaDTO [] nombresProvincias) {
 		assert nombresProvincias != null;
-		for(String nombre : nombresProvincias) comboBox.addItem(nombre);
+		for(ProvinciaDTO dto : nombresProvincias) comboBox.addItem(dto.getNombre());
 		return this;
 	}
 	
@@ -56,6 +57,9 @@ public class LocalidadDialog extends JDialog {
 		switch (result) {
 		    case JOptionPane.OK_OPTION:
 		        break;
+		    case JOptionPane.OK_CANCEL_OPTION:
+		    	textField.setText("");
+		    	break;
 		}
 		return getData();
 	}
@@ -64,7 +68,15 @@ public class LocalidadDialog extends JDialog {
 		Object provincia = comboBox.getSelectedItem();
 		String prov = provincia == null ? null : provincia.toString();
 		String nombre = textField.getText();
-		if(nombre.strip().isEmpty()) return null;
+		if(nombre.trim().isEmpty()) {
+			return null;
+		}
 		return new LocalidadDTO(null, nombre.toString(), prov);
+	}
+
+	public LocalidadDialog setNombreProvincia(String provincia) {
+		assert provincia != null;
+		comboBox.setSelectedItem(provincia);
+		return this;
 	}
 }

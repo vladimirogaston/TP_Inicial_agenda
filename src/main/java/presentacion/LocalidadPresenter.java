@@ -45,7 +45,7 @@ public class LocalidadPresenter {
 	private void onDisplayFormForSave(ActionEvent a) {
 		LocalidadDTO target = new LocalidadDialog()
 				.title("Ingrese los datos de la nueva localidad")
-				.setProvincias(obtenerNombreProvincias())
+				.setProvincias(obtenerProvincias())
 				.displayForm();
 		if(target != null) {
 			try {
@@ -59,18 +59,21 @@ public class LocalidadPresenter {
 	
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		LocalidadDTO current = adaptor.getData();
-		LocalidadDTO target = new LocalidadDialog()
-				.title("Ingrese los nuevos datos de la localidad")
-				.setText(current.getNombre())
-				.setProvincias(obtenerNombreProvincias())
-				.displayForm();
-		if(target != null) {
-			try {
-				target.setId(current.getId());
-				controller.update(target);
-				reset();
-			}catch(ForbiddenException e) {
-				new ErrorView().showMessages(e.getMessage());
+		if(current != null) {
+			LocalidadDTO target = new LocalidadDialog()
+					.title("Ingrese los nuevos datos de la localidad")
+					.setProvincias(obtenerProvincias())
+					.setText(current.getNombre())
+					.setNombreProvincia(current.getProvincia())
+					.displayForm();
+			if(target != null) {
+				try {
+					target.setId(current.getId());
+					controller.update(target);
+					reset();
+				}catch(ForbiddenException e) {
+					new ErrorView().showMessages(e.getMessage());
+				}
 			}
 		}
 	}
@@ -88,9 +91,9 @@ public class LocalidadPresenter {
 		}
 	}
 	
-	private String [] obtenerNombreProvincias() {
+	private ProvinciaDTO [] obtenerProvincias() {
 		List<ProvinciaDTO> lst = ControllersFactory.getFactory().getProvinciaController().readAll();
-		String [] provincias = new String[lst.size()];
+		ProvinciaDTO [] provincias = new ProvinciaDTO[lst.size()];
 		return lst.toArray(provincias);
 	}
 	

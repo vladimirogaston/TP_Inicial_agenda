@@ -56,19 +56,21 @@ public class PaisPresenter {
 	
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PaisDTO current = view.getData();
-		String input = new InputDialog()
-				.title("Ingrese los nuevos datos del nuevo pais")
-				.setText(current.getNombre())
-				.displayForm();
-		if(input != null) {
-			try {
-				PaisDTO target = new PaisDTO(input);
-				target.setId(current.getId());
-				controller.update(target);
-				reset();
-			}catch(ForbiddenException e) {
-				new ErrorView().showMessages(e.getMessage());
-			}
+		if(current != null) {
+			String input = new InputDialog()
+					.title("Ingrese los nuevos datos del nuevo pais")
+					.setText(current.getNombre())
+					.displayForm();
+			if(input != null && !input.trim().isEmpty()) {
+				try {
+					PaisDTO target = new PaisDTO(input);
+					target.setId(current.getId());
+					controller.update(target);
+					reset();
+				}catch(ForbiddenException e) {
+					new ErrorView().showMessages(e.getMessage());
+				}
+			}	
 		}
 	}
 	

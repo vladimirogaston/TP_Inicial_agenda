@@ -42,13 +42,18 @@ public class InputDialog {
 		switch (result) {
 		    case JOptionPane.OK_OPTION:
 		        break;
+		    case JOptionPane.OK_CANCEL_OPTION:
+		    	textField.setText("");
+		    	break;
 		}
 		return getData();
 	}
 	
 	private String getData() {
 		String nombre = textField.getText();
-		if(nombre.strip().isEmpty()) return null;
+		if(nombre.strip().isEmpty()) {
+			return null;
+		}
 		return nombre.toString();
 	}
 }
