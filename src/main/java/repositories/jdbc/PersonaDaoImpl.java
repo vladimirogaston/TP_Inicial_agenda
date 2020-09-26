@@ -44,6 +44,37 @@ public class PersonaDaoImpl implements PersonaDao {
 	}
 	
 	@Override
+	public boolean insert(PersonaDTO p) {
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(insert);
+			System.out.println("---------->>> " + p.getNombre() == null);
+			statement.setString(1, p.getNombre());
+			statement.setString(2, p.getTelefono());
+			statement.setString(3, p.getEmail());
+			if(p.getFechaNacimiento() != null)statement.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
+			statement.setDate(4, null);
+			statement.setString(5, p.getTipoContacto());
+			statement.setString(6, p.getCalle());
+			statement.setString(7, p.getAltura());
+			statement.setString(8, p.getPiso());
+			statement.setString(9, p.getDpto());
+			statement.setString(10, p.getLocalidad());
+			statement.setString(11, p.getProvincia());
+			statement.setString(12, p.getPais());
+			statement.setString(13, p.getEquipoFutbol());
+			statement.setInt(14, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
+			if (statement.executeUpdate() > 0) {
+				connection.commit();
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean update(PersonaDTO p) {
 		CallableStatement cstmt = null;
 		try {
@@ -64,42 +95,6 @@ public class PersonaDaoImpl implements PersonaDao {
 			cstmt.setString(13, p.getPais());
 			cstmt.setString(14, p.getEquipoFutbol());
 			cstmt.setInt(15, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
-			if (cstmt.executeUpdate() > 0) {
-				connection.commit();
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				cstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean insert(PersonaDTO p) {
-		CallableStatement cstmt = null;
-		try {
-			cstmt = connection.prepareCall(insert);
-			cstmt.setString(1, p.getNombre());
-			cstmt.setString(2, p.getTelefono());
-			cstmt.setString(3, p.getEmail());
-			if(p.getFechaNacimiento() != null)cstmt.setDate(4, new java.sql.Date(p.getFechaNacimiento().getTime()));
-			cstmt.setDate(4, null);
-			cstmt.setString(5, p.getTipoContacto());
-			cstmt.setString(6, p.getCalle());
-			cstmt.setString(7, p.getAltura());
-			cstmt.setString(8, p.getPiso());
-			cstmt.setString(9, p.getDpto());
-			cstmt.setString(10, p.getLocalidad());
-			cstmt.setString(11, p.getProvincia());
-			cstmt.setString(12, p.getPais());
-			cstmt.setString(13, p.getEquipoFutbol());
-			cstmt.setInt(14, p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger());
 			if (cstmt.executeUpdate() > 0) {
 				connection.commit();
 				return true;

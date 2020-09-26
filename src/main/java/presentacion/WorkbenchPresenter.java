@@ -19,7 +19,7 @@ public class WorkbenchPresenter {
 
 	private WorkbenchDriverAdaptor workbenchView;
 	private PersonaDriverAdaptor formView;
-
+	
 	public WorkbenchPresenter(WorkbenchDriverAdaptor view, PersonaDriverAdaptor adaptor) {
 		workbenchView = view;
 		formView = adaptor;
@@ -52,6 +52,9 @@ public class WorkbenchPresenter {
 	}
 	
 	private void onSaveUpdate(ActionEvent p) {
+		System.out.println("----------------");
+		System.out.println(formView.getData().getNombre() != null);
+		System.out.println("----------------");
 		PersonaDTO target = formView.getData();
 		List<String> errors = formView.getData().validate();
 		if (errors.isEmpty()) {
