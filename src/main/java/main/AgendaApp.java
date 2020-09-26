@@ -3,6 +3,7 @@ package main;
 import presentacion.WorkbenchPresenter;
 
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import business_logic.ControllersFactory;
@@ -33,10 +34,18 @@ public class AgendaApp {
 	
 	public AgendaApp setUpLookAndFeel() {
 		try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+	        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	            if ("Nimbus".equals(info.getName())) {
+	                UIManager.setLookAndFeel(info.getClassName());
+	                break;
+	            }
+	        }
+	    } catch (Exception e) {
+	        try {
+	            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+	        } catch (Exception ex) {
+	        }
+	    }
 		return this;
 	}
 
