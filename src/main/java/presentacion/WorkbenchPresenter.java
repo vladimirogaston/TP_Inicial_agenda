@@ -41,10 +41,10 @@ public class WorkbenchPresenter {
 	}
 		
 	private void onDelete(ActionEvent s) {
-		PersonaDTO dto = workbenchView.getData();
-		if(dto != null) {
+		PersonaDTO target = workbenchView.getData();
+		if(target != null) {
 			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
-			controller.delete(dto);
+			controller.delete(target.getId());
 			workbenchView.clearData();
 			PersonaDTO [] personas = getData();
 	 		workbenchView.setData(personas);	
@@ -52,9 +52,6 @@ public class WorkbenchPresenter {
 	}
 	
 	private void onSaveUpdate(ActionEvent p) {
-		System.out.println("----------------");
-		System.out.println(formView.getData().getNombre() != null);
-		System.out.println("----------------");
 		PersonaDTO target = formView.getData();
 		List<String> errors = formView.getData().validate();
 		if (errors.isEmpty()) {
@@ -102,11 +99,13 @@ public class WorkbenchPresenter {
 	}
 
 	private void onDisplayFormForUpdate(ActionEvent a) {
-		formView.clearData();
-		fillOptionsList();
 		PersonaDTO target = workbenchView.getData();
-		formView.setData(target);
-		formView.open();
+		if(target != null) {
+			formView.clearData();
+			fillOptionsList();
+			formView.setData(target);
+			formView.open();	
+		}
 	}
 
 	private void fillOptionsList() {

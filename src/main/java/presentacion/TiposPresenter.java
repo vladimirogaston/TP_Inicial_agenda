@@ -76,7 +76,7 @@ public class TiposPresenter {
 		TipoContactoDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				controller.delete(target);
+				controller.delete(target.getId());
 				reset();
 			} catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());

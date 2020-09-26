@@ -79,7 +79,8 @@ public class LocalidadPresenter {
 		LocalidadDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				controller.delete(target);
+				int id = target.getId();
+				controller.delete(id);
 				reset();
 			} catch(ForbiddenException e) {
 				new ErrorView().showMessages(e.getMessage());

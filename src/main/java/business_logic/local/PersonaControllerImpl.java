@@ -1,7 +1,9 @@
-package business_logic;
+
+package business_logic.local;
 
 import java.util.List;
 
+import business_logic.PersonaController;
 import business_logic.exceptions.ForbiddenException;
 import business_logic.exceptions.NotFoundException;
 import dto.PersonaDTO;
@@ -10,7 +12,8 @@ import repositories.PersonaDao;
 
 public class PersonaControllerImpl implements PersonaController {
 	
-	private static final String TELEFONO_EN_USO = "No se puede utilizar un teléfono que ya está en uso";
+	private static final String NOT_FOUND = "Persona no encontrada";
+	private static final String FORBIDDEN = "No se puede utilizar un teléfono que ya está en uso";
 	private PersonaDao dao;
 	
 	public PersonaControllerImpl(DaosFactory dao) {
@@ -23,33 +26,33 @@ public class PersonaControllerImpl implements PersonaController {
 		assert personaDto != null;
 		PersonaDTO target = dao.readByPhone(personaDto.getTelefono());
 		if(target != null) {
-			throw new ForbiddenException(TELEFONO_EN_USO);
+			throw new ForbiddenException(FORBIDDEN);
 		}
-		return dao.insert(target);
+		return dao.insert(personaDto);
 	}
 
 	@Override
 	public boolean update(PersonaDTO personaDto) {
 		assert personaDto != null;
 		if(dao.readByID(personaDto.getId()) == null) {
-			throw new NotFoundException("Persona no encontrada");
+			throw new NotFoundException(NOT_FOUND);
 		}
 		if(personaDto.getTelefono() != null && personaDto.getTelefono().isEmpty()) {
 			PersonaDTO target = dao.readByPhone(personaDto.getNombre());
 			if(target != null) {
-				throw new ForbiddenException(TELEFONO_EN_USO);
+				throw new ForbiddenException(FORBIDDEN);
 			}	
 		}
 		return dao.update(personaDto);
 	}
 
 	@Override
-	public boolean delete(PersonaDTO personaDto) {
-		assert personaDto != null;
-		if(personaDto.getId() != null && dao.readByID(personaDto.getId()) != null) {
-			return dao.deleteById(personaDto.getId());
+	public void delete(int id) {
+		try {
+			dao.deleteById(id);	
+		}catch(ForbiddenException e) {
+			throw new ForbiddenException("No se puede eliminar la persona");
 		}
-		return false;
 	}
 	
 	@Override

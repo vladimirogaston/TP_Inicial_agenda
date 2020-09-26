@@ -8,7 +8,7 @@ public interface Controller<T> {
 	
 	boolean update(T entity);
 	
-	boolean delete(T entity);
+	void delete(int id);
 	
 	List<T> readAll();
 }

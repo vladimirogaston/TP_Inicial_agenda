@@ -8,62 +8,62 @@
 	<name>Agenda App</name>
 	<description>Aplicacion desktop</description>
 
-
 	<developers>
 		<developer>
-			<id>9999999</id>
-			<name>Student Name</name>
+			<name>Pablo Abregu</name>
+			<roles>
+				<role>business analist</role>
+				<role>developer</role>
+			</roles>
 			<email>student@theirmail.com</email>
+		</developer>
+		<developer>
+			<name>Vladimiro Gaston D'Achary</name>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<email>vladimirogaston@gmail.com</email>
 		</developer>
 	</developers>
 
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- class that has the main method -->
-		<mainClass>main.Main</mainClass>
-		<!-- name appended to standard jar name to indicate shaded/executable version -->
+		<mainClass>AgendaApp.Main</mainClass>
 		<shadedClassifierName>executable</shadedClassifierName>
 	</properties>
 
 	<dependencies>
-		<!-- Everyone needs a logger, this is my preference -->
+		<!-- LOGS -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.7.7</version>
 		</dependency>
-
-		<!-- Unit testing is mandatory -->
+		<!-- TESTS -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- Jasperreports -->
+		<!-- PDF -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.12.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-
-		<!-- Mysql-connector-java -->
+		<!-- MYSQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<!--<version>5.1.6</version> -->
-			<!-- USAR LA VERSIÓN 5.1.44 SI USÁS MYSQL8 -->
 			<version>5.1.44</version>
 		</dependency>
-
 		<!-- CALENDAR -->
 		<dependency>
 			<groupId>com.toedter</groupId>
@@ -75,7 +75,6 @@
 			<artifactId>commons-configuration</artifactId>
 			<version>1.10</version>
 		</dependency>
-
 		<!-- BEANS VALIDATION -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -112,7 +111,12 @@
 			<artifactId>jaxb-runtime</artifactId>
 			<version>2.3.2</version>
 		</dependency>
-
+		<!-- SWING LOOK AND FEEL -->
+		<dependency>
+		   <groupId>com.formdev</groupId>
+		   <artifactId>flatlaf</artifactId>
+		   <version>0.40</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -133,5 +137,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

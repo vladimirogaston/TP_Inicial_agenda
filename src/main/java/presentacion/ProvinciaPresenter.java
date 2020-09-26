@@ -95,7 +95,7 @@ public class ProvinciaPresenter {
 			final int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
 			final String provNombre = vista.getTableModel().getValueAt(row, 0).toString();
 			try {
-				controller.delete(new ProvinciaDTO(provID, provNombre));
+				controller.delete(new ProvinciaDTO(provID, provNombre).getId());
 				vaciarTabla();
 				llenarTabla();
 			} catch (ForbiddenException e) {

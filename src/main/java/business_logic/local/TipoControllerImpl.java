@@ -38,12 +38,12 @@ public class TipoControllerImpl implements TipoController {
 	}
 	
 	@Override
-	public boolean delete(TipoContactoDTO tipoDto) {
-		assert tipoDto != null;
-		if(dao.readByID(tipoDto.getId()) == null) {
-			throw new ForbiddenException("El tipo no existe.");
+	public void delete(int id) {
+		try {
+			dao.deleteById(id);	
+		}catch(Throwable t) {
+			throw t;
 		}
-		return dao.deleteById(tipoDto.getId());
 	}
 	
 	@Override

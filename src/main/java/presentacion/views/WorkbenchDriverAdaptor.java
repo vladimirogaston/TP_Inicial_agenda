@@ -11,6 +11,7 @@ public class WorkbenchDriverAdaptor {
 	private WorkbenchView view = WorkbenchView.getInstance();
 				
 	public PersonaDTO getData() {
+		if(view.getTablaPersonas().getSelectedRowCount() != 1) return null;
 		int row = view.getTablaPersonas().getSelectedRow();
 		PersonaDTO dto = new PersonaDTO
 				.Builder(getValueAt(row, 0), getValueAt(row, 1))

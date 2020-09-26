@@ -41,16 +41,12 @@ public class LocalidadControllerImpl implements LocalidadController {
 	}
 	
 	@Override
-	public boolean delete(LocalidadDTO localidadDTO) {
-		assert localidadDTO != null;
-		if(localidadDTO.getId() == null) {
-			try{
-				return dao.deleteById(localidadDTO.getId());
-			}catch(ForbiddenException e) {
-				throw new ForbiddenException("No se puede eliminar una localidad en uso");
-			}
+	public void delete(int id) {
+		try{
+			dao.deleteById(id);
+		}catch(ForbiddenException e) {
+			throw new ForbiddenException("No se puede eliminar una localidad en uso");
 		}
-		return false;
 	}
 	
 	

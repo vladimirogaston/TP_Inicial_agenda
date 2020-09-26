@@ -4,7 +4,6 @@ import java.util.List;
 
 import business_logic.PaisController;
 import business_logic.exceptions.ForbiddenException;
-import business_logic.exceptions.ForbiddenException;
 import business_logic.exceptions.NotFoundException;
 import dto.PaisDTO;
 import repositories.PaisDao;
@@ -42,16 +41,12 @@ public class PaisControllerImpl implements PaisController {
 	}
 	
 	@Override
-	public boolean delete(PaisDTO paisDTO) {
-		assert paisDTO != null;
-		if(paisDTO.getId() != null && dao.readByID(paisDTO.getId()) != null) {
-			try {
-				return dao.deleteById(paisDTO.getId());
-			} catch (ForbiddenException e) {
-				throw new ForbiddenException(e.getMessage());
-			}
-		}
-		return false;
+	public void delete(int id) {
+		try {
+			dao.deleteById(id);
+		} catch (ForbiddenException e) {
+			throw new ForbiddenException(e.getMessage());
+		}		
 	}
 	
 	@Override

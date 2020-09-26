@@ -4,13 +4,13 @@ import java.util.List;
 
 import business_logic.ProvinciaController;
 import business_logic.exceptions.ForbiddenException;
-import business_logic.exceptions.ForbiddenException;
 import business_logic.exceptions.NotFoundException;
 import dto.ProvinciaDTO;
 import repositories.ProvinciaDao;
 
 public class ProvinciaControllerImpl implements ProvinciaController {
 
+	private static final String FORBIDDEN = "No se puede utilizar un nombre que ya está en uso";
 	private ProvinciaDao dao;
 	
 	public ProvinciaControllerImpl(ProvinciaDao dao) {
@@ -23,7 +23,7 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 		assert provinciaDto != null;
 		ProvinciaDTO target = dao.readByName(provinciaDto.getNombre());
 		if(target != null) {
-			throw new ForbiddenException("No se puede utilizar un nombre que ya está en uso");
+			throw new ForbiddenException(FORBIDDEN);
 		}
 		return dao.insert(provinciaDto);
 	}
@@ -31,9 +31,8 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 	@Override
 	public boolean update(ProvinciaDTO provinciaDto) {
 		assert provinciaDto != null;
-		ProvinciaDTO target = dao.readByName(provinciaDto.getNombre());
-		if(target != null) {
-			throw new ForbiddenException("No se puede utilizar un nombre que ya está en uso");
+		if(dao.readByName(provinciaDto.getNombre()) != null) {
+			throw new ForbiddenException(FORBIDDEN);
 		}
 		if(dao.readByID(provinciaDto.getId()) == null) {
 			throw new NotFoundException("No encontrado.");
@@ -42,16 +41,12 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 	}
 	
 	@Override
-	public boolean delete(ProvinciaDTO provinciaDto) {
-		assert provinciaDto != null;
-		if(provinciaDto.getId() == null) {
-			try{
-				return dao.deleteById(provinciaDto.getId());
-			}catch(ForbiddenException e) {
-				throw new ForbiddenException("No se puede eliminar una entidad en uso");
-			}
+	public void delete(int id) {
+		try{
+			dao.deleteById(id);
+		}catch(Throwable t) {
+			throw t;
 		}
-		return false;
 	}
 	
 	@Override
