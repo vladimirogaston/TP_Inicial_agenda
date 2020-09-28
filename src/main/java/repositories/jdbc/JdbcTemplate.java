@@ -24,7 +24,8 @@ public class JdbcTemplate {
 	
 	public <T> JdbcTemplate param(T value) {
 		int key =  params.size() + 1;
-		params.put(key, new Param<T>(value));
+		if(value == null) params.put(key, new Param<T>(null));
+		else params.put(key, new Param<T>(value));
 		return this;
 	}
 	
@@ -79,13 +80,15 @@ public class JdbcTemplate {
 	private void injectParams(PreparedStatement statement) {
 		params.forEach((k,v) -> {
 			try {
-				if (v.type.equals(Integer.class)) {
+				if (v.type.equals(NullObject.class)) {
+					statement.setObject(k, null);
+				} else if (v.type.equals(Integer.class)) {
 					statement.setInt(k, (Integer) v.value);
 				} else 	if (v.type.equals(String.class)) {
 					statement.setString(k, (String) v.value);
 				} else 	if(v.type.equals(java.sql.Date.class)) {
-					statement.setDate(k, (java.sql.Date) v.value);
-				}	
+					statement.setDate(k, (java.sql.Date) v.value);	
+				}
 			} catch (SQLException t) {
 				t.printStackTrace();
 			}

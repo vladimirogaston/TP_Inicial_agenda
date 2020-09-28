@@ -221,6 +221,12 @@ public class PersonaView extends JDialog {
 	}
 	
 	public PersonaDTO getData() {
+		Object loc = comboBoxLocalidad.getSelectedItem();
+		String locs = loc != null ? loc.toString() : "";
+		Object prov = comboBoxProvincia.getSelectedItem();
+		String provs = prov != null ? prov.toString() : "";
+		Object pais = comboBoxPais.getSelectedItem();
+		String paiss = pais != null ? pais.toString() : "";
 		return new PersonaDTO
 				.Builder(textNombre.getText(), textTelefono.getText())
 				.email(textEmail.getText())
@@ -231,18 +237,18 @@ public class PersonaView extends JDialog {
 				.altura(textFieldAltura.getText())
 				.piso(textPiso.getText())
 				.dpto(textDpto.getText())
-				.localidad(comboBoxLocalidad.getSelectedItem().toString())
-				.provincia(comboBoxLocalidad.getSelectedItem().toString())
+				.localidad(locs)
+				.provincia(provs)
 				.codigoPostal(textFieldCodigoPostal.getText())
 				.equipoFutbol(textEquipo.getText())
-				.pais(comboBoxPais.getSelectedItem().toString())
+				.pais(paiss)
 				.build();
 	}
 	
 	public void setData(TipoContactoDTO [] tipos) {
 		assert tipos != null;
 		comboBoxTipoContacto.removeAllItems();
-		comboBoxTipoContacto.addItem("- SELECT TIPO -");
+		comboBoxTipoContacto.addItem("");
 		for (TipoContactoDTO tc : tipos) {
 			comboBoxTipoContacto.addItem(tc.getNombre());
 		}
@@ -251,7 +257,7 @@ public class PersonaView extends JDialog {
 	public void setData(ProvinciaDTO [] provincias) {
 		assert provincias != null;
 		comboBoxProvincia.removeAllItems();
-		comboBoxProvincia.addItem("- SELECT PROVINCIA -");
+		comboBoxProvincia.addItem("");
 		for(ProvinciaDTO prov: provincias) {
 			comboBoxProvincia.addItem(prov.getNombre());
 		}
@@ -260,7 +266,7 @@ public class PersonaView extends JDialog {
 	public void setData(LocalidadDTO [] localidades) {
 		assert localidades != null;
 		comboBoxLocalidad.removeAllItems();
-		comboBoxLocalidad.addItem("- SELECT LOCALIDAD -");
+		comboBoxLocalidad.addItem("");
 		for (LocalidadDTO loc : localidades) {
 			comboBoxLocalidad.addItem(loc.getNombre());
 		}
@@ -269,7 +275,7 @@ public class PersonaView extends JDialog {
 	public void setData(PaisDTO [] paises) {
 		assert paises != null;
 		comboBoxPais.removeAllItems();
-		comboBoxPais.addItem("- SELECT PAIS -");
+		comboBoxPais.addItem("");
 		for(PaisDTO pais: paises) {
 			comboBoxPais.addItem(pais.getNombre());
 		}
@@ -294,11 +300,13 @@ public class PersonaView extends JDialog {
 	}
 		
 	public String getNombreProvinciaSeleccionada() {
-		return comboBoxProvincia.getSelectedItem().toString();
+		Object item = comboBoxProvincia.getSelectedItem();
+		return item != null ? item.toString() : "";
 	}
 	
 	public String getNombrePaisSeleccionado() {
-		return comboBoxPais.getSelectedItem().toString();
+		Object item = comboBoxPais.getSelectedItem();
+		return item != null ? item.toString() : "";
 	}
 	
 	public void setActionSave(ActionListener listener) {

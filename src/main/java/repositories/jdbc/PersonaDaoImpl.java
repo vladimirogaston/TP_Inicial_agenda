@@ -61,16 +61,22 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			"ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (?,?,?,?,(SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?)," + 
 			"?,?,?,?,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?), ?, ?)";
 
-	static final String update = "UPDATE personas\r\n" + 
-			"	SET Nombre = ?, Telefono = ?, Email = ?, FechaCumpleaños = ?, Calle = ?\r\n" + 
-			"	,Altura = ?, Piso = ?, Departamento = ?\r\n" + 
-			"	,TipoContactoID = (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?)\r\n" + 
-			"	,LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?)\r\n" + 
-			"	,ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?)\r\n" + 
-			"	,PaisID = (SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?)\r\n" + 
-			"	,EquipoFutbol = ?\r\n" + 
-			"	,CodigoPostal = ?\r\n" + 
-			"	WHERE idPersona = ?";
+	static final String update = "UPDATE personas SET "
+			+ " Nombre = ?"
+			+ ",Telefono = ?"
+			+ ",Email = ?"
+			+ ",FechaCumpleaños = ?"
+			+ ",Calle = ?"
+			+ ",Altura = ?"
+			+ ",Piso = ?"
+			+ ",Departamento = ?"
+			+ ",TipoContactoID = (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?)"
+			+ ",LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?)"
+			+ ",ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?)"
+			+ ",PaisID = (SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?)"
+			+ ",EquipoFutbol = ?"
+			+ ",CodigoPostal = ?"
+			+ " WHERE idPersona = ?";
 	
 	static final String delete = "DELETE FROM personas WHERE personas.idPersona = ?";
 	static final String readAll = SELECT + " " + "ORDER BY CodigoPostal";
@@ -107,23 +113,23 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	
 	@Override
 	public boolean update(PersonaDTO p) {
+		System.out.println("DAOPERS >> " + p.toString());
 		return getTemplate()
 				.query(update)
 				.param(p.getNombre())
 				.param(p.getTelefono())
 				.param(p.getEmail())
-				// TODO revisar porque se rompe al pasar un null como parametro
-				.param(p.getFechaNacimiento() != null ? new java.sql.Date(p.getFechaNacimiento().getTime()) : null)
-				.param(p.getTipoContacto())
+				.param(p.getFechaNacimiento() != null ? new java.sql.Date(p.getFechaNacimiento().getTime()) : new NullObject())
 				.param(p.getCalle())
 				.param(p.getAltura())
 				.param(p.getPiso())
 				.param(p.getDpto())
+				.param(p.getTipoContacto())
 				.param(p.getLocalidad())
 				.param(p.getProvincia())
 				.param(p.getPais())
 				.param(p.getEquipoFutbol())
-				.param(p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger())
+				.param(p.getCodigoPostal())
 				.param(p.getId())
 				.excecute();
 		}
