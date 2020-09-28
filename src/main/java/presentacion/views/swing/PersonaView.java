@@ -2,7 +2,8 @@ package presentacion.views.swing;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.Date;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,28 +14,35 @@ import javax.swing.JDialog;
 
 import com.toedter.calendar.JDateChooser;
 
+import dto.LocalidadDTO;
+import dto.PaisDTO;
+import dto.PersonaDTO;
+import dto.ProvinciaDTO;
+import dto.TipoContactoDTO;
+
 public class PersonaView extends JDialog {
 
 	static final long serialVersionUID = 1L;
 	static PersonaView INSTANCE;
 	private JPanel contentPane;
+	
 	private Integer personaId;
-	private JTextField txtNombre;
-	private JTextField txtTelefono;
-	private JTextField textFieldEmail;
-	private JTextField textField_1Calle;
-	private JTextField textFieldPiso;
+	private JTextField textNombre;
+	private JTextField textTelefono;
+	private JTextField textEmail;
+	private JTextField textCalle;
+	private JTextField textPiso;
 	private JTextField textFieldAltura;
-	private JTextField textFieldDpto;
+	private JTextField textDpto;
 	private JComboBox<String> comboBoxLocalidad;
 	private JDateChooser dateChooser;
 	private JComboBox<String> comboBoxTipoContacto;
-	private JButton btnAgregarPersona;
 	private JComboBox<String> comboBoxProvincia;
 	private JComboBox<String> comboBoxPais;
-	private JTextField textFieldEquipo;
+	private JTextField textEquipo;
 	private JTextField textFieldCodigoPostal;
-
+	private JButton btnAgregarPersona;
+		
 	public static PersonaView getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new PersonaView();
@@ -66,15 +74,15 @@ public class PersonaView extends JDialog {
 		lblTelfono.setBounds(10, 42, 113, 14);
 		panel.add(lblTelfono);
 
-		txtNombre = new JTextField("");
-		txtNombre.setBounds(169, 8, 164, 24);
-		panel.add(txtNombre);
-		txtNombre.setColumns(10);
+		textNombre = new JTextField("");
+		textNombre.setBounds(169, 8, 164, 24);
+		panel.add(textNombre);
+		textNombre.setColumns(10);
 
-		txtTelefono = new JTextField("");
-		txtTelefono.setBounds(169, 39, 164, 24);
-		panel.add(txtTelefono);
-		txtTelefono.setColumns(10);
+		textTelefono = new JTextField("");
+		textTelefono.setBounds(169, 39, 164, 24);
+		panel.add(textTelefono);
+		textTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
 		btnAgregarPersona.setBounds(168, 477, 113, 35);
@@ -84,10 +92,10 @@ public class PersonaView extends JDialog {
 		lblEmail.setBounds(10, 72, 113, 15);
 		panel.add(lblEmail);
 
-		textFieldEmail = new JTextField("");
-		textFieldEmail.setBounds(169, 69, 164, 24);
-		panel.add(textFieldEmail);
-		textFieldEmail.setColumns(10);
+		textEmail = new JTextField("");
+		textEmail.setBounds(169, 69, 164, 24);
+		panel.add(textEmail);
+		textEmail.setColumns(10);
 
 		JLabel lblCumpleaos = new JLabel("Fecha de Cumpleaños");
 		lblCumpleaos.setBounds(10, 110, 193, 15);
@@ -110,21 +118,21 @@ public class PersonaView extends JDialog {
 		panel.add(lblAltura);
 
 		JLabel lblPiso = new JLabel("Piso");
-		lblPiso.setBounds(133, 370, 70, 15);
+		lblPiso.setBounds(156, 372, 70, 15);
 		panel.add(lblPiso);
 
-		textField_1Calle = new JTextField("");
-		textField_1Calle.setBounds(111, 286, 223, 24);
-		panel.add(textField_1Calle);
-		textField_1Calle.setColumns(10);
+		textCalle = new JTextField("");
+		textCalle.setBounds(74, 286, 260, 24);
+		panel.add(textCalle);
+		textCalle.setColumns(10);
 
-		textFieldPiso = new JTextField("");
-		textFieldPiso.setBounds(249, 367, 84, 24);
-		panel.add(textFieldPiso);
-		textFieldPiso.setColumns(10);
+		textPiso = new JTextField("");
+		textPiso.setBounds(249, 367, 84, 24);
+		panel.add(textPiso);
+		textPiso.setColumns(10);
 
 		textFieldAltura = new JTextField("");
-		textFieldAltura.setBounds(75, 323, 48, 24);
+		textFieldAltura.setBounds(60, 323, 63, 24);
 		panel.add(textFieldAltura);
 		textFieldAltura.setColumns(10);
 
@@ -132,10 +140,10 @@ public class PersonaView extends JDialog {
 		lblDpto.setBounds(10, 370, 70, 15);
 		panel.add(lblDpto);
 
-		textFieldDpto = new JTextField("");
-		textFieldDpto.setBounds(70, 367, 53, 24);
-		panel.add(textFieldDpto);
-		textFieldDpto.setColumns(10);
+		textDpto = new JTextField("");
+		textDpto.setBounds(49, 367, 95, 24);
+		panel.add(textDpto);
+		textDpto.setColumns(10);
 
 		JLabel lblLocalidad = new JLabel("Localidad");
 		lblLocalidad.setBounds(10, 246, 70, 15);
@@ -146,7 +154,7 @@ public class PersonaView extends JDialog {
 		panel.add(comboBoxLocalidad);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(220, 100, 113, 25);
+		dateChooser.setBounds(169, 100, 164, 25);
 		panel.add(dateChooser);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
@@ -169,10 +177,10 @@ public class PersonaView extends JDialog {
 		lblNewLabel.setBounds(10, 420, 169, 20);
 		panel.add(lblNewLabel);
 		
-		textFieldEquipo = new JTextField();
-		textFieldEquipo.setBounds(208, 417, 125, 26);
-		panel.add(textFieldEquipo);
-		textFieldEquipo.setColumns(10);
+		textEquipo = new JTextField();
+		textEquipo.setBounds(207, 417, 125, 26);
+		panel.add(textEquipo);
+		textEquipo.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Codigo postal");
 		lblNewLabel_1.setBounds(133, 323, 113, 20);
@@ -193,84 +201,126 @@ public class PersonaView extends JDialog {
 		this.setVisible(false);
 		this.setModal(true);
 	}
-
-	public void mostrarVentana() {
-		this.setVisible(true);
-	}
-
-	public JTextField getTxtNombre() {
-		return txtNombre;
-	}
-
-	public JTextField getTxtTelefono() {
-		return txtTelefono;
-	}
-
-	public JButton getBtnAgregarPersona() {
-		return btnAgregarPersona;
+	
+	public void clearData() {
+		personaId = null;
+		textNombre.setText("");
+		textTelefono.setText("");
+		textEmail.setText("");
+		textCalle.setText("");
+		textFieldAltura.setText("");
+		textPiso.setText("");
+		textDpto.setText("");
+		comboBoxLocalidad.removeAllItems();
+		comboBoxProvincia.removeAllItems();
+		comboBoxPais.removeAllItems();
+		textEquipo.setText("");
+		textFieldCodigoPostal.setText("");
+		comboBoxTipoContacto.removeAllItems();
+		dateChooser.setDate(null);
 	}
 	
-	public String getFieldEmail() {
-		return textFieldEmail.getText();
+	public PersonaDTO getData() {
+		return new PersonaDTO
+				.Builder(textNombre.getText(), textTelefono.getText())
+				.email(textEmail.getText())
+				.id(personaId)
+				.fechaNacimiento(dateChooser.getDate())
+				.tipoContacto(comboBoxTipoContacto.getSelectedItem().toString())
+				.calle(textCalle.getText())
+				.altura(textFieldAltura.getText())
+				.piso(textPiso.getText())
+				.dpto(textDpto.getText())
+				.localidad(comboBoxLocalidad.getSelectedItem().toString())
+				.provincia(comboBoxLocalidad.getSelectedItem().toString())
+				.codigoPostal(textFieldCodigoPostal.getText())
+				.equipoFutbol(textEquipo.getText())
+				.pais(comboBoxPais.getSelectedItem().toString())
+				.build();
 	}
-
-	public Date getFieldFechaDeCumpleaños() {
-		return (Date) dateChooser.getDate();
+	
+	public void setData(TipoContactoDTO [] tipos) {
+		assert tipos != null;
+		comboBoxTipoContacto.removeAllItems();
+		comboBoxTipoContacto.addItem("- SELECT TIPO -");
+		for (TipoContactoDTO tc : tipos) {
+			comboBoxTipoContacto.addItem(tc.getNombre());
+		}
 	}
-
-	public Integer getPersonaId() {
-		return personaId;
+	
+	public void setData(ProvinciaDTO [] provincias) {
+		assert provincias != null;
+		comboBoxProvincia.removeAllItems();
+		comboBoxProvincia.addItem("- SELECT PROVINCIA -");
+		for(ProvinciaDTO prov: provincias) {
+			comboBoxProvincia.addItem(prov.getNombre());
+		}
 	}
-
-	public JTextField getTextFieldEmail() {
-		return textFieldEmail;
+	
+	public void setData(LocalidadDTO [] localidades) {
+		assert localidades != null;
+		comboBoxLocalidad.removeAllItems();
+		comboBoxLocalidad.addItem("- SELECT LOCALIDAD -");
+		for (LocalidadDTO loc : localidades) {
+			comboBoxLocalidad.addItem(loc.getNombre());
+		}
 	}
-
-	public JTextField getTextField_1Calle() {
-		return textField_1Calle;
+	
+	public void setData(PaisDTO [] paises) {
+		assert paises != null;
+		comboBoxPais.removeAllItems();
+		comboBoxPais.addItem("- SELECT PAIS -");
+		for(PaisDTO pais: paises) {
+			comboBoxPais.addItem(pais.getNombre());
+		}
 	}
-
-	public JTextField getTextFieldPiso() {
-		return textFieldPiso;
+	
+	public void setData(PersonaDTO persona) {
+		personaId = persona.getId();
+		textNombre.setText(persona.getNombre()); 
+		textTelefono.setText(persona.getTelefono());
+		textEmail.setText(persona.getEmail());
+		dateChooser.setDate(persona.getFechaNacimiento());
+		comboBoxTipoContacto.setSelectedItem(persona.getTipoContacto());
+		textCalle.setText(persona.getCalle());
+		textFieldAltura.setText(persona.getAltura());
+		textPiso.setText(persona.getPiso());
+		textDpto.setText(persona.getDpto());
+		comboBoxLocalidad.setSelectedItem(persona.getLocalidad());
+		comboBoxProvincia.setSelectedItem(persona.getProvincia());
+		textFieldCodigoPostal.setText(persona.getCodigoPostal());
+		textEquipo.setText(persona.getEquipoFutbol());
+		comboBoxPais.setSelectedItem(persona.getPais());
 	}
-
-	public JTextField getTextFieldAltura() {
-		return textFieldAltura;
+		
+	public String getNombreProvinciaSeleccionada() {
+		return comboBoxProvincia.getSelectedItem().toString();
 	}
-
-	public JTextField getTextFieldDpto() {
-		return textFieldDpto;
+	
+	public String getNombrePaisSeleccionado() {
+		return comboBoxPais.getSelectedItem().toString();
 	}
-
-	public JComboBox<String> getComboBoxLocalidad() {
-		return comboBoxLocalidad;
+	
+	public void setActionSave(ActionListener listener) {
+		assert listener != null;
+		btnAgregarPersona.addActionListener(listener);
 	}
-
-	public JDateChooser getDateChooser() {
-		return dateChooser;
+	
+	public void setActionProvinciaSelect(ActionListener listener) {
+		assert listener != null;
+		comboBoxProvincia.addActionListener(listener);
 	}
-
-	public JComboBox<String> getComboBoxTipoContacto() {
-		return comboBoxTipoContacto;
+	
+	public void setActionPaisSelect(ActionListener listener) {
+		assert listener != null;
+		comboBoxPais.addActionListener(listener);
 	}
-
-	public JComboBox<String> getComboBoxProvincia() {
-		return comboBoxProvincia;
+	
+	public void open() {
+		setVisible(true);
 	}
-
-	public JComboBox<String> getComboBoxPais() {
-		return comboBoxPais;
-	}
-
-	public JTextField getTextFieldEquipo() {
-		return textFieldEquipo;
-	}
-
-	public JTextField getTextFieldCodigoPostal() {
-		return textFieldCodigoPostal;
-	}
-
-	public void setPersonaId(Integer id) {
-		this.personaId = id;		
+	
+	public void close() {
+		setVisible(false);
 	}
 }

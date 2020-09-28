@@ -5,10 +5,10 @@ import java.util.List;
 
 import business_logic.ControllersFactory;
 import business_logic.PersonaController;
-import presentacion.views.PersonaDriverAdaptor;
 import presentacion.views.ReporteView;
 import presentacion.views.WorkbenchDriverAdaptor;
 import presentacion.views.swing.ErrorView;
+import presentacion.views.swing.PersonaView;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
@@ -18,9 +18,9 @@ import dto.TipoContactoDTO;
 public class WorkbenchPresenter {
 
 	private WorkbenchDriverAdaptor workbenchView;
-	private PersonaDriverAdaptor formView;
+	private PersonaView formView;
 	
-	public WorkbenchPresenter(WorkbenchDriverAdaptor view, PersonaDriverAdaptor adaptor) {
+	public WorkbenchPresenter(WorkbenchDriverAdaptor view, PersonaView adaptor) {
 		workbenchView = view;
 		formView = adaptor;
 		onInjectWorkbenchActions();
@@ -101,6 +101,7 @@ public class WorkbenchPresenter {
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PersonaDTO target = workbenchView.getData();
 		if(target != null) {
+			System.out.println(">>>>>>>>" + target.toString());
 			formView.clearData();
 			fillOptionsList();
 			formView.setData(target);

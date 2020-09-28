@@ -13,9 +13,9 @@ import presentacion.ProvinciaPresenter;
 import presentacion.TiposPresenter;
 import presentacion.views.LocalidadDriverAdaptor;
 import presentacion.views.PaisDriverAdaptor;
-import presentacion.views.PersonaDriverAdaptor;
 import presentacion.views.TiposDriverAdaptor;
 import presentacion.views.WorkbenchDriverAdaptor;
+import presentacion.views.swing.PersonaView;
 import presentacion.views.swing.ProvinciaView;
 import repositories.DaosFactory;
 import repositories.jdbc.DaosFactoryImpl;
@@ -50,7 +50,7 @@ public class AgendaApp {
 	}
 
 	public AgendaApp injectDependencies() {
-		starter = new WorkbenchPresenter(new WorkbenchDriverAdaptor(), new PersonaDriverAdaptor());
+		starter = new WorkbenchPresenter(new WorkbenchDriverAdaptor(), PersonaView.getInstance());
 		new LocalidadPresenter(new LocalidadDriverAdaptor(), ControllersFactory.getFactory().getLocalidadController());
 		new TiposPresenter(new TiposDriverAdaptor(), ControllersFactory.getFactory().getTipoController());
 		new PaisPresenter(new PaisDriverAdaptor(), ControllersFactory.getFactory().getPaisController());

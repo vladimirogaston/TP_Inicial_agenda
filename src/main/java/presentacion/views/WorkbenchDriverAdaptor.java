@@ -27,17 +27,15 @@ public class WorkbenchDriverAdaptor {
 				.equipoFutbol(getValueAt(row, 12))
 				.codigoPostal(getValueAt(row, 13))
 				.build();
+		
+		if(getValueAt(row, 14).isEmpty()) dto.setIdPersona(null);
+		else dto.setIdPersona(Integer.parseInt(getValueAt(row, 14)));
+				
 		try {
-			dto.setIdPersona(Integer.parseInt(getValueAt(row, 14)));
-		}catch(NumberFormatException e) {
-			dto.setIdPersona(null);
+			dto.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(getValueAt(row, 3)));
+		} catch (ParseException e) {
+			dto.setFechaNacimiento(null);
 		}
-		if(!getValueAt(row, 3).isEmpty())
-			try {
-				dto.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(getValueAt(row, 3)));
-			} catch (ParseException e) {
-				dto.setFechaNacimiento(null);
-			}
 		return dto;
 	}
 
