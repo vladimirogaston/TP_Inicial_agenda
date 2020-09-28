@@ -5,17 +5,17 @@ import java.awt.event.ActionEvent;
 import business_logic.TipoController;
 import business_logic.exceptions.ForbiddenException;
 import dto.TipoContactoDTO;
-import presentacion.views.TiposDriverAdaptor;
-import presentacion.views.swing.ErrorView;
-import presentacion.views.swing.InputDialog;
-import presentacion.views.swing.WorkbenchView;
+import presentacion.views.TiposView;
+import presentacion.views.WorkbenchView;
+import presentacion.views.swing.ErrorDialogImpl;
+import presentacion.views.swing.InputDialogImpl;
 
 public class TiposPresenter {
 
-	private TiposDriverAdaptor adaptor;
+	private TiposView adaptor;
 	private TipoController controller;
 
-	public TiposPresenter(TiposDriverAdaptor adaptor, TipoController controller) {
+	public TiposPresenter(TiposView adaptor, TipoController controller) {
 		this.adaptor = adaptor;
 		this.controller = controller;
 		onInjectWorkbenchAction();
@@ -38,16 +38,16 @@ public class TiposPresenter {
 	}
 	
 	private void onSave(ActionEvent a) {
-		String input = new InputDialog()
+		String input = new InputDialogImpl()
 				.title("Ingrese el nombre del nuevo tipo de contacto")
-				.displayForm();
+				.open();
 		if(input != null) {
 			try {
 				TipoContactoDTO target = new TipoContactoDTO(input);
 				controller.save(target);
 				reset();
 			}catch(ForbiddenException e) {
-				new ErrorView().showMessages(e.getMessage());
+				new ErrorDialogImpl().showMessages(e.getMessage());
 			}
 		}
 	}
@@ -55,10 +55,10 @@ public class TiposPresenter {
 	private void onUpdate(ActionEvent a) {
 		TipoContactoDTO current = adaptor.getData();
 		if(current != null) {
-			String input = new InputDialog()
+			String input = new InputDialogImpl()
 					.title("Ingrese el tipo de contacto")
 					.setText(current.getNombre())
-					.displayForm();
+					.open();
 			if(input != null) {
 				try {
 					TipoContactoDTO target = new TipoContactoDTO(input);
@@ -66,7 +66,7 @@ public class TiposPresenter {
 					controller.update(target);
 					reset();
 				}catch(ForbiddenException e) {
-					new ErrorView().showMessages(e.getMessage());
+					new ErrorDialogImpl().showMessages(e.getMessage());
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class TiposPresenter {
 				controller.delete(target.getId());
 				reset();
 			} catch(ForbiddenException e) {
-				new ErrorView().showMessages(e.getMessage());
+				new ErrorDialogImpl().showMessages(e.getMessage());
 			}
 		}
 	}

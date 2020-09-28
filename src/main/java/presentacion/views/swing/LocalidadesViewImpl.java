@@ -6,16 +6,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import javax.swing.JOptionPane;
+import dto.LocalidadDTO;
+import presentacion.views.LocalidadView;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JTable;
 
 @SuppressWarnings("serial")
-public class LocalidadesView extends JDialog {
+public class LocalidadesViewImpl extends JDialog implements LocalidadView {
 
 	JPanel contentPane;
 	final String[] nombreColumnas = new String[] { "LocalidadNombre","Provincia","ID" };
@@ -24,14 +29,14 @@ public class LocalidadesView extends JDialog {
 	private JButton btnNewButtonEliminar;
 	private JButton btnSalvar;
 	private JButton buttonEditar;
-	static LocalidadesView vista;
+	static LocalidadesViewImpl vista;
 		
-	public static LocalidadesView getInstance() {
-		if(vista == null) vista = new LocalidadesView();
+	public static LocalidadesViewImpl getInstance() {
+		if(vista == null) vista = new LocalidadesViewImpl();
 		return vista;
 	}
 	
-	private LocalidadesView() {
+	private LocalidadesViewImpl() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();
@@ -81,36 +86,55 @@ public class LocalidadesView extends JDialog {
 		table.getColumnModel().getColumn(0).setWidth(20);
 		table.getColumnModel().getColumn(0).setPreferredWidth(20);
 
-		
 		scrollPane_1.setViewportView(table);
 		setModal(true);
 	}
-
-	public JTable getTable() {
-		return table;
+	
+	@Override
+	public void clearData() {
+		tableModel.setRowCount(0);
+		tableModel.setColumnCount(0);
+		tableModel.setColumnIdentifiers(nombreColumnas);
 	}
 	
-	public DefaultTableModel getTableModel() {
-		return tableModel;
-	}
-
-	public JButton getBtnNewButtonEliminar() {
-		return btnNewButtonEliminar;
-	}
-
-	public String[] getNombreColumnas() {
-		return nombreColumnas;
-	}
-
-	public JButton getBtnSalvar() {
-		return btnSalvar;
-	}
-
-	public JButton getButtonEditar() {
-		return buttonEditar;
+	@Override
+	public void setData(List<LocalidadDTO> localidades) {
+		assert localidades != null;
+		for (LocalidadDTO loc : localidades) {
+			Object[] row = { loc.getNombre(), loc.getProvincia(), loc.getId() };
+			tableModel.addRow(row);
+		}	
 	}
 	
-	public void showMessage(String message) {
-		JOptionPane.showMessageDialog(null, message);
+	@Override
+	public LocalidadDTO getData() {
+		if(table.getSelectedColumnCount() != 1) {
+			return null;
+		}
+		int row = table.getSelectedRow();
+		String locNom = tableModel.getValueAt(row, 0).toString();
+		String provNom = tableModel.getValueAt(row, 1).toString();
+		int locID = Integer.parseInt(tableModel.getValueAt(row, 2).toString());
+		return new LocalidadDTO(locID, locNom, provNom);
+	}
+	
+	@Override
+	public void open() {
+		setVisible(true);
+	}
+
+	@Override
+	public void setActionSave(ActionListener object) {
+		btnSalvar.addActionListener(object);
+	}
+
+	@Override
+	public void setActionUpdate(ActionListener object) {
+		buttonEditar.addActionListener(object);
+	}
+
+	@Override
+	public void setActionDelete(ActionListener object) {
+		btnNewButtonEliminar.addActionListener(object);
 	}
 }

@@ -1,4 +1,4 @@
-package presentacion.views;
+package presentacion.views.swing;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -16,17 +16,18 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import presentacion.views.ReportView;
 import dto.PersonaDTO;
 
-public class ReporteView {
+public class ReporteViewImpl implements ReportView {
+
 	private JasperReport reporte;
 	private JasperViewer reporteViewer;
 	private JasperPrint reporteLleno;
-	private Logger log = Logger.getLogger(ReporteView.class);
+	private Logger log = Logger.getLogger(ReporteViewImpl.class);
 
-	// Recibe la lista de personas para armar el reporte
-	public ReporteView(List<PersonaDTO> personas) {
-		// Hardcodeado
+	@Override
+	public void setData(List<PersonaDTO> personas) {
 		Map<String, Object> parametersMap = new HashMap<String, Object>();
 		parametersMap.put("Fecha", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		try {
@@ -40,9 +41,9 @@ public class ReporteView {
 		}
 	}
 
-	public void mostrar() {
+	@Override 
+	public void open() {
 		this.reporteViewer = new JasperViewer(this.reporteLleno, false);
 		this.reporteViewer.setVisible(true);
 	}
-
 }

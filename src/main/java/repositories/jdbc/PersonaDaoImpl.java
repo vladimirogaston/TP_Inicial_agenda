@@ -8,32 +8,6 @@ import dto.PersonaDTO;
 import repositories.PersonaDao;
 
 public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements PersonaDao {
-
-	@Override
-	protected Mapper<PersonaDTO> getMapper() {
-		return new Mapper<PersonaDTO>() {
-			@Override
-			public PersonaDTO map(Object[] obj) {
-				PersonaDTO ret = new PersonaDTO.Builder((String)obj[1], (String)obj[2])
-						.id((Integer) obj[0])
-						.email((String) obj[3])
-						.fechaNacimiento((Date) obj[4])
-						.tipoContacto((String) obj[5])
-						.calle((String) obj[6])
-						.altura((String) obj[7])
-						.piso((String) obj[8])
-						.dpto((String) obj[9])
-						.localidad((String) obj[10])
-						.provincia((String) obj[11])
-						.pais((String) obj[12])
-						.equipoFutbol((String) obj[13])
-						.codigoPostal(((Integer) obj[14]).toString())
-						.build();
-				System.out.println(ret.toString());
-				return ret;
-			}			
-		};
-	}
 	
 	static final String SELECT = "SELECT "
 			+ "  idPersona"
@@ -113,7 +87,6 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	
 	@Override
 	public boolean update(PersonaDTO p) {
-		System.out.println("DAOPERS >> " + p.toString());
 		return getTemplate()
 				.query(update)
 				.param(p.getNombre())
@@ -153,7 +126,33 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	public PersonaDTO readByPhone(String telefono) {
 		return getData(getTemplate().query(readByPhone).param(telefono).excecute(mapper));
 	}
-		
+
+	@Override
+	protected Mapper<PersonaDTO> getMapper() {
+		return new Mapper<PersonaDTO>() {
+			@Override
+			public PersonaDTO map(Object[] obj) {
+				PersonaDTO ret = new PersonaDTO.Builder((String)obj[1], (String)obj[2])
+						.id((Integer) obj[0])
+						.email((String) obj[3])
+						.fechaNacimiento((Date) obj[4])
+						.tipoContacto((String) obj[5])
+						.calle((String) obj[6])
+						.altura((String) obj[7])
+						.piso((String) obj[8])
+						.dpto((String) obj[9])
+						.localidad((String) obj[10])
+						.provincia((String) obj[11])
+						.pais((String) obj[12])
+						.equipoFutbol((String) obj[13])
+						.codigoPostal(((Integer) obj[14]).toString())
+						.build();
+				System.out.println(ret.toString());
+				return ret;
+			}			
+		};
+	}
+	
 	private PersonaDTO getData(List<PersonaDTO> personas) {
 		assert personas != null;
 		if(personas.isEmpty()) return null;

@@ -5,22 +5,22 @@ import java.util.List;
 
 import business_logic.ControllersFactory;
 import business_logic.PersonaController;
-import presentacion.views.ReporteView;
-import presentacion.views.WorkbenchDriverAdaptor;
-import presentacion.views.swing.ErrorView;
-import presentacion.views.swing.PersonaView;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
+import presentacion.views.WorkbenchView;
+import presentacion.views.swing.ErrorDialogImpl;
+import presentacion.views.swing.PersonaViewImpl;
+import presentacion.views.swing.ReporteViewImpl;
 
 public class WorkbenchPresenter {
 
-	private WorkbenchDriverAdaptor workbenchView;
-	private PersonaView formView;
+	private WorkbenchView workbenchView;
+	private PersonaViewImpl formView;
 	
-	public WorkbenchPresenter(WorkbenchDriverAdaptor view, PersonaView adaptor) {
+	public WorkbenchPresenter(WorkbenchView view, PersonaViewImpl adaptor) {
 		workbenchView = view;
 		formView = adaptor;
 		onInjectWorkbenchActions();
@@ -65,7 +65,7 @@ public class WorkbenchPresenter {
 			workbenchView.setData(getData());
 			formView.close();
 		} else {
-			new ErrorView().showMessages(errors);
+			new ErrorDialogImpl().showMessages(errors);
 		}
 	}	
 	
@@ -139,8 +139,9 @@ public class WorkbenchPresenter {
 	
 	private void onDisplayReport(ActionEvent r) {
 		List<PersonaDTO> target = ControllersFactory.getFactory().getPersonaController().readAll();
-		ReporteView reporte = new ReporteView(target);
-		reporte.mostrar();
+		ReporteViewImpl reporte = new ReporteViewImpl();
+		reporte.setData(target);
+		reporte.open();
 	}
 	
 	public void onInit() {

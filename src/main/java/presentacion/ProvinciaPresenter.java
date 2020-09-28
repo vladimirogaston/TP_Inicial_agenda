@@ -8,8 +8,8 @@ import business_logic.ProvinciaController;
 import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
-import presentacion.views.swing.ProvinciaView;
-import presentacion.views.swing.WorkbenchView;
+import presentacion.views.ProvinciaView;
+import presentacion.views.WorkbenchView;
 
 public class ProvinciaPresenter {
 

@@ -1,6 +1,11 @@
 package main;
 
 import presentacion.WorkbenchPresenter;
+import presentacion.views.ProvinciaView;
+import presentacion.views.ViewsFactory;
+import presentacion.views.WorkbenchView;
+import presentacion.views.swing.PersonaViewImpl;
+import presentacion.views.swing.ViewsFactoryImpl;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -11,12 +16,6 @@ import presentacion.LocalidadPresenter;
 import presentacion.PaisPresenter;
 import presentacion.ProvinciaPresenter;
 import presentacion.TiposPresenter;
-import presentacion.views.LocalidadDriverAdaptor;
-import presentacion.views.PaisDriverAdaptor;
-import presentacion.views.TiposDriverAdaptor;
-import presentacion.views.WorkbenchDriverAdaptor;
-import presentacion.views.swing.PersonaView;
-import presentacion.views.swing.ProvinciaView;
 import repositories.DaosFactory;
 import repositories.jdbc.DaosFactoryImpl;
 
@@ -32,6 +31,16 @@ public class AgendaApp {
 		return this;
 	}
 	
+	public AgendaApp presentationLogic() {
+		ViewsFactory.setFactory(new ViewsFactoryImpl());
+		starter = new WorkbenchPresenter(WorkbenchView.getInstance(), PersonaViewImpl.getInstance());
+		new LocalidadPresenter(ViewsFactory.getFactory().makeLocalidadView(), ControllersFactory.getFactory().getLocalidadController());
+		new TiposPresenter(ViewsFactory.getFactory().makeTiposView(), ControllersFactory.getFactory().getTipoController());
+		new PaisPresenter(ViewsFactory.getFactory().makePaisView(), ControllersFactory.getFactory().getPaisController());
+		new ProvinciaPresenter(ProvinciaView.getInstance(), ControllersFactory.getFactory().getProvinciaController());	
+		return this;
+	}
+
 	public AgendaApp setUpLookAndFeel() {
 		try {
 	        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -48,15 +57,6 @@ public class AgendaApp {
 	    }
 		return this;
 	}
-
-	public AgendaApp injectDependencies() {
-		starter = new WorkbenchPresenter(new WorkbenchDriverAdaptor(), PersonaView.getInstance());
-		new LocalidadPresenter(new LocalidadDriverAdaptor(), ControllersFactory.getFactory().getLocalidadController());
-		new TiposPresenter(new TiposDriverAdaptor(), ControllersFactory.getFactory().getTipoController());
-		new PaisPresenter(new PaisDriverAdaptor(), ControllersFactory.getFactory().getPaisController());
-		new ProvinciaPresenter(ProvinciaView.getInstance(), ControllersFactory.getFactory().getProvinciaController());
-		return this;
-	}
 		
 	public void init() {
 		starter.onInit();
@@ -66,7 +66,7 @@ public class AgendaApp {
 		new AgendaApp()
 			.setUpLookAndFeel()
 			.domainLogic()
-			.injectDependencies()
+			.presentationLogic()
 			.init();
 	}
 }

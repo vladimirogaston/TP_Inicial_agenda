@@ -7,14 +7,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class InputDialog {
+public class InputDialogImpl {
 	
 	private JPanel contentPane;
 	private JLabel textLabel;
 	private JTextField textField;
 	private String title;
 	
-	public InputDialog() {
+	public InputDialogImpl() {
 		contentPane = new JPanel(new FlowLayout());
 		textLabel = new JLabel("Nombre");
 		textField = new JTextField(10);
@@ -24,20 +24,20 @@ public class InputDialog {
 		title = "";
 	}
 	
-	public InputDialog title(String title) {
+	public InputDialogImpl title(String title) {
 		assert title != null;
 		assert title.trim().isEmpty();
 		this.title = title;
 		return this;
 	}
 	
-	public InputDialog setText(String text) {
+	public InputDialogImpl setText(String text) {
 		assert text != null;
 		textField.setText(text);
 		return this;
 	}
 	
-	public String displayForm() {
+	public String open() {
 		int result = JOptionPane.showConfirmDialog(null, contentPane, title, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		switch (result) {
 		    case JOptionPane.OK_OPTION:

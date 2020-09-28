@@ -19,11 +19,12 @@ import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
+import presentacion.views.PersonaView;
 
-public class PersonaView extends JDialog {
+public class PersonaViewImpl extends JDialog implements PersonaView {
 
 	static final long serialVersionUID = 1L;
-	static PersonaView INSTANCE;
+	static PersonaViewImpl INSTANCE;
 	private JPanel contentPane;
 	
 	private Integer personaId;
@@ -43,14 +44,14 @@ public class PersonaView extends JDialog {
 	private JTextField textFieldCodigoPostal;
 	private JButton btnAgregarPersona;
 		
-	public static PersonaView getInstance() {
+	public static PersonaViewImpl getInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new PersonaView();
+			INSTANCE = new PersonaViewImpl();
 		}
 		return INSTANCE;
 	}
 
-	private PersonaView() {
+	private PersonaViewImpl() {
 		super();
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -202,6 +203,7 @@ public class PersonaView extends JDialog {
 		this.setModal(true);
 	}
 	
+	@Override
 	public void clearData() {
 		personaId = null;
 		textNombre.setText("");
@@ -220,6 +222,7 @@ public class PersonaView extends JDialog {
 		dateChooser.setDate(null);
 	}
 	
+	@Override
 	public PersonaDTO getData() {
 		Object loc = comboBoxLocalidad.getSelectedItem();
 		String locs = loc != null ? loc.toString() : "";
@@ -245,6 +248,7 @@ public class PersonaView extends JDialog {
 				.build();
 	}
 	
+	@Override
 	public void setData(TipoContactoDTO [] tipos) {
 		assert tipos != null;
 		comboBoxTipoContacto.removeAllItems();
@@ -254,6 +258,7 @@ public class PersonaView extends JDialog {
 		}
 	}
 	
+	@Override
 	public void setData(ProvinciaDTO [] provincias) {
 		assert provincias != null;
 		comboBoxProvincia.removeAllItems();
@@ -263,6 +268,7 @@ public class PersonaView extends JDialog {
 		}
 	}
 	
+	@Override
 	public void setData(LocalidadDTO [] localidades) {
 		assert localidades != null;
 		comboBoxLocalidad.removeAllItems();
@@ -272,6 +278,7 @@ public class PersonaView extends JDialog {
 		}
 	}
 	
+	@Override
 	public void setData(PaisDTO [] paises) {
 		assert paises != null;
 		comboBoxPais.removeAllItems();
@@ -281,6 +288,7 @@ public class PersonaView extends JDialog {
 		}
 	}
 	
+	@Override
 	public void setData(PersonaDTO persona) {
 		personaId = persona.getId();
 		textNombre.setText(persona.getNombre()); 
@@ -299,35 +307,42 @@ public class PersonaView extends JDialog {
 		comboBoxPais.setSelectedItem(persona.getPais());
 	}
 		
+	@Override
 	public String getNombreProvinciaSeleccionada() {
 		Object item = comboBoxProvincia.getSelectedItem();
 		return item != null ? item.toString() : "";
 	}
 	
+	@Override
 	public String getNombrePaisSeleccionado() {
 		Object item = comboBoxPais.getSelectedItem();
 		return item != null ? item.toString() : "";
 	}
 	
+	@Override
 	public void setActionSave(ActionListener listener) {
 		assert listener != null;
 		btnAgregarPersona.addActionListener(listener);
 	}
 	
+	@Override
 	public void setActionProvinciaSelect(ActionListener listener) {
 		assert listener != null;
 		comboBoxProvincia.addActionListener(listener);
 	}
 	
+	@Override
 	public void setActionPaisSelect(ActionListener listener) {
 		assert listener != null;
 		comboBoxPais.addActionListener(listener);
 	}
 	
+	@Override
 	public void open() {
 		setVisible(true);
 	}
 	
+	@Override
 	public void close() {
 		setVisible(false);
 	}
