@@ -2,62 +2,109 @@ package repositories.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class JdbcTemplate {
 
-	static Connection connection;
+	private Connection connection;
+	private String query;
+	private Map<Integer, Param<?>> params;
 	
 	public JdbcTemplate(Connection conn) {
-		super();
 		assert connection != null;
 		connection = conn;
+		params = new HashMap<>();
 	}
 	
-	public static class Param<T> {
-		Class<? extends Object> type;
-		int position;
-		T value;
-
-		public Param(int pos, T val) {
-			type = val.getClass();
-			position = pos;
-			value = val;
-		}
+	public <T> JdbcTemplate param(T value) {
+		assert value != null;
+		int key =  params.size() + 1;
+		params.put(key, new Param<T>(value));
+		return this;
 	}
-
-	public boolean excecutableQuery(String query, Param<?>... params) {
-		PreparedStatement statement;
+	
+	public JdbcTemplate query(String query) {
+		assert query != null;
+		this.query = query;
+		return this;
+	}
+		
+	public boolean excecute() {
 		boolean isInsertExitoso = false;
 		try {
-			statement = connection.prepareStatement(query);
-			for (Param<?> param : params) {
-				if (param.type.equals(Integer.class)) {
-					Integer val = (Integer) param.value;
-					statement.setInt(param.position, val);
-				}
-				if (param.type.equals(String.class)) {
-					String val = (String) param.value;
-					statement.setString(param.position, val);
-				}
-				if(param.type.equals(java.sql.Date.class)) {
-					java.sql.Date val = (java.sql.Date) param.value;
-					statement.setDate(param.position, val);
-				}
-			}
+			PreparedStatement statement = connection.prepareStatement(query);
+			injectParams(statement);
 			if (statement.executeUpdate() > 0) {
 				connection.commit();
 				isInsertExitoso = true;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			throw new ConstraintViolationException(e.getMessage());
 		}
 		return isInsertExitoso;
+	}
+	
+	public <T> List<T> excecute(Mapper<T> mapper) {
+		if(mapper == null) throw new IllegalArgumentException("El mapper no debe ser null");
+		List<T> lst = new ArrayList<>();
+		try {
+			PreparedStatement statement = connection.prepareStatement(query);
+			injectParams(statement);
+			ResultSet rs = statement.executeQuery();
+			lst = map(rs, mapper);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lst;
+	}
+	
+	private <T> List<T> map(ResultSet resultSet, Mapper<T> mapper) throws SQLException {
+		List<T> ret = new LinkedList<>();
+		int columns = resultSet.getMetaData().getColumnCount();
+		while (resultSet.next()) {
+			Object[] arr = new Object [columns];
+			for (int i = 0; i < columns; i++) {
+				arr[i] = resultSet.getObject(i + 1);
+			}
+			ret.add(mapper.map(arr));
+		}
+		return ret;
+	}
+	
+	private void injectParams(PreparedStatement statement) {
+		params.forEach((k,v) -> {
+			try {
+				if (v.type.equals(Integer.class)) {
+					statement.setInt(k, (Integer) v.value);
+				} else 	if (v.type.equals(String.class)) {
+					statement.setString(k, (String) v.value);
+				} else 	if(v.type.equals(java.sql.Date.class)) {
+					statement.setDate(k, (java.sql.Date) v.value);
+				}	
+			} catch (SQLException t) {
+				t.printStackTrace();
+			}
+		});
+	}
+	
+	private static class Param<T> {
+		Class<? extends Object> type;
+		T value;
+
+		public Param(T val) {
+			type = val.getClass();
+			value = val;
+		}
+
+		@Override
+		public String toString() {
+			return "Param [type=" + type + ", value=" + value + "]";
+		}
 	}
 }

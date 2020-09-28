@@ -5,7 +5,6 @@ import presentacion.WorkbenchPresenter;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import business_logic.ControllersFactory;
 import business_logic.local.ControllersFactoryImpl;
 import presentacion.LocalidadPresenter;
