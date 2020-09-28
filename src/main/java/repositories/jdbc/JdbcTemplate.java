@@ -23,7 +23,6 @@ public class JdbcTemplate {
 	}
 	
 	public <T> JdbcTemplate param(T value) {
-		assert value != null;
 		int key =  params.size() + 1;
 		params.put(key, new Param<T>(value));
 		return this;

@@ -14,14 +14,27 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			"FROM personas P LEFT JOIN TiposContacto T ON P.TipoContactoID = T.TipoContactoID\r\n" + 
 			"LEFT JOIN Localidades L ON P.LocalidadID = L.LocalidadID\r\n" + 
 			"LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID\r\n" + 
-			"LEFT JOIN Pais K ON P.PaisID = K.PaisID ORDER BY CodigoPostal";
+			"LEFT JOIN Pais K ON P.PaisID = K.PaisID";
 	
-	static final String insert = "{call createPersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-	static final String update = "{call updatePersona(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) }";
-	static final String delete = "{call deletePersonaById(?)}";
-	static final String readAll = SELECT;
+	static final String insert = "INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID,\r\n" + 
+			"ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (?,?,?,?, (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?),\r\n" + 
+			"?,?,?,?,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?), ?, ?)";
+
+	static final String update = "UPDATE personas\r\n" + 
+			"	SET Nombre = ?, Telefono = ?, Email = ?, FechaCumpleaños = ?, Calle = ?\r\n" + 
+			"	,Altura = ?, Piso = ?, Departamento = ?\r\n" + 
+			"	,TipoContactoID = (SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?)\r\n" + 
+			"	,LocalidadID = (SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?)\r\n" + 
+			"	,ProvinciaID = (SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?)\r\n" + 
+			"	,PaisID = (SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?)\r\n" + 
+			"	,EquipoFutbol = ?\r\n" + 
+			"	,CodigoPostal = ?\r\n" + 
+			"	WHERE idPersona = ?";
+	
+	static final String delete = "DELETE FROM personas WHERE personas.idPersona = ?";
+	static final String readAll = SELECT + " " + "ORDER BY CodigoPostal";
 	static final String readById =  SELECT + " " + "WHERE P.idPersona = ?";
-	static final String readByPhone = SELECT + " "+ "WHERE persona.Telefono = ?";
+	static final String readByPhone = SELECT + " "+ "WHERE P.Telefono = ?";
 		
 	private Mapper<PersonaDTO> mapper;
 	
@@ -48,6 +61,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 				.param(p.getPais())
 				.param(p.getEquipoFutbol())
 				.param(p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger())
+				.param(p.getTipoContacto())				
 				.excecute();
 	}
 	
@@ -55,10 +69,10 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	public boolean update(PersonaDTO p) {
 		return getTemplate()
 				.query(update)
-				.param(p.getId())
 				.param(p.getNombre())
 				.param(p.getTelefono())
 				.param(p.getEmail())
+				// TODO revisar porque se rompe al pasar un null como parametro
 				.param(p.getFechaNacimiento() != null ? new java.sql.Date(p.getFechaNacimiento().getTime()) : null)
 				.param(p.getTipoContacto())
 				.param(p.getCalle())
@@ -70,6 +84,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 				.param(p.getPais())
 				.param(p.getEquipoFutbol())
 				.param(p.getCodigoPostalInteger() == null ? 0 : p.getCodigoPostalInteger())
+				.param(p.getId())
 				.excecute();
 		}
 	

@@ -26,7 +26,8 @@ public class AgendaApp {
 	
 	public AgendaApp domainLogic() {
 		DaosFactory.setFactory(new DaosFactoryImpl());
-		ControllersFactory.setDaosFactory(DaosFactory.getFactory());
+		ControllersFactory.setDaosFactory
+		(DaosFactory.getFactory());
 		ControllersFactory.setFactory(new ControllersFactoryImpl());
 		return this;
 	}

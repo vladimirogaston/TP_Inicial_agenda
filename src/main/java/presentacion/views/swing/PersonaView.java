@@ -46,7 +46,7 @@ public class PersonaView extends JDialog {
 		super();
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setBounds(100, 100, 334, 576);
+		setBounds(100, 100, 376, 576);
 		setTitle("Agregar Contacto");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,12 +54,12 @@ public class PersonaView extends JDialog {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 307, 523);
+		panel.setBounds(10, 11, 354, 556);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
 		JLabel lblNombreYApellido = new JLabel("* Nombre y apellido");
-		lblNombreYApellido.setBounds(10, 11, 113, 14);
+		lblNombreYApellido.setBounds(10, 11, 157, 14);
 		panel.add(lblNombreYApellido);
 
 		JLabel lblTelfono = new JLabel("* Telefono");
@@ -67,17 +67,17 @@ public class PersonaView extends JDialog {
 		panel.add(lblTelfono);
 
 		txtNombre = new JTextField("");
-		txtNombre.setBounds(133, 8, 164, 20);
+		txtNombre.setBounds(169, 8, 164, 24);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtTelefono = new JTextField("");
-		txtTelefono.setBounds(133, 39, 164, 20);
+		txtTelefono.setBounds(169, 39, 164, 24);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(165, 476, 113, 36);
+		btnAgregarPersona.setBounds(168, 477, 113, 35);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblEmail = new JLabel("Email");
@@ -85,12 +85,12 @@ public class PersonaView extends JDialog {
 		panel.add(lblEmail);
 
 		textFieldEmail = new JTextField("");
-		textFieldEmail.setBounds(133, 69, 164, 20);
+		textFieldEmail.setBounds(169, 69, 164, 24);
 		panel.add(textFieldEmail);
 		textFieldEmail.setColumns(10);
 
 		JLabel lblCumpleaos = new JLabel("Fecha de Cumpleaños");
-		lblCumpleaos.setBounds(10, 110, 124, 15);
+		lblCumpleaos.setBounds(10, 110, 193, 15);
 		panel.add(lblCumpleaos);
 
 		JLabel lblTipoContacto = new JLabel("Tipo contacto");
@@ -98,7 +98,7 @@ public class PersonaView extends JDialog {
 		panel.add(lblTipoContacto);
 
 		comboBoxTipoContacto = new JComboBox<String>();
-		comboBoxTipoContacto.setBounds(133, 136, 164, 24);
+		comboBoxTipoContacto.setBounds(169, 136, 164, 24);
 		panel.add(comboBoxTipoContacto);
 
 		JLabel lblCalle = new JLabel("Calle");
@@ -114,17 +114,17 @@ public class PersonaView extends JDialog {
 		panel.add(lblPiso);
 
 		textField_1Calle = new JTextField("");
-		textField_1Calle.setBounds(75, 286, 223, 19);
+		textField_1Calle.setBounds(111, 286, 223, 24);
 		panel.add(textField_1Calle);
 		textField_1Calle.setColumns(10);
 
 		textFieldPiso = new JTextField("");
-		textFieldPiso.setBounds(213, 367, 84, 19);
+		textFieldPiso.setBounds(249, 367, 84, 24);
 		panel.add(textFieldPiso);
 		textFieldPiso.setColumns(10);
 
 		textFieldAltura = new JTextField("");
-		textFieldAltura.setBounds(75, 323, 48, 19);
+		textFieldAltura.setBounds(75, 323, 48, 24);
 		panel.add(textFieldAltura);
 		textFieldAltura.setColumns(10);
 
@@ -133,7 +133,7 @@ public class PersonaView extends JDialog {
 		panel.add(lblDpto);
 
 		textFieldDpto = new JTextField("");
-		textFieldDpto.setBounds(70, 367, 53, 19);
+		textFieldDpto.setBounds(70, 367, 53, 24);
 		panel.add(textFieldDpto);
 		textFieldDpto.setColumns(10);
 
@@ -142,11 +142,11 @@ public class PersonaView extends JDialog {
 		panel.add(lblLocalidad);
 
 		comboBoxLocalidad = new JComboBox<String>();
-		comboBoxLocalidad.setBounds(133, 241, 164, 24);
+		comboBoxLocalidad.setBounds(169, 241, 164, 24);
 		panel.add(comboBoxLocalidad);
 
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(184, 100, 113, 25);
+		dateChooser.setBounds(220, 100, 113, 25);
 		panel.add(dateChooser);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
@@ -154,11 +154,11 @@ public class PersonaView extends JDialog {
 		panel.add(lblProvincia);
 		
 		comboBoxProvincia = new JComboBox<String>();
-		comboBoxProvincia.setBounds(133, 206, 164, 24);
+		comboBoxProvincia.setBounds(169, 206, 164, 24);
 		panel.add(comboBoxProvincia);
 		
 		comboBoxPais = new JComboBox<String>();
-		comboBoxPais.setBounds(133, 171, 164, 24);
+		comboBoxPais.setBounds(169, 171, 164, 24);
 		panel.add(comboBoxPais);
 		
 		JLabel lblPas = new JLabel("País");
@@ -166,20 +166,20 @@ public class PersonaView extends JDialog {
 		panel.add(lblPas);
 		
 		JLabel lblNewLabel = new JLabel("Equipo de Futbol");
-		lblNewLabel.setBounds(10, 420, 107, 20);
+		lblNewLabel.setBounds(10, 420, 169, 20);
 		panel.add(lblNewLabel);
 		
 		textFieldEquipo = new JTextField();
-		textFieldEquipo.setBounds(133, 417, 164, 26);
+		textFieldEquipo.setBounds(208, 417, 125, 26);
 		panel.add(textFieldEquipo);
 		textFieldEquipo.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Codigo postal");
-		lblNewLabel_1.setBounds(133, 323, 87, 20);
+		lblNewLabel_1.setBounds(133, 323, 113, 20);
 		panel.add(lblNewLabel_1);
 		
 		textFieldCodigoPostal = new JTextField();
-		textFieldCodigoPostal.setBounds(211, 320, 86, 20);
+		textFieldCodigoPostal.setBounds(247, 320, 86, 24);
 		panel.add(textFieldCodigoPostal);
 		textFieldCodigoPostal.setColumns(10);
 		
