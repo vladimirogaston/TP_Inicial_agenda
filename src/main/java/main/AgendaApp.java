@@ -1,10 +1,10 @@
 package main;
 
 import presentacion.WorkbenchPresenter;
-import presentacion.views.ProvinciaView;
 import presentacion.views.ViewsFactory;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
 import presentacion.views.swing.PersonaViewImpl;
+import presentacion.views.swing.ProvinciaViewImpl;
 import presentacion.views.swing.ViewsFactoryImpl;
 
 import javax.swing.UIManager;
@@ -33,11 +33,11 @@ public class AgendaApp {
 	
 	public AgendaApp presentationLogic() {
 		ViewsFactory.setFactory(new ViewsFactoryImpl());
-		starter = new WorkbenchPresenter(WorkbenchView.getInstance(), PersonaViewImpl.getInstance());
+		starter = new WorkbenchPresenter(WorkbenchViewImpl.getInstance(), PersonaViewImpl.getInstance());
 		new LocalidadPresenter(ViewsFactory.getFactory().makeLocalidadView(), ControllersFactory.getFactory().getLocalidadController());
 		new TiposPresenter(ViewsFactory.getFactory().makeTiposView(), ControllersFactory.getFactory().getTipoController());
 		new PaisPresenter(ViewsFactory.getFactory().makePaisView(), ControllersFactory.getFactory().getPaisController());
-		new ProvinciaPresenter(ProvinciaView.getInstance(), ControllersFactory.getFactory().getProvinciaController());	
+		new ProvinciaPresenter(ProvinciaViewImpl.getInstance(), ControllersFactory.getFactory().getProvinciaController());	
 		return this;
 	}
 

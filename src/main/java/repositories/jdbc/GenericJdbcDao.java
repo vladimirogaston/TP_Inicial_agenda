@@ -10,6 +10,7 @@ public abstract class GenericJdbcDao<T> implements GenericDao<T, Integer> {
 		
 	public GenericJdbcDao(Connection connection) {
 		super();
+		assert connection != null;
 		this.connection = connection;
 	}
 

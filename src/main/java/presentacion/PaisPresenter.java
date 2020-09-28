@@ -6,7 +6,7 @@ import business_logic.PaisController;
 import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import presentacion.views.PaisView;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
 import presentacion.views.swing.ErrorDialogImpl;
 import presentacion.views.swing.InputDialogImpl;
 
@@ -25,7 +25,7 @@ public class PaisPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchView.getInstance().getMntmNewMenuItemPaises().addActionListener((a)->onInit(a));
+		WorkbenchViewImpl.getInstance().getMntmNewMenuItemPaises().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {

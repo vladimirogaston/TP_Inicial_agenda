@@ -6,7 +6,7 @@ import business_logic.TipoController;
 import business_logic.exceptions.ForbiddenException;
 import dto.TipoContactoDTO;
 import presentacion.views.TiposView;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
 import presentacion.views.swing.ErrorDialogImpl;
 import presentacion.views.swing.InputDialogImpl;
 
@@ -23,7 +23,7 @@ public class TiposPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchView.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->onInit(a));
+		WorkbenchViewImpl.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {

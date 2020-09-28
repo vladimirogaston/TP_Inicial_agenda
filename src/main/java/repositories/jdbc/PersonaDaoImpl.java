@@ -61,12 +61,14 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	
 	public PersonaDaoImpl(Connection connection) {
 		super(connection);
+		assert connection != null;
 		mapper = getMapper();
 	}
 	
 	@Override
 	public boolean insert(PersonaDTO p) {
-		 return getTemplate()
+		assert p != null; 
+		return getTemplate()
 				.query(insert)
 				.param(p.getNombre())
 				.param(p.getTelefono())
@@ -87,6 +89,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	
 	@Override
 	public boolean update(PersonaDTO p) {
+		assert p != null;
 		return getTemplate()
 				.query(update)
 				.param(p.getNombre())
@@ -109,6 +112,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 	
 	@Override
 	public boolean deleteById(Integer id) {
+		assert id != null;
 		return getTemplate().query(delete).param(id).excecute();
 	}
 	
@@ -119,11 +123,13 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 
 	@Override
 	public PersonaDTO readByID(Integer id) {
+		assert id != null;
 		return getData(getTemplate().query(readById).param(id).excecute(mapper));
 	}
 
 	@Override
 	public PersonaDTO readByPhone(String telefono) {
+		assert telefono != null;
 		return getData(getTemplate().query(readByPhone).param(telefono).excecute(mapper));
 	}
 
@@ -147,7 +153,6 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 						.equipoFutbol((String) obj[13])
 						.codigoPostal(((Integer) obj[14]).toString())
 						.build();
-				System.out.println(ret.toString());
 				return ret;
 			}			
 		};

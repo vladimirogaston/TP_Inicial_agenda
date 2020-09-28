@@ -8,20 +8,20 @@ import business_logic.ProvinciaController;
 import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
-import presentacion.views.ProvinciaView;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
+import presentacion.views.swing.ProvinciaViewImpl;
 
 public class ProvinciaPresenter {
 
-	private ProvinciaView vista;
+	private ProvinciaViewImpl vista;
 	private ProvinciaController controller;
 	
-	public ProvinciaPresenter(ProvinciaView vista, ProvinciaController controller) {
+	public ProvinciaPresenter(ProvinciaViewImpl vista, ProvinciaController controller) {
 		super();
 		this.vista = vista;
 		this.controller = controller;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
-		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
+		WorkbenchViewImpl.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
 		vista.getBtnEliminar().addActionListener((a) -> onEliminar(a));

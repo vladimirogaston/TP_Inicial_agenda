@@ -16,6 +16,7 @@ public class ProvinciaDaoImpl extends GenericJdbcDao<ProvinciaDTO> implements Pr
 	static final String readById = SELECT + " " + "WHERE ProvinciaID = ?";
 	static final String readByName = SELECT + " " + "WHERE Provincia.ProvinciaNombre = ?";
 	static final String readByPais = SELECT + " " + "WHERE Pais.PaisNombre = ?";
+	
 	private Mapper<ProvinciaDTO> mapper;
 	
 	public ProvinciaDaoImpl(Connection connection) {
@@ -25,12 +26,14 @@ public class ProvinciaDaoImpl extends GenericJdbcDao<ProvinciaDTO> implements Pr
 
 	@Override
 	public boolean insert(ProvinciaDTO dto) {
+		assert dto != null;
 		return getTemplate().query(insert).param(dto.getNombre()).param(dto.getPais())
 				.excecute();
 	}
 	
 	@Override
 	public boolean update(ProvinciaDTO dto) {
+		assert dto != null;
 		return getTemplate().query(update).param(dto.getNombre()).param(dto.getPais())
 				.param(dto.getId())
 				.excecute();
@@ -38,11 +41,13 @@ public class ProvinciaDaoImpl extends GenericJdbcDao<ProvinciaDTO> implements Pr
 	
 	@Override
 	public boolean deleteById(Integer id) {
+		assert id != null;
 		return getTemplate().query(delete).param(id).excecute();
 	}
 
 	@Override
 	public ProvinciaDTO readByID(Integer id) {
+		assert id != null;
 		return getData(getTemplate().query(readById).param(id).excecute(mapper));
 	}
 
@@ -53,11 +58,13 @@ public class ProvinciaDaoImpl extends GenericJdbcDao<ProvinciaDTO> implements Pr
 
 	@Override
 	public List<ProvinciaDTO> readByPais(String pais) {
+		assert pais != null;
 		return getTemplate().query(readByPais).param(pais).excecute(mapper);
 	}
 
 	@Override
 	public ProvinciaDTO readByName(String nombre) {
+		assert nombre != null;
 		return getData(getTemplate().query(readByName).param(nombre).excecute(mapper));
 	}
 

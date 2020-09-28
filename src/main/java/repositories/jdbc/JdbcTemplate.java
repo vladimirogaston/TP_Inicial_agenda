@@ -80,6 +80,7 @@ public class JdbcTemplate {
 	private void injectParams(PreparedStatement statement) {
 		params.forEach((k,v) -> {
 			try {
+				//TODO ¿Codigo espagetti...?
 				if (v.type.equals(NullObject.class)) {
 					statement.setObject(k, null);
 				} else if (v.type.equals(Integer.class)) {
@@ -102,11 +103,6 @@ public class JdbcTemplate {
 		public Param(T val) {
 			type = val.getClass();
 			value = val;
-		}
-
-		@Override
-		public String toString() {
-			return "Param [type=" + type + ", value=" + value + "]";
 		}
 	}
 }

@@ -24,7 +24,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.BorderLayout;
 
-public class WorkbenchView {
+public class WorkbenchViewImpl {
 	
 	static final String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
 			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal", "ID" };
@@ -41,15 +41,15 @@ public class WorkbenchView {
 	JMenuItem mntmNewMenuItemProvincias;
 	JMenuItem mntmNewMenuItemLocalidades;
 	JMenuItem mntmNewMenuItemTipos;
-	static WorkbenchView vista;
+	static WorkbenchViewImpl vista;
 	
-	public static WorkbenchView getInstance() {
-		if(vista == null) vista = new WorkbenchView();
+	public static WorkbenchViewImpl getInstance() {
+		if(vista == null) vista = new WorkbenchViewImpl();
 		return vista;
 	}
 	
 	@SuppressWarnings("serial")
-	WorkbenchView() {
+	WorkbenchViewImpl() {
 		super();
 		frame = new JFrame();
 		frame.setResizable(false);

@@ -1,11 +1,10 @@
 package presentacion.views;
 
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import dto.LocalidadDTO;
 
-public interface LocalidadView {
+public interface LocalidadView extends CrudView {
 
 	void clearData();
 
@@ -14,10 +13,4 @@ public interface LocalidadView {
 	LocalidadDTO getData();
 
 	void open();
-
-	void setActionSave(ActionListener object);
-
-	void setActionUpdate(ActionListener object);
-
-	void setActionDelete(ActionListener object);
 }

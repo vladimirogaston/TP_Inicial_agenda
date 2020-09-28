@@ -10,19 +10,21 @@ import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
 import presentacion.views.swing.ErrorDialogImpl;
 import presentacion.views.swing.PersonaViewImpl;
 import presentacion.views.swing.ReporteViewImpl;
 
 public class WorkbenchPresenter {
 
-	private WorkbenchView workbenchView;
+	private WorkbenchViewImpl workbenchView;
 	private PersonaViewImpl formView;
 	
-	public WorkbenchPresenter(WorkbenchView view, PersonaViewImpl adaptor) {
+	public WorkbenchPresenter(WorkbenchViewImpl view, PersonaViewImpl formView) {
+		assert view != null;
+		assert formView != null;
 		workbenchView = view;
-		formView = adaptor;
+		this.formView = formView;
 		onInjectWorkbenchActions();
 		onInjectFormActions();
 	}

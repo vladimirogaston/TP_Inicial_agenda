@@ -10,13 +10,14 @@ import business_logic.exceptions.ForbiddenException;
 import dto.LocalidadDTO;
 import dto.ProvinciaDTO;
 import presentacion.views.LocalidadView;
-import presentacion.views.WorkbenchView;
+import presentacion.views.WorkbenchViewImpl;
 import presentacion.views.swing.ErrorDialogImpl;
 import presentacion.views.swing.InputSelectDialogImpl;
 
 public class LocalidadPresenter {
-
+	
 	private LocalidadView adaptor;
+	
 	private LocalidadController controller;
 	
 	public LocalidadPresenter(LocalidadView vista, LocalidadController controller) {
@@ -29,7 +30,7 @@ public class LocalidadPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchView.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->onInit(a));
+		WorkbenchViewImpl.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {
@@ -47,7 +48,7 @@ public class LocalidadPresenter {
 		String [] target = new InputSelectDialogImpl()
 				.title("Ingrese los datos de la nueva localidad")
 				.setProvincias(getNombreProvincias())
-				.displayForm();
+				.open();
 		LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
 		if(dto.getNombre() != null) {
 			try {
@@ -65,7 +66,7 @@ public class LocalidadPresenter {
 			String [] target = new InputSelectDialogImpl()
 					.title("Ingrese los datos de la nueva localidad")
 					.setProvincias(getNombreProvincias())
-					.displayForm();
+					.open();
 			LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
 			if(dto.getNombre() != null) {
 				try {
