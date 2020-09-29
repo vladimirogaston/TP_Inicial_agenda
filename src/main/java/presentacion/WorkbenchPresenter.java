@@ -96,7 +96,8 @@ public class WorkbenchPresenter {
 	
 	private void onDisplayFormForSave(ActionEvent a) {
 		formView.clearData();
-		fillOptionsList();
+		fillPaises();
+		fillTiposDeContacto();
 		formView.open();
 	}
 
@@ -104,39 +105,38 @@ public class WorkbenchPresenter {
 		PersonaDTO target = workbenchView.getData();
 		if(target != null) {
 			formView.clearData();
+			fillProvincias(target.getPais());
+			fillPaises();
+			fillLocalidades(target.getProvincia());
 			
-			List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().getTipoController().readAll();
-			TipoContactoDTO [] tipos = new TipoContactoDTO[tiposlst.size()];
-			formView.setData(tiposlst.toArray(tipos));
-			
-			List<PaisDTO> paiseslst = ControllersFactory.getFactory().getPaisController().readAll();
-			PaisDTO [] paises = new PaisDTO [paiseslst.size()];
-			formView.setData(paiseslst.toArray(paises));
-						
-			if(!target.getProvincia().isEmpty()) {
-				List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().getProvinciaController().readAll();
-				ProvinciaDTO [] provincias = new ProvinciaDTO [provincialst.size()];
-				formView.setData(provincialst.toArray(provincias));
-			}
-			
-			if(!target.getLocalidad().isEmpty()) {
-				List<LocalidadDTO> locslst = ControllersFactory.getFactory().getLocalidadController().readByProvincia(target.getProvincia());
-				LocalidadDTO [] localidades = new LocalidadDTO [locslst.size()];
-				formView.setData(locslst.toArray(localidades));
-			}
-			
+			fillTiposDeContacto();
 			formView.setData(target);
 			formView.open();	
 		}
 	}
 	
-	private void fillOptionsList() {
-		List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().getTipoController().readAll();
-		TipoContactoDTO [] tipos = new TipoContactoDTO[tiposlst.size()];
-		formView.setData(tiposlst.toArray(tipos));
+	private void fillLocalidades(String provincia) {
+		List<LocalidadDTO> locslst = ControllersFactory.getFactory().getLocalidadController().readByProvincia(provincia);
+		LocalidadDTO [] localidades = new LocalidadDTO [locslst.size()];
+		formView.setData(locslst.toArray(localidades));
+	}
+	
+	private void fillProvincias(String pais) {
+		List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().getProvinciaController().readByPais(pais);
+		ProvinciaDTO [] provincias = new ProvinciaDTO [provincialst.size()];
+		formView.setData(provincialst.toArray(provincias));
+	}
+	
+	private void fillPaises() {
 		List<PaisDTO> paiseslst = ControllersFactory.getFactory().getPaisController().readAll();
 		PaisDTO [] paises = new PaisDTO [paiseslst.size()];
 		formView.setData(paiseslst.toArray(paises));
+	}
+	
+	private void fillTiposDeContacto() {
+		List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().getTipoController().readAll();
+		TipoContactoDTO [] tipos = new TipoContactoDTO[tiposlst.size()];
+		formView.setData(tiposlst.toArray(tipos));
 	}
 	
 	private void onDisplayReport(ActionEvent r) {

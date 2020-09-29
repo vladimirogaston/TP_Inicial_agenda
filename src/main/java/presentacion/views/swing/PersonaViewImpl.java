@@ -55,7 +55,7 @@ public class PersonaViewImpl extends JDialog implements PersonaView {
 		super();
 
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		setBounds(100, 100, 376, 576);
+		setBounds(100, 100, 385, 576);
 		setTitle("Agregar Contacto");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,7 +63,7 @@ public class PersonaViewImpl extends JDialog implements PersonaView {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 354, 556);
+		panel.setBounds(10, 11, 359, 516);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -86,7 +86,7 @@ public class PersonaViewImpl extends JDialog implements PersonaView {
 		textTelefono.setColumns(10);
 
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(168, 477, 113, 35);
+		btnAgregarPersona.setBounds(220, 469, 113, 35);
 		panel.add(btnAgregarPersona);
 
 		JLabel lblEmail = new JLabel("Email");
@@ -295,16 +295,16 @@ public class PersonaViewImpl extends JDialog implements PersonaView {
 		textTelefono.setText(persona.getTelefono());
 		textEmail.setText(persona.getEmail());
 		dateChooser.setDate(persona.getFechaNacimiento());
-		comboBoxTipoContacto.setSelectedItem(persona.getTipoContacto());
 		textCalle.setText(persona.getCalle());
 		textFieldAltura.setText(persona.getAltura());
 		textPiso.setText(persona.getPiso());
 		textDpto.setText(persona.getDpto());
-		comboBoxLocalidad.setSelectedItem(persona.getLocalidad());
-		comboBoxProvincia.setSelectedItem(persona.getProvincia());
 		textFieldCodigoPostal.setText(persona.getCodigoPostal());
 		textEquipo.setText(persona.getEquipoFutbol());
 		comboBoxPais.setSelectedItem(persona.getPais());
+		comboBoxProvincia.setSelectedItem(persona.getProvincia());		
+		comboBoxTipoContacto.setSelectedItem(persona.getTipoContacto());
+		comboBoxLocalidad.setSelectedItem(persona.getLocalidad());
 	}
 		
 	@Override
