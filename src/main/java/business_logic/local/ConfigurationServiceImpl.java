@@ -1,8 +1,7 @@
 package business_logic.local;
 
 import java.io.IOException;
-
-import org.apache.commons.configuration.PropertiesConfiguration.PropertiesReader;
+import java.util.HashMap;
 
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
@@ -13,20 +12,18 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	private PropertiesServiceImpl service;
 	
 	public ConfigurationServiceImpl() {
-		this.service = new PropertiesServiceImpl("application.properties");
+		this.service = new PropertiesServiceImpl("conf/db.properties");
 	}
 	
 	@Override
 	public void save(ConfigDatabaseDTO target) {
-		String user = target.getUser();
-		String password = target.getPassword();
-		String port = target.getPort();
-		String ip = target.getIp();
+		HashMap<String, String> params = new HashMap<>();
+		params.put("user", target.getUser());
+		params.put("password", target.getPassword());
+		params.put("port", target.getPort());
+		params.put("ip", target.getIp());
 		try {
-			this.service.updateValue("user", user);
-			this.service.updateValue("password", password);
-			this.service.updateValue("port", port);
-			this.service.updateValue("ip", ip);
+			service.updateValues(params);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,13 +1,12 @@
 package repositories;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 
 public class PropertiesServiceImpl {
 
@@ -18,11 +17,14 @@ public class PropertiesServiceImpl {
 	}
 	
 	public void updateValues(Map<String, String> values) throws IOException {
-		Properties properties = readProperties();
+		Properties properties = new Properties();
+	    properties.clear();
 		values.forEach((k,v) -> {
 			properties.setProperty(k, v);
 		});
-		properties.store(new FileOutputStream(propertiesFileName), null);
+		OutputStream output = new FileOutputStream(propertiesFileName);
+		properties.store(output, null);
+		output.close();
 	}
 	
 	public String readProperty(String propertyName) throws IOException {
@@ -30,8 +32,7 @@ public class PropertiesServiceImpl {
 	}
 
 	public Properties readProperties() throws IOException {
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		InputStream inputStream = loader.getResourceAsStream(propertiesFileName);
+		FileInputStream inputStream = new FileInputStream(propertiesFileName);
 		Properties properties = new Properties();
 		properties.load(inputStream);
 		return properties;

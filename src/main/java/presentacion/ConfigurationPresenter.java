@@ -41,7 +41,7 @@ public class ConfigurationPresenter {
 	
 	private void onSave(ActionEvent a) {	
 		ConfigDatabaseDTO target = view.getData();
-		List<String> errors = GenericValidator.getInstance().validate(target);
+		List<String> errors = target.validate();
 		if(errors.isEmpty()) {
 			controller.save(target);
 		} else {
