@@ -9,30 +9,41 @@ import business_logic.TipoController;
 
 public class ControllersFactoryImpl extends ControllersFactory {
 
+	private PersonaController personaController;
+	private ProvinciaController provinciaController;
+	private PaisController paisController;
+	private LocalidadController localidadController;
+	private TipoController tipoController;
+	
 	public ControllersFactoryImpl() {
 		super();
 		if(daos == null) {
 			throw new IllegalArgumentException("Daos factory no debe ser null.");
 		}
+		personaController = new PersonaControllerImpl(daos);
+		localidadController = new LocalidadControllerImpl(daos.createLocalidadDAO());
+		provinciaController = new ProvinciaControllerImpl(daos.createProvinciaDAO());
+		paisController = new PaisControllerImpl(daos.createPaisDAO());
+		tipoController =  new TipoControllerImpl(daos.createTipoContactoDAO());
 	}
 	
 	public PersonaController getPersonaController() {
-		return new PersonaControllerImpl(daos);
+		return personaController;
 	}
 
 	public LocalidadController getLocalidadController() {
-		return new LocalidadControllerImpl(daos.createLocalidadDAO());
+		return localidadController;
 	}
 
 	public ProvinciaController getProvinciaController() {
-		return new ProvinciaControllerImpl(daos.createProvinciaDAO());
+		return provinciaController;
 	}
 
 	public PaisController getPaisController() {
-		return new PaisControllerImpl(daos.createPaisDAO());
+		return paisController;
 	}
 
 	public TipoController getTipoController() {
-		return new TipoControllerImpl(daos.createTipoContactoDAO());
+		return tipoController;
 	}
 }

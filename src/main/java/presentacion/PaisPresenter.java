@@ -43,7 +43,7 @@ public class PaisPresenter {
 		String input = new InputDialogImpl()
 				.title("Ingrese los datos del nuevo país")
 				.open();
-		if(input != null) {
+		if(input != null && !input.trim().isEmpty()) {
 			try {
 				PaisDTO target = new PaisDTO(input);
 				controller.save(target);
