@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import business_logic.ControllersFactory;
+import business_logic.Observer;
 import business_logic.PersonaController;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
@@ -15,7 +16,7 @@ import presentacion.views.swing.ErrorDialogImpl;
 import presentacion.views.swing.PersonaViewImpl;
 import presentacion.views.swing.ReporteViewImpl;
 
-public class WorkbenchPresenter {
+public class WorkbenchPresenter implements Observer {
 
 	private WorkbenchViewImpl workbenchView;
 	private PersonaViewImpl formView;
@@ -28,7 +29,14 @@ public class WorkbenchPresenter {
 		onInjectWorkbenchActions();
 		onInjectFormActions();
 	}
-
+	
+	@Override
+	public void update() {
+		workbenchView.clearData();
+		PersonaDTO [] personas = getData();
+		if(personas != null) workbenchView.setData(personas);
+	}	
+	
 	private void onInjectWorkbenchActions() {
 		workbenchView.setActionSave(a -> onDisplayFormForSave(a));
 		workbenchView.setActionUpdate(a -> onDisplayFormForUpdate(a));
@@ -47,9 +55,7 @@ public class WorkbenchPresenter {
 		if (target != null) {
 			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
 			controller.delete(target.getId());
-			workbenchView.clearData();
-			PersonaDTO[] personas = getData();
-			workbenchView.setData(personas);
+			update();	
 		}
 	}
 
@@ -63,15 +69,19 @@ public class WorkbenchPresenter {
 			} else {
 				controller.update(target);
 			}
-			workbenchView.clearData();
-			workbenchView.setData(getData());
+			update();
 			formView.close();
 		} else {
 			new ErrorDialogImpl().showMessages(errors);
 		}
 	}
-
-	private PersonaDTO[] getData() {
+	
+	public void onInit() {
+		update();
+		workbenchView.open();
+	}
+	
+	private PersonaDTO [] getData() {
 		List<PersonaDTO> personas = ControllersFactory.getFactory().getPersonaController().readAll();
 		return personas.toArray(new PersonaDTO[personas.size()]);
 	}
@@ -109,8 +119,7 @@ public class WorkbenchPresenter {
 			formView.clearData();
 			fillProvincias(target.getPais());
 			fillPaises();
-			fillLocalidades(target.getProvincia());
-
+			fillLocalidades(target.getProvincia());			
 			fillTiposDeContacto();
 			formView.setData(target);
 			formView.open();
@@ -147,12 +156,5 @@ public class WorkbenchPresenter {
 		ReporteViewImpl reporte = new ReporteViewImpl();
 		reporte.setData(target);
 		reporte.open();
-	}
-
-	public void onInit() {
-		PersonaDTO[] personas = getData();
-		if (personas != null)
-			workbenchView.setData(personas);
-		workbenchView.open();
 	}
 }

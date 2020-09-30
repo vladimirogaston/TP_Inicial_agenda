@@ -73,7 +73,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 				.param(p.getNombre())
 				.param(p.getTelefono())
 				.param(p.getEmail())
-				.param(p.getFechaNacimiento() != null ? new java.sql.Date(p.getFechaNacimiento().getTime()) : null)
+				.param(p.getFechaNacimiento() != null ? new java.sql.Date(p.getFechaNacimiento().getTime()) : new NullObject())
 				.param(p.getTipoContacto())
 				.param(p.getCalle())
 				.param(p.getAltura())

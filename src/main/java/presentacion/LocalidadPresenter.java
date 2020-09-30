@@ -49,6 +49,7 @@ public class LocalidadPresenter {
 				.title("Ingrese los datos de la nueva localidad")
 				.setProvincias(getNombreProvincias())
 				.open();
+		if(target == null) return;
 		LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
 		if(dto.getNombre() != null) {
 			try {
@@ -67,6 +68,7 @@ public class LocalidadPresenter {
 					.title("Ingrese los datos de la nueva localidad")
 					.setProvincias(getNombreProvincias())
 					.open();
+			if(target == null) return;
 			LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
 			if(dto.getNombre() != null) {
 				try {

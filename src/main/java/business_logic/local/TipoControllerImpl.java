@@ -28,12 +28,6 @@ public class TipoControllerImpl implements TipoController {
 	@Override
 	public boolean update(TipoContactoDTO tipoDto) {
 		assert tipoDto != null;
-		if(dao.readByName(tipoDto.getNombre()) != null) {
-			throw new ForbiddenException("El tipo ya esta en uso.");
-		}
-		if(dao.readByID(tipoDto.getId()) == null) {
-			throw new ForbiddenException("El tipo no existe.");
-		}
 		return dao.update(tipoDto);
 	}
 	
