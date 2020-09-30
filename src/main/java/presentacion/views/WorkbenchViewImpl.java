@@ -42,6 +42,7 @@ public class WorkbenchViewImpl {
 	JMenuItem mntmNewMenuItemLocalidades;
 	JMenuItem mntmNewMenuItemTipos;
 	static WorkbenchViewImpl vista;
+	private JMenuItem mntmConfiguracin;
 	
 	public static WorkbenchViewImpl getInstance() {
 		if(vista == null) vista = new WorkbenchViewImpl();
@@ -117,6 +118,9 @@ public class WorkbenchViewImpl {
 
 		mntmNewMenuItemTipos = new JMenuItem("Tipos");
 		mnNewMenu.add(mntmNewMenuItemTipos);
+		
+		mntmConfiguracin = new JMenuItem("Configuración");
+		mnNewMenu.add(mntmConfiguracin);
 	}
 
 	public void open() {
@@ -219,5 +223,9 @@ public class WorkbenchViewImpl {
 
 	public void setActionReport(ActionListener listener) {
 		btnReporte.addActionListener(listener);
+	}
+	
+	public void setActionConfiguracion(ActionListener listener) {
+		this.mntmConfiguracin.addActionListener(listener);
 	}
 }

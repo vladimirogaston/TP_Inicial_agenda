@@ -3,6 +3,7 @@ package main;
 import presentacion.WorkbenchPresenter;
 import presentacion.views.ViewsFactory;
 import presentacion.views.WorkbenchViewImpl;
+import presentacion.views.swing.ConfigurationView;
 import presentacion.views.swing.PersonaViewImpl;
 import presentacion.views.swing.ProvinciaViewImpl;
 import presentacion.views.swing.ViewsFactoryImpl;
@@ -17,8 +18,10 @@ import business_logic.PaisController;
 import business_logic.ProvinciaController;
 import business_logic.Observable;
 import business_logic.TipoController;
+import business_logic.local.ConfigurationServiceImpl;
 import business_logic.local.ControllersFactoryImpl;
 import business_logic.local.ObservablesControllersFactory;
+import presentacion.ConfigurationPresenter;
 import presentacion.LocalidadPresenter;
 import presentacion.PaisPresenter;
 import presentacion.ProvinciaPresenter;
@@ -59,8 +62,12 @@ public class AgendaApp {
 		
 		Observable observable3 = ObservablesFactory.getFactory().makeObservable(ProvinciaController.class);
 		observable3.registerObserver(starter);
-		new ProvinciaPresenter(ProvinciaViewImpl.getInstance(), (ProvinciaController) observable3);	
-		return this;
+		new ProvinciaPresenter(ProvinciaViewImpl.getInstance(), (ProvinciaController) observable3);		
+
+		ConfigurationPresenter configPresenter = new ConfigurationPresenter(new ConfigurationView(), new ConfigurationServiceImpl());
+		configPresenter.setRootViewAction(WorkbenchViewImpl.getInstance());
+		
+		return this;	
 	}
 
 	public AgendaApp setUpLookAndFeel() {
