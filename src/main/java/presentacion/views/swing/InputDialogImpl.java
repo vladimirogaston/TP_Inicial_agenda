@@ -51,7 +51,7 @@ public class InputDialogImpl {
 	
 	private String getData() {
 		String nombre = textField.getText();
-		if(nombre.strip().isEmpty()) {
+		if(nombre.trim().isEmpty()) {
 			return null;
 		}
 		return nombre.toString();
