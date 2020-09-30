@@ -1,7 +1,9 @@
-package business_logic.local;
+package repositories;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.configuration.ConfigurationException;
@@ -15,23 +17,21 @@ public class PropertiesServiceImpl {
 		this.propertiesFileName = propertyFileName;
 	}
 	
-	public void updateValue(String propertyName, String value) throws IOException {
-		try {
-			PropertiesConfiguration conf = new PropertiesConfiguration(propertiesFileName);
-			conf.setProperty(propertyName, value);
-			conf.save();
-		} catch (ConfigurationException e) {
-			e.printStackTrace();
-		}
+	public void updateValues(Map<String, String> values) throws IOException {
+		Properties properties = readProperties();
+		values.forEach((k,v) -> {
+			properties.setProperty(k, v);
+		});
+		properties.store(new FileOutputStream(propertiesFileName), null);
 	}
 	
 	public String readProperty(String propertyName) throws IOException {
-		return readProperties(this.propertiesFileName).getProperty(propertyName);
+		return readProperties().getProperty(propertyName);
 	}
 
-	public Properties readProperties(String file) throws IOException {
+	public Properties readProperties() throws IOException {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		InputStream inputStream = loader.getResourceAsStream(file);
+		InputStream inputStream = loader.getResourceAsStream(propertiesFileName);
 		Properties properties = new Properties();
 		properties.load(inputStream);
 		return properties;

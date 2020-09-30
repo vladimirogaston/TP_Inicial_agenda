@@ -6,6 +6,7 @@ import org.apache.commons.configuration.PropertiesConfiguration.PropertiesReader
 
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
+import repositories.PropertiesServiceImpl;
 
 public class ConfigurationServiceImpl implements ConfigurationService {
 

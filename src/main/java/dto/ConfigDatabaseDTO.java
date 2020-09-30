@@ -1,5 +1,7 @@
 package dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 public class ConfigDatabaseDTO {
@@ -19,6 +21,10 @@ public class ConfigDatabaseDTO {
 		setPassword(password);
 		setPort(port);
 		setIp(ip);
+	}
+	
+	public List<String> validate() {
+		return GenericValidator.getInstance().validate(this);
 	}
 	
 	public String getUser() {
