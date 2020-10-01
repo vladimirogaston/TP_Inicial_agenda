@@ -1,4 +1,4 @@
-package presentacion.views.swing;
+package presentacion.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -48,7 +48,7 @@ public class ConfigurationView extends JDialog {
 		}
 		{
 			textUser = new JTextField("");
-			textUser.setBounds(118, 38, 245, 19);
+			textUser.setBounds(118, 38, 245, 24);
 			contentPanel.add(textUser);
 			textUser.setColumns(10);
 		}
@@ -59,7 +59,7 @@ public class ConfigurationView extends JDialog {
 		}
 		{
 			textPassword = new JTextField("");
-			textPassword.setBounds(118, 64, 245, 19);
+			textPassword.setBounds(118, 64, 245, 24);
 			contentPanel.add(textPassword);
 			textPassword.setColumns(10);
 		}
@@ -70,7 +70,7 @@ public class ConfigurationView extends JDialog {
 		}
 		{
 			textIp = new JTextField("");
-			textIp.setBounds(118, 90, 245, 19);
+			textIp.setBounds(118, 90, 245, 24);
 			contentPanel.add(textIp);
 			textIp.setColumns(10);
 		}
@@ -81,7 +81,7 @@ public class ConfigurationView extends JDialog {
 		}
 		{
 			textPort = new JTextField("");
-			textPort.setBounds(118, 116, 245, 19);
+			textPort.setBounds(118, 116, 245, 24);
 			contentPanel.add(textPort);
 			textPort.setColumns(10);
 		}

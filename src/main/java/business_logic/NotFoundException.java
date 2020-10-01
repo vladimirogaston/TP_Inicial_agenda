@@ -1,4 +1,4 @@
-package business_logic.exceptions;
+package business_logic;
 
 public class NotFoundException extends RuntimeException {
 

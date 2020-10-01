@@ -2,8 +2,8 @@ package business_logic.local;
 
 import java.util.List;
 
+import business_logic.ForbiddenException;
 import business_logic.TipoController;
-import business_logic.exceptions.ForbiddenException;
 import dto.TipoContactoDTO;
 import repositories.TipoContactoDao;
 

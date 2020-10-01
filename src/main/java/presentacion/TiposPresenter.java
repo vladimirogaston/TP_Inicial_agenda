@@ -2,13 +2,13 @@ package presentacion;
 
 import java.awt.event.ActionEvent;
 
+import business_logic.ForbiddenException;
 import business_logic.TipoController;
-import business_logic.exceptions.ForbiddenException;
 import dto.TipoContactoDTO;
+import presentacion.views.ErrorDialog;
+import presentacion.views.InputDialog;
 import presentacion.views.TiposView;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ErrorDialogImpl;
-import presentacion.views.swing.InputDialogImpl;
+import presentacion.views.WorkbenchView;
 
 public class TiposPresenter {
 
@@ -23,7 +23,7 @@ public class TiposPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchViewImpl.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->onInit(a));
+		WorkbenchView.getInstance().getMntmNewMenuItemTipos().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {
@@ -38,7 +38,7 @@ public class TiposPresenter {
 	}
 	
 	private void onSave(ActionEvent a) {
-		String input = new InputDialogImpl()
+		String input = new InputDialog()
 				.title("Ingrese el nombre del nuevo tipo de contacto")
 				.open();
 		if(input != null) {
@@ -47,7 +47,7 @@ public class TiposPresenter {
 				controller.save(target);
 				reset();
 			}catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}
@@ -55,7 +55,7 @@ public class TiposPresenter {
 	private void onUpdate(ActionEvent a) {
 		TipoContactoDTO current = adaptor.getData();
 		if(current != null) {
-			String input = new InputDialogImpl()
+			String input = new InputDialog()
 					.title("Ingrese el tipo de contacto")
 					.setText(current.getNombre())
 					.open();
@@ -66,7 +66,7 @@ public class TiposPresenter {
 					controller.update(target);
 					reset();
 				}catch(ForbiddenException e) {
-					new ErrorDialogImpl().showMessages(e.getMessage());
+					new ErrorDialog().showMessages(e.getMessage());
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class TiposPresenter {
 				controller.delete(target.getId());
 				reset();
 			} catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}

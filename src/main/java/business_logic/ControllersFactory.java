@@ -5,8 +5,12 @@ import repositories.DaosFactory;
 public abstract class ControllersFactory {
 
 	private static ControllersFactory concreteFactory;
-	protected static DaosFactory daos;
+	protected DaosFactory daos;
 		
+	public void setDaosFactory(DaosFactory daosf) {
+		this.daos = daosf;
+	}
+	
 	public static void setFactory(ControllersFactory factory) {
 		assert factory != null;
 		concreteFactory = factory;
@@ -17,18 +21,13 @@ public abstract class ControllersFactory {
 		return concreteFactory;
 	}
 	
-	public static void setDaosFactory(DaosFactory daosf) {
-		assert daosf != null;
-		daos = daosf;
-	}
-	
-	public abstract PersonaController getPersonaController();
+	public abstract PersonaController makePersonaController();
 
-	public abstract LocalidadController getLocalidadController();
+	public abstract LocalidadController makeLocalidadController();
 
-	public abstract ProvinciaController getProvinciaController();
+	public abstract ProvinciaController makeProvinciaController();
 
-	public abstract PaisController getPaisController();
+	public abstract PaisController makePaisController();
 
-	public abstract TipoController getTipoController();
+	public abstract TipoController makeTipoController();
 }

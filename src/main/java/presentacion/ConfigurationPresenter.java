@@ -6,9 +6,9 @@ import java.util.List;
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
 import dto.GenericValidator;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ConfigurationView;
-import presentacion.views.swing.ErrorDialogImpl;
+import presentacion.views.ConfigurationView;
+import presentacion.views.ErrorDialog;
+import presentacion.views.WorkbenchView;
 
 public class ConfigurationPresenter {
 
@@ -35,7 +35,7 @@ public class ConfigurationPresenter {
 			if(status) view.setData("Conexion exitosa.");
 			else view.setData("Conexion fallida");
 		} else {
-			new ErrorDialogImpl().showMessages(errors);
+			new ErrorDialog().showMessages(errors);
 		}
 	}
 	
@@ -44,8 +44,10 @@ public class ConfigurationPresenter {
 		List<String> errors = target.validate();
 		if(errors.isEmpty()) {
 			controller.save(target);
+			view.clearData();
+			view.close();
 		} else {
-			new ErrorDialogImpl().showMessages(errors);
+			new ErrorDialog().showMessages(errors);
 		}
 	}
 	
@@ -62,7 +64,7 @@ public class ConfigurationPresenter {
 		view.open();
 	}
 	
-	public ConfigurationPresenter setRootViewAction(WorkbenchViewImpl rootView) {
+	public ConfigurationPresenter setRootViewAction(WorkbenchView rootView) {
 		rootView.setActionConfiguracion(a->onOpen(a));
 		return this;
 	}
