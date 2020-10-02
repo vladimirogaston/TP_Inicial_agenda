@@ -44,8 +44,6 @@ public class WorkbenchView {
 
 	private JToolBar toolBar;
 	static WorkbenchView vista;
-
-	private JMenuItem mntmConfiguracin;
 	private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/agenda.png"));
 
 	private List<PersonaDTO> personas;
