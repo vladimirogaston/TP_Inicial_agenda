@@ -1,6 +1,8 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import business_logic.ControllersFactory;
@@ -154,6 +156,7 @@ public class WorkbenchPresenter implements Observer, Presenter{
 
 	private void onDisplayReport(ActionEvent r) {
 		List<PersonaDTO> target = ControllersFactory.getFactory().makePersonaController().readAll();
+		Collections.sort(target, Comparator.comparing(PersonaDTO::getNombre));
 		ReporteView reporte = new ReporteView();
 		reporte.setData(target);
 		reporte.open();
