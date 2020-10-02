@@ -53,7 +53,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			+ " WHERE idPersona = ?";
 	
 	static final String delete = "DELETE FROM personas WHERE personas.idPersona = ?";
-	static final String readAll = SELECT + " " + "ORDER BY CodigoPostal";
+	static final String readAll = SELECT + " " + "ORDER BY CodigoPostal, Nombre ASC";
 	static final String readById =  SELECT + " " + "WHERE P.idPersona = ?";
 	static final String readByPhone = SELECT + " "+ "WHERE P.Telefono = ?";
 		

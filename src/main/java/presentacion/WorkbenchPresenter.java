@@ -164,7 +164,7 @@ public class WorkbenchPresenter implements Observer, Presenter {
 
 	private void onDisplayReport(ActionEvent r) {
 		List<PersonaDTO> target = ControllersFactory.getFactory().makePersonaController().readAll();
-		Collections.sort(target, Comparator.comparing(PersonaDTO::getNombre));
+		//Collections.sort(target, Comparator.comparing(PersonaDTO::getNombre));
 		ReporteView reporte = new ReporteView();
 		reporte.setData(target);
 		reporte.open();
