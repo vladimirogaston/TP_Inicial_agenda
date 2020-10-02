@@ -1,0 +1,7 @@
+Los requisitos de la aplicacion deben tener los siguientes nombres.
+Se deben encontrar en una carpeta llamada prerequisitos\
+Prerequisitos:
+
+Java 	--> java.exe
+MariaDB --> mariadb.msi
+.sql	--> scriptAgenda.sql
