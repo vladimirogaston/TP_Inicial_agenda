@@ -45,7 +45,7 @@ public class LocalidadPresenter {
 	private void onDisplayFormForSave(ActionEvent a) {
 		String [] target = new InputSelectDialog()
 				.title("Ingrese los datos de la nueva localidad")
-				.setProvincias(getNombreProvincias())
+				.setData(getNombreProvincias())
 				.open();
 		if(target == null) return;
 		LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
@@ -65,7 +65,7 @@ public class LocalidadPresenter {
 			String [] target = new InputSelectDialog()
 					.title("Ingrese los datos de la nueva localidad")
 					.setText(current.getNombre())
-					.setProvincias(getNombreProvincias())
+					.setData(getNombreProvincias())
 					.open();
 			if(target == null) return;
 			LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);

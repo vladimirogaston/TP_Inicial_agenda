@@ -1,113 +1,109 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
 import java.util.List;
 
 import business_logic.ControllersFactory;
 import business_logic.ForbiddenException;
 import business_logic.ProvinciaController;
-import dto.PaisDTO;
 import dto.ProvinciaDTO;
+import presentacion.views.ErrorDialog;
+import presentacion.views.InputSelectDialog;
 import presentacion.views.ProvinciaView;
 import presentacion.views.WorkbenchView;
 
 public class ProvinciaPresenter {
-
-	private ProvinciaView vista = ProvinciaView.getInstance();
+	
+	private ProvinciaView view = ProvinciaView.getInstance();
+	
 	private ProvinciaController controller;
 	
 	public ProvinciaPresenter(ProvinciaController controller) {
-		super();
+		assert controller != null;
 		this.controller = controller;
-		vista.getTable().getColumn("ID").setPreferredWidth(0);
-		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
-		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
-		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
-		vista.getBtnEliminar().addActionListener((a) -> onEliminar(a));
+		onInjectWorkbenchAction();
+		onInjectActions();
 	}
 
-	void inicializar(ActionEvent action) {
-		vaciarTabla();
-		llenarTabla();
-		vista.setVisible(true);
+	private void onInjectWorkbenchAction() {
+		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a)->onInit(a));
 	}
 
-	void vaciarTabla() {
-		vista.getTableModel().setRowCount(0);
-		vista.getTableModel().setColumnCount(0);
-		vista.getTableModel().setColumnIdentifiers(vista.getNombreColumnas());
-	}
-
-	void llenarTabla() {
-		List<ProvinciaDTO> provincias = controller.readAll();
-		for (ProvinciaDTO provincia : provincias) {
-			Object[] row = {provincia.getNombre(), provincia.getPais(), provincia.getId() };
-			vista.getTableModel().addRow(row);
-		}
+	private void onInit(ActionEvent a) {
+		reset();
+		view.open();
 	}
 	
-	void onSalvar(ActionEvent action) {
-		String [] paises = obtenerNombrePaises();
-		Object [] obj = vista.displayForm(paises);
-		String nombre = obj[0].toString();
-		String pais = obj[1] == null ? null : obj[1].toString();
-		if(nombre != null && !nombre.trim().isEmpty()) {
-			ProvinciaDTO provinciaDTO = new ProvinciaDTO(null, nombre, pais);
+	private void onInjectActions() {
+		view.setActionSave(a -> onDisplayFormForSave(a));
+		view.setActionUpdate(a -> onDisplayFormForUpdate(a));
+		view.setActionDelete(s -> onDelete(s));
+	}
+	
+	private void onDisplayFormForSave(ActionEvent a) {
+		String [] target = new InputSelectDialog()
+				.title("Ingrese los datos de la nueva provincia")
+				.setData(getNombrePaises())
+				.open();
+		if(target == null) return;
+		ProvinciaDTO dto = new ProvinciaDTO(null, target[0], target[1]);
+		if(dto.getNombre() != null) {
 			try {
-				controller.save(provinciaDTO);
-				vaciarTabla();
-				llenarTabla();
-			} catch(ForbiddenException e) {
-				vista.showMessage(e.getMessage());
+				controller.save(dto);
+				reset();
+			}catch(ForbiddenException e) {
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}
 	
-	void onEditar(ActionEvent action) {
-		if(vista.getTable().getSelectedRowCount() == 1) {
-			int row = vista.getTable().getSelectedRow();
-			String provNom = vista.getTableModel().getValueAt(row, 0).toString();
-			String paisNom = vista.getTableModel().getValueAt(row, 1).toString();
-			int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
-			String [] paises = obtenerNombrePaises();
-			if(paises != null) {
-				Object [] obj = vista.displayForm(paises, provNom, paisNom);	
-				ProvinciaDTO provinciaDTO = new ProvinciaDTO(provID, obj[0].toString(), obj[1].toString());
-				
-				if(provinciaDTO.getNombre() != null && !provinciaDTO.getNombre().trim().isEmpty()) {
-					try {
-						controller.update(provinciaDTO);
-						vaciarTabla();
-						llenarTabla();
-					} catch(ForbiddenException e) {
-						vista.showMessage(e.getMessage());
-					}
+	private void onDisplayFormForUpdate(ActionEvent a) {
+		ProvinciaDTO current = view.getData();
+		if(current != null) {
+			String [] target = new InputSelectDialog()
+					.title("Ingrese los datos de la nueva Provincia")
+					.setText(current.getNombre())
+					.setData(getNombrePaises())
+					.open();
+			if(target == null) return;
+			ProvinciaDTO dto = new ProvinciaDTO(null, target[0], target[1]);
+			if(dto.getNombre() != null) {
+				try {
+					dto.setId(current.getId());
+					controller.update(dto);
+					reset();
+				}catch(ForbiddenException e) {
+					new ErrorDialog().showMessages(e.getMessage());
 				}
 			}
 		}
 	}
-
-	void onEliminar(ActionEvent action) {
-		int selectedRows = vista.getTable().getSelectedRowCount();
-		if (selectedRows == 1) {
-			final int row = vista.getTable().getSelectedRow();
-			final int provID = Integer.parseInt(vista.getTableModel().getValueAt(row, 2).toString());
-			final String provNombre = vista.getTableModel().getValueAt(row, 0).toString();
+	
+	private void onDelete(ActionEvent s) {
+		ProvinciaDTO target = view.getData();
+		if(target != null) {
 			try {
-				controller.delete(new ProvinciaDTO(provID, provNombre).getId());
-				vaciarTabla();
-				llenarTabla();
-			} catch (ForbiddenException e) {
-				vista.showMessage(e.getMessage());
+				int id = target.getId();
+				controller.delete(id);
+				reset();
+			} catch(ForbiddenException e) {
+				new ErrorDialog().showMessages(e.getMessage());
 			}
-
 		}
 	}
 	
-	String [] obtenerNombrePaises() {
-		List<PaisDTO> listaPaises = ControllersFactory.getFactory().makePaisController().readAll();
-		String [] paises = new String[listaPaises.size()];
-		for(int i = 0; i < listaPaises.size(); i++) paises[i] = listaPaises.get(i).getNombre();
-		return paises;
+	private String [] getNombrePaises() {
+		List<String> lst = new LinkedList<>();
+		for(ProvinciaDTO aux : ControllersFactory.getFactory().makeProvinciaController().readAll()) {
+			lst.add(aux.getNombre());
+		}
+		String [] paises = new String[lst.size()];
+		return lst.toArray(paises);
+	}
+	
+	private void reset() {
+		view.clearData();
+		view.setData(controller.readAll());
 	}
 }

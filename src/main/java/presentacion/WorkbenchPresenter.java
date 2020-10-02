@@ -25,7 +25,6 @@ public class WorkbenchPresenter implements Observer, Presenter {
 	private ConfigurationView configurationView = ConfigurationView.getInstance();
 
 	public WorkbenchPresenter() {
-		configurationView = ConfigurationView.getInstance();
 		onInjectWorkbenchActions();
 		onInjectFormActions();
 	}
@@ -121,7 +120,6 @@ public class WorkbenchPresenter implements Observer, Presenter {
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PersonaDTO target = workbenchView.getData();
 		System.out.println(target);
-		/*
 		if (target != null) {
 			formView.clearData();
 			fillProvincias(target.getPais());
@@ -130,20 +128,24 @@ public class WorkbenchPresenter implements Observer, Presenter {
 			fillTiposDeContacto();
 			formView.setData(target);
 			formView.open();
-		}*/
+		}
 	}
 
 	private void fillLocalidades(String provincia) {
-		List<LocalidadDTO> locslst = ControllersFactory.getFactory().makeLocalidadController()
-				.readByProvincia(provincia);
-		LocalidadDTO[] localidades = new LocalidadDTO[locslst.size()];
-		formView.setData(locslst.toArray(localidades));
+		if(provincia != null) {
+			List<LocalidadDTO> locslst = ControllersFactory.getFactory().makeLocalidadController()
+					.readByProvincia(provincia);
+			LocalidadDTO[] localidades = new LocalidadDTO[locslst.size()];
+			formView.setData(locslst.toArray(localidades));	
+		}
 	}
 
 	private void fillProvincias(String pais) {
-		List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().makeProvinciaController().readByPais(pais);
-		ProvinciaDTO[] provincias = new ProvinciaDTO[provincialst.size()];
-		formView.setData(provincialst.toArray(provincias));
+		if(pais != null) {
+			List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().makeProvinciaController().readByPais(pais);
+			ProvinciaDTO[] provincias = new ProvinciaDTO[provincialst.size()];
+			formView.setData(provincialst.toArray(provincias));	
+		}
 	}
 
 	private void fillPaises() {
