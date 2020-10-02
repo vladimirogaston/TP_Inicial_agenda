@@ -8,15 +8,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-
 import dto.ConfigDatabaseDTO;
 
-import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import javax.swing.JCheckBox;
 
 public class ConfigurationView extends JDialog {
 
@@ -29,72 +26,71 @@ public class ConfigurationView extends JDialog {
 	private JTextField textPassword;
 	private JTextField textIp;
 	private JTextField textPort;
-	private JButton cancelButton;
 	private JButton okButton;
-	private JButton btnTest;
-	private JLabel testConectivityStatus;
-
-	public ConfigurationView() {
+	private JCheckBox chckbxIsLocalhost;
+	private static ConfigurationView instance;
+	
+	public static ConfigurationView getInstance() {
+		if(instance == null) instance = new ConfigurationView();
+		return instance;
+	}	
+	
+	private ConfigurationView() {
+		setTitle("Database engine parameters");
 		setResizable(false);
-		setBounds(100, 100, 368, 255);
+		setBounds(100, 100, 362, 270);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JLabel lblUser = new JLabel("User");
-			lblUser.setBounds(13, 40, 70, 15);
+			lblUser.setBounds(13, 16, 70, 15);
 			contentPanel.add(lblUser);
 		}
 		{
 			textUser = new JTextField("");
-			textUser.setBounds(118, 38, 245, 24);
+			textUser.setBounds(118, 11, 218, 24);
 			contentPanel.add(textUser);
 			textUser.setColumns(10);
 		}
 		{
 			JLabel lblNewLabel = new JLabel("Password");
-			lblNewLabel.setBounds(13, 66, 70, 15);
+			lblNewLabel.setBounds(13, 53, 70, 15);
 			contentPanel.add(lblNewLabel);
 		}
 		{
 			textPassword = new JTextField("");
-			textPassword.setBounds(118, 64, 245, 24);
+			textPassword.setBounds(118, 46, 218, 24);
 			contentPanel.add(textPassword);
 			textPassword.setColumns(10);
 		}
 		{
 			JLabel IP = new JLabel("IP");
-			IP.setBounds(13, 92, 70, 15);
+			IP.setBounds(13, 129, 70, 15);
 			contentPanel.add(IP);
 		}
 		{
 			textIp = new JTextField("");
-			textIp.setBounds(118, 90, 245, 24);
+			textIp.setBounds(118, 120, 218, 24);
 			contentPanel.add(textIp);
 			textIp.setColumns(10);
 		}
 		{
 			JLabel lblPort = new JLabel("Port");
-			lblPort.setBounds(13, 118, 70, 15);
+			lblPort.setBounds(13, 164, 70, 15);
 			contentPanel.add(lblPort);
 		}
 		{
 			textPort = new JTextField("");
-			textPort.setBounds(118, 116, 245, 24);
+			textPort.setBounds(118, 159, 218, 24);
 			contentPanel.add(textPort);
 			textPort.setColumns(10);
 		}
-		{
-			btnTest = new JButton("Test");
-			btnTest.setBounds(13, 142, 70, 25);
-			contentPanel.add(btnTest);
-		}
-		{
-			testConectivityStatus = new JLabel("");
-			testConectivityStatus.setBounds(118, 209, 245, 0);
-			contentPanel.add(testConectivityStatus);
-		}
+		
+		chckbxIsLocalhost = new JCheckBox("Is localhost");
+		chckbxIsLocalhost.setBounds(115, 90, 99, 23);
+		contentPanel.add(chckbxIsLocalhost);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -105,13 +101,9 @@ public class ConfigurationView extends JDialog {
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
-			{
-				cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
-			}
 		}
 		
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		setModal(true);
 	}
 	
@@ -122,17 +114,12 @@ public class ConfigurationView extends JDialog {
 	public void close() {
 		this.dispose();
 	}
-
-	public void setData(String status) {
-		this.testConectivityStatus.setText(status);
-	}
 	
 	public void clearData() {
 		this.textUser.setText("");
 		this.textPassword.setText("");
 		this.textIp.setText("");
 		this.textPort.setText("");
-		this.testConectivityStatus.setText("");
 	}
 	
 	public void setData(ConfigDatabaseDTO dto) {
@@ -145,21 +132,30 @@ public class ConfigurationView extends JDialog {
 		
 	public ConfigDatabaseDTO getData() {
 		return new ConfigDatabaseDTO().user(textUser.getText()).password(textPassword.getText())
-				.ip(textIp.getText()).port(textPort.getText());
+				.ip(textIp.getText())
+				.port(textPort.getText())
+				.isLocalhost(this.chckbxIsLocalhost.isSelected());
 	}
 	
 	public void setActionSave(ActionListener listener) {
 		assert listener != null;
 		okButton.addActionListener(listener);
 	}
-	
-	public void setActionCancel(ActionListener listener) {
+		
+	public void setActionLocalhost(ActionListener listener) {
 		assert listener != null;
-		cancelButton.addActionListener(listener);
+		this.chckbxIsLocalhost.addActionListener(listener);
+	}
+
+	public void clearIp() {
+		this.textIp.setText("");		
 	}
 	
-	public void setActionTest(ActionListener listener) {
-		assert listener != null;
-		btnTest.addActionListener(listener);
+	public void disableIp() {
+		this.textIp.setEnabled(false);
+	}
+
+	public void enableIp() {
+		this.textIp.setEnabled(true);
 	}
 }

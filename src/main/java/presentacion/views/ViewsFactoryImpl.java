@@ -21,26 +21,25 @@ public class ViewsFactoryImpl extends ViewsFactory {
 	
 	@Override
 	public Presenter makePresenter() {
-		workbenchPresenter = new WorkbenchPresenter(WorkbenchView.getInstance(), PersonaView.getInstance());
+		workbenchPresenter = new WorkbenchPresenter();
 		
 		Observable observable4 = (Observable) controllers.makeLocalidadController();
 		observable4.registerObserver(workbenchPresenter);
-		new LocalidadPresenter(LocalidadView.getInstance(), (LocalidadController) observable4);
+		new LocalidadPresenter((LocalidadController) observable4);
 		
 		Observable observable = (Observable) controllers.makeTipoController();
 		observable.registerObserver(workbenchPresenter);
-		new TiposPresenter(TiposView.getInstance(), (TipoController) observable);
+		new TiposPresenter((TipoController) observable);
 				
 		Observable observable2 = (Observable) controllers.makePaisController();
 		observable2.registerObserver(workbenchPresenter);
-		new PaisPresenter(PaisView.getInstance(), (PaisController) observable2);
+		new PaisPresenter((PaisController) observable2);
 		
 		Observable observable3 = (Observable) controllers.makeProvinciaController();
 		observable3.registerObserver(workbenchPresenter);
-		new ProvinciaPresenter(ProvinciaView.getInstance(), (ProvinciaController) observable3);
+		new ProvinciaPresenter((ProvinciaController) observable3);
 
-		ConfigurationPresenter configPresenter = new ConfigurationPresenter(new ConfigurationView(), new ConfigurationServiceImpl());
-		configPresenter.setRootViewAction(WorkbenchView.getInstance());
+		new ConfigurationPresenter(new ConfigurationServiceImpl());
 		return this.workbenchPresenter;
 	}
 }

@@ -12,13 +12,11 @@ import presentacion.views.WorkbenchView;
 
 public class PaisPresenter {
 
-	private PaisView view;
+	private PaisView view = PaisView.getInstance();
 	private PaisController controller;
 
-	public PaisPresenter(PaisView vista, PaisController controller) {
-		assert vista != null;
+	public PaisPresenter(PaisController controller) {
 		assert controller != null;
-		this.view = vista;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();

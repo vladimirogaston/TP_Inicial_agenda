@@ -3,7 +3,6 @@ package presentacion.views;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -227,12 +226,14 @@ public class PersonaView extends JDialog {
 		String provs = prov != null ? prov.toString() : "";
 		Object pais = comboBoxPais.getSelectedItem();
 		String paiss = pais != null ? pais.toString() : "";
+		Object objtipo = comboBoxTipoContacto.getSelectedItem();
+		String tipo = objtipo != null ? objtipo.toString() : "";
 		return new PersonaDTO
 				.Builder(textNombre.getText(), textTelefono.getText())
 				.email(textEmail.getText())
 				.id(personaId)
 				.fechaNacimiento(dateChooser.getDate())
-				.tipoContacto(comboBoxTipoContacto.getSelectedItem().toString())
+				.tipoContacto(tipo)
 				.calle(textCalle.getText())
 				.altura(textFieldAltura.getText())
 				.piso(textPiso.getText())
