@@ -14,7 +14,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			+ ", Nombre"
 			+ ", Telefono"
 			+ ", Email"
-			+ ", FechaCumpleaños"
+			+ ", FechaNacimiento"
 			+ ", TipoContactoNombre"
 			+ ", Calle"
 			+ ", Altura"
@@ -31,7 +31,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			+ " LEFT JOIN Provincia Q ON P.ProvinciaID = Q.ProvinciaID" 
 			+ " LEFT JOIN Pais K ON P.PaisID = K.PaisID";
 	
-	static final String insert = "INSERT INTO personas (Nombre,Telefono,Email,FechaCumpleaños,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID, " + 
+	static final String insert = "INSERT INTO personas (Nombre,Telefono,Email,FechaNacimiento,TipoContactoID,Calle,Altura,Piso,Departamento,LocalidadID, " + 
 			"ProvinciaID,PaisID,EquipoFutbol,CodigoPostal) VALUES (?,?,?,?,(SELECT TipoContactoID FROM TiposContacto WHERE TiposContacto.TipoContactoNombre = ?)," + 
 			"?,?,?,?,(SELECT LocalidadID FROM Localidades WHERE Localidades.LocalidadNombre = ?),(SELECT ProvinciaID FROM Provincia WHERE Provincia.ProvinciaNombre = ?),(SELECT PaisID FROM Pais WHERE Pais.PaisNombre = ?), ?, ?)";
 
@@ -39,7 +39,7 @@ public class PersonaDaoImpl extends GenericJdbcDao<PersonaDTO> implements Person
 			+ " Nombre = ?"
 			+ ",Telefono = ?"
 			+ ",Email = ?"
-			+ ",FechaCumpleaños = ?"
+			+ ",FechaNacimiento = ?"
 			+ ",Calle = ?"
 			+ ",Altura = ?"
 			+ ",Piso = ?"

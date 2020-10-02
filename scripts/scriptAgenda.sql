@@ -39,7 +39,7 @@ CREATE TABLE `personas`(
 	Nombre VARCHAR(50) NOT NULL,
 	Telefono VARCHAR(50) NOT NULL,
 	Email VARCHAR(50),
-	FechaCumpleaños DATE,
+	FechaNacimiento DATE,
 	TipoContactoID INT,
 	Calle VARCHAR(50),
 	Altura VARCHAR(50),
