@@ -2,7 +2,7 @@ package dto;
 
 public class TipoContactoDTO {
 
-	int id;
+	Integer id;
 	String nombre;
 
 	public TipoContactoDTO(String nombre) {
@@ -10,17 +10,17 @@ public class TipoContactoDTO {
 		this.nombre = nombre;
 	}
 	
-	public TipoContactoDTO(int id, String nombre) {
+	public TipoContactoDTO(Integer id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
