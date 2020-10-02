@@ -11,17 +11,17 @@ import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ErrorDialogImpl;
-import presentacion.views.swing.PersonaViewImpl;
-import presentacion.views.swing.ReporteViewImpl;
+import presentacion.views.ErrorDialog;
+import presentacion.views.PersonaView;
+import presentacion.views.ReporteView;
+import presentacion.views.WorkbenchView;
 
-public class WorkbenchPresenter implements Observer {
+public class WorkbenchPresenter implements Observer, Presenter{
 
-	private WorkbenchViewImpl workbenchView;
-	private PersonaViewImpl formView;
+	private WorkbenchView workbenchView;
+	private PersonaView formView;
 
-	public WorkbenchPresenter(WorkbenchViewImpl view, PersonaViewImpl formView) {
+	public WorkbenchPresenter(WorkbenchView view, PersonaView formView) {
 		assert view != null;
 		assert formView != null;
 		workbenchView = view;
@@ -53,7 +53,7 @@ public class WorkbenchPresenter implements Observer {
 	private void onDelete(ActionEvent s) {
 		PersonaDTO target = workbenchView.getData();
 		if (target != null) {
-			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
+			PersonaController controller = ControllersFactory.getFactory().makePersonaController();
 			controller.delete(target.getId());
 			update();	
 		}
@@ -63,7 +63,7 @@ public class WorkbenchPresenter implements Observer {
 		PersonaDTO target = formView.getData();
 		List<String> errors = formView.getData().validate();
 		if (errors.isEmpty()) {
-			PersonaController controller = ControllersFactory.getFactory().getPersonaController();
+			PersonaController controller = ControllersFactory.getFactory().makePersonaController();
 			if (target.getId() == null) {
 				controller.save(target);
 			} else {
@@ -72,24 +72,25 @@ public class WorkbenchPresenter implements Observer {
 			update();
 			formView.close();
 		} else {
-			new ErrorDialogImpl().showMessages(errors);
+			new ErrorDialog().showMessages(errors);
 		}
 	}
 	
+	@Override
 	public void onInit() {
 		update();
 		workbenchView.open();
 	}
 	
 	private PersonaDTO [] getData() {
-		List<PersonaDTO> personas = ControllersFactory.getFactory().getPersonaController().readAll();
+		List<PersonaDTO> personas = ControllersFactory.getFactory().makePersonaController().readAll();
 		return personas.toArray(new PersonaDTO[personas.size()]);
 	}
 
 	private void onUpdateProvinciasList(ActionEvent a) {
 		String pais = formView.getNombrePaisSeleccionado();
 		if (pais != null) {
-			List<ProvinciaDTO> provinciaslst = ControllersFactory.getFactory().getProvinciaController()
+			List<ProvinciaDTO> provinciaslst = ControllersFactory.getFactory().makeProvinciaController()
 					.readByPais(pais);
 			ProvinciaDTO[] target = new ProvinciaDTO[provinciaslst.size()];
 			formView.setData(provinciaslst.toArray(target));
@@ -99,7 +100,7 @@ public class WorkbenchPresenter implements Observer {
 	private void onUpdateLocalidadesList(ActionEvent a) {
 		String provincia = formView.getNombreProvinciaSeleccionada();
 		if (provincia != null) {
-			List<LocalidadDTO> localidades = ControllersFactory.getFactory().getLocalidadController()
+			List<LocalidadDTO> localidades = ControllersFactory.getFactory().makeLocalidadController()
 					.readByProvincia(provincia);
 			LocalidadDTO[] target = new LocalidadDTO[localidades.size()];
 			formView.setData(localidades.toArray(target));
@@ -127,33 +128,33 @@ public class WorkbenchPresenter implements Observer {
 	}
 
 	private void fillLocalidades(String provincia) {
-		List<LocalidadDTO> locslst = ControllersFactory.getFactory().getLocalidadController()
+		List<LocalidadDTO> locslst = ControllersFactory.getFactory().makeLocalidadController()
 				.readByProvincia(provincia);
 		LocalidadDTO[] localidades = new LocalidadDTO[locslst.size()];
 		formView.setData(locslst.toArray(localidades));
 	}
 
 	private void fillProvincias(String pais) {
-		List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().getProvinciaController().readByPais(pais);
+		List<ProvinciaDTO> provincialst = ControllersFactory.getFactory().makeProvinciaController().readByPais(pais);
 		ProvinciaDTO[] provincias = new ProvinciaDTO[provincialst.size()];
 		formView.setData(provincialst.toArray(provincias));
 	}
 
 	private void fillPaises() {
-		List<PaisDTO> paiseslst = ControllersFactory.getFactory().getPaisController().readAll();
+		List<PaisDTO> paiseslst = ControllersFactory.getFactory().makePaisController().readAll();
 		PaisDTO[] paises = new PaisDTO[paiseslst.size()];
 		formView.setData(paiseslst.toArray(paises));
 	}
 
 	private void fillTiposDeContacto() {
-		List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().getTipoController().readAll();
+		List<TipoContactoDTO> tiposlst = ControllersFactory.getFactory().makeTipoController().readAll();
 		TipoContactoDTO[] tipos = new TipoContactoDTO[tiposlst.size()];
 		formView.setData(tiposlst.toArray(tipos));
 	}
 
 	private void onDisplayReport(ActionEvent r) {
-		List<PersonaDTO> target = ControllersFactory.getFactory().getPersonaController().readAll();
-		ReporteViewImpl reporte = new ReporteViewImpl();
+		List<PersonaDTO> target = ControllersFactory.getFactory().makePersonaController().readAll();
+		ReporteView reporte = new ReporteView();
 		reporte.setData(target);
 		reporte.open();
 	}

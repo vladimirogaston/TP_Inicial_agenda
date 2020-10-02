@@ -20,9 +20,7 @@ public class DaosFactoryImpl extends DaosFactory {
 	private ProvinciaDao provinciaDao;
 	private TipoContactoDao tipoDao;
 	
-	public DaosFactoryImpl() {
-		super();
-		Connection connection = Conexion.getConexion().getSQLConexion();
+	public DaosFactoryImpl(Connection connection) {
 		personaDao = new PersonaDaoImpl(connection);
 		localidadDao = new LocalidadDaoImpl(connection);
 		paisDao = new PaisDaoImpl(connection);

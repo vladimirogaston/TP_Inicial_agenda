@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import business_logic.ControllersFactory;
+import business_logic.ForbiddenException;
 import business_logic.LocalidadController;
-import business_logic.exceptions.ForbiddenException;
 import dto.LocalidadDTO;
 import dto.ProvinciaDTO;
+import presentacion.views.ErrorDialog;
+import presentacion.views.InputSelectDialog;
 import presentacion.views.LocalidadView;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ErrorDialogImpl;
-import presentacion.views.swing.InputSelectDialogImpl;
+import presentacion.views.WorkbenchView;
 
 public class LocalidadPresenter {
 	
@@ -30,7 +30,7 @@ public class LocalidadPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchViewImpl.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->onInit(a));
+		WorkbenchView.getInstance().getMntmNewMenuItemLocalidades().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {
@@ -45,7 +45,7 @@ public class LocalidadPresenter {
 	}
 	
 	private void onDisplayFormForSave(ActionEvent a) {
-		String [] target = new InputSelectDialogImpl()
+		String [] target = new InputSelectDialog()
 				.title("Ingrese los datos de la nueva localidad")
 				.setProvincias(getNombreProvincias())
 				.open();
@@ -56,7 +56,7 @@ public class LocalidadPresenter {
 				controller.save(dto);
 				reset();
 			}catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}
@@ -64,7 +64,7 @@ public class LocalidadPresenter {
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		LocalidadDTO current = adaptor.getData();
 		if(current != null) {
-			String [] target = new InputSelectDialogImpl()
+			String [] target = new InputSelectDialog()
 					.title("Ingrese los datos de la nueva localidad")
 					.setProvincias(getNombreProvincias())
 					.open();
@@ -76,7 +76,7 @@ public class LocalidadPresenter {
 					controller.update(dto);
 					reset();
 				}catch(ForbiddenException e) {
-					new ErrorDialogImpl().showMessages(e.getMessage());
+					new ErrorDialog().showMessages(e.getMessage());
 				}
 			}
 		}
@@ -90,14 +90,14 @@ public class LocalidadPresenter {
 				controller.delete(id);
 				reset();
 			} catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}
 	
 	private String [] getNombreProvincias() {
 		List<String> lst = new LinkedList<>();
-		for(ProvinciaDTO aux : ControllersFactory.getFactory().getProvinciaController().readAll()) {
+		for(ProvinciaDTO aux : ControllersFactory.getFactory().makeProvinciaController().readAll()) {
 			lst.add(aux.getNombre());
 		}
 		String [] provincias = new String[lst.size()];

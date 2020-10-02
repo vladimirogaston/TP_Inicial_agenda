@@ -1,8 +1,16 @@
-package presentacion.views;
+package presentacion;
+
+import business_logic.ControllersFactory;
 
 public abstract class ViewsFactory {
 
 	private static ViewsFactory concreteFactory;
+
+	protected ControllersFactory controllers;
+		
+	public void setControllers(ControllersFactory controllers) {
+		this.controllers = controllers;
+	}
 	
 	public static void setFactory(ViewsFactory factory) {
 		assert factory != null;
@@ -13,11 +21,5 @@ public abstract class ViewsFactory {
 		return concreteFactory;
 	}
 	
-	public abstract PersonaView makePersonaView();
-	
-	public abstract PaisView makePaisView();
-
-	public abstract LocalidadView makeLocalidadView();
-	
-	public abstract TiposView makeTiposView();
+	public abstract Presenter makePresenter();
 }

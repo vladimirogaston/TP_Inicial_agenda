@@ -24,7 +24,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.BorderLayout;
 
-public class WorkbenchViewImpl {
+public class WorkbenchView {
 	
 	static final String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
 			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal", "ID" };
@@ -41,15 +41,16 @@ public class WorkbenchViewImpl {
 	JMenuItem mntmNewMenuItemProvincias;
 	JMenuItem mntmNewMenuItemLocalidades;
 	JMenuItem mntmNewMenuItemTipos;
-	static WorkbenchViewImpl vista;
+	static WorkbenchView vista;
+	private JMenuItem mntmConfiguracin;
 	
-	public static WorkbenchViewImpl getInstance() {
-		if(vista == null) vista = new WorkbenchViewImpl();
+	public static WorkbenchView getInstance() {
+		if(vista == null) vista = new WorkbenchView();
 		return vista;
 	}
 	
 	@SuppressWarnings("serial")
-	WorkbenchViewImpl() {
+	WorkbenchView() {
 		super();
 		frame = new JFrame();
 		frame.setResizable(false);
@@ -117,6 +118,9 @@ public class WorkbenchViewImpl {
 
 		mntmNewMenuItemTipos = new JMenuItem("Tipos");
 		mnNewMenu.add(mntmNewMenuItemTipos);
+		
+		mntmConfiguracin = new JMenuItem("Configuración");
+		mnNewMenu.add(mntmConfiguracin);
 	}
 
 	public void open() {
@@ -127,7 +131,6 @@ public class WorkbenchViewImpl {
 				int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir de la Agenda?",
 						"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == 0) {
-					Conexion.getConexion().cerrarConexion();
 					System.exit(0);
 				}
 			}
@@ -219,5 +222,9 @@ public class WorkbenchViewImpl {
 
 	public void setActionReport(ActionListener listener) {
 		btnReporte.addActionListener(listener);
+	}
+	
+	public void setActionConfiguracion(ActionListener listener) {
+		this.mntmConfiguracin.addActionListener(listener);
 	}
 }

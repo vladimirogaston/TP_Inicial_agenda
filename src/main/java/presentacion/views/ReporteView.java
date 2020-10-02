@@ -1,4 +1,4 @@
-package presentacion.views.swing;
+package presentacion.views;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -16,15 +16,14 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import presentacion.views.ReportView;
 import dto.PersonaDTO;
 
-public class ReporteViewImpl implements ReportView {
+public class ReporteView implements ReportView {
 
 	private JasperReport reporte;
 	private JasperViewer reporteViewer;
 	private JasperPrint reporteLleno;
-	private Logger log = Logger.getLogger(ReporteViewImpl.class);
+	private Logger log = Logger.getLogger(ReporteView.class);
 
 	@Override
 	public void setData(List<PersonaDTO> personas) {

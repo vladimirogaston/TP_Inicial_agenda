@@ -1,4 +1,4 @@
-package business_logic.exceptions;
+package business_logic;
 
 @SuppressWarnings("serial")
 public class ForbiddenException extends RuntimeException {

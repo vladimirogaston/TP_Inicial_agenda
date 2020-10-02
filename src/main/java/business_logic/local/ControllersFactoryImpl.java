@@ -15,35 +15,43 @@ public class ControllersFactoryImpl extends ControllersFactory {
 	private LocalidadController localidadController;
 	private TipoController tipoController;
 	
-	public ControllersFactoryImpl() {
-		super();
-		if(daos == null) {
-			throw new IllegalArgumentException("Daos factory no debe ser null.");
+	@Override
+	public PersonaController makePersonaController() {
+		if(personaController == null) {
+			personaController = new PersonaControllerImpl(daos);
 		}
-		personaController = new PersonaControllerImpl(daos);
-		localidadController = new LocalidadControllerImpl(daos.createLocalidadDAO());
-		provinciaController = new ProvinciaControllerImpl(daos.createProvinciaDAO());
-		paisController = new PaisControllerImpl(daos.createPaisDAO());
-		tipoController =  new TipoControllerImpl(daos.createTipoContactoDAO());
-	}
-	
-	public PersonaController getPersonaController() {
 		return personaController;
 	}
 
-	public LocalidadController getLocalidadController() {
+	@Override
+	public LocalidadController makeLocalidadController() {
+		if(localidadController == null) {
+			localidadController = new ObservableLocalidadController(new LocalidadControllerImpl(daos.createLocalidadDAO()));
+		}
 		return localidadController;
 	}
 
-	public ProvinciaController getProvinciaController() {
+	@Override
+	public ProvinciaController makeProvinciaController() {
+		if(provinciaController == null) {
+			provinciaController = new ObservableProvinciaController(new ProvinciaControllerImpl(daos.createProvinciaDAO()));
+		}
 		return provinciaController;
 	}
 
-	public PaisController getPaisController() {
+	@Override
+	public PaisController makePaisController() {
+		if(paisController == null) {
+			paisController = new ObservablePaisController(new PaisControllerImpl(daos.createPaisDAO()));
+		}
 		return paisController;
 	}
 
-	public TipoController getTipoController() {
+	@Override
+	public TipoController makeTipoController() {
+		if(tipoController == null) {
+			tipoController =  new ObservableTipoController(new TipoControllerImpl(daos.createTipoContactoDAO()));
+		}
 		return tipoController;
 	}
 }

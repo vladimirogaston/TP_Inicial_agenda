@@ -2,9 +2,9 @@ package business_logic.local;
 
 import java.util.List;
 
+import business_logic.ForbiddenException;
+import business_logic.NotFoundException;
 import business_logic.ProvinciaController;
-import business_logic.exceptions.ForbiddenException;
-import business_logic.exceptions.NotFoundException;
 import dto.ProvinciaDTO;
 import repositories.ProvinciaDao;
 

@@ -1,4 +1,4 @@
-package presentacion.views.swing;
+package presentacion.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,9 +18,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class ProvinciaViewImpl extends JDialog {
+public class ProvinciaView extends JDialog {
 
-	private static ProvinciaViewImpl vista;
+	private static ProvinciaView vista;
 	private JPanel contentPane;
 
 	private DefaultTableModel tableModel;
@@ -31,13 +31,13 @@ public class ProvinciaViewImpl extends JDialog {
 	private JButton btnEditar;
 	private JButton btnEliminar;
 
-	public static ProvinciaViewImpl getInstance() {
+	public static ProvinciaView getInstance() {
 		if (vista == null)
-			vista = new ProvinciaViewImpl();
+			vista = new ProvinciaView();
 		return vista;
 	}
 
-	public ProvinciaViewImpl() {
+	public ProvinciaView() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 706, 479);
 		contentPane = new JPanel();

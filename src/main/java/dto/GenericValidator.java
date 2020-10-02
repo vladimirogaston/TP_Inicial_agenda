@@ -11,8 +11,8 @@ import java.util.Set;
 
 public class GenericValidator {
 
-	private static Validator validator;
-	private static GenericValidator instance = new GenericValidator();
+	private Validator validator;
+	private static GenericValidator instance;
 
 	protected GenericValidator() {
 		super();

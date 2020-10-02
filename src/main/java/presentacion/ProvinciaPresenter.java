@@ -4,24 +4,24 @@ import java.awt.event.ActionEvent;
 import java.util.List;
 
 import business_logic.ControllersFactory;
+import business_logic.ForbiddenException;
 import business_logic.ProvinciaController;
-import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ProvinciaViewImpl;
+import presentacion.views.ProvinciaView;
+import presentacion.views.WorkbenchView;
 
 public class ProvinciaPresenter {
 
-	private ProvinciaViewImpl vista;
+	private ProvinciaView vista;
 	private ProvinciaController controller;
 	
-	public ProvinciaPresenter(ProvinciaViewImpl vista, ProvinciaController controller) {
+	public ProvinciaPresenter(ProvinciaView vista, ProvinciaController controller) {
 		super();
 		this.vista = vista;
 		this.controller = controller;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
-		WorkbenchViewImpl.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
+		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));
 		vista.getBtnSalvar().addActionListener((a) -> onSalvar(a));
 		vista.getBtnEditar().addActionListener((a) -> onEditar(a));
 		vista.getBtnEliminar().addActionListener((a) -> onEliminar(a));
@@ -106,7 +106,7 @@ public class ProvinciaPresenter {
 	}
 	
 	String [] obtenerNombrePaises() {
-		List<PaisDTO> listaPaises = ControllersFactory.getFactory().getPaisController().readAll();
+		List<PaisDTO> listaPaises = ControllersFactory.getFactory().makePaisController().readAll();
 		String [] paises = new String[listaPaises.size()];
 		for(int i = 0; i < listaPaises.size(); i++) paises[i] = listaPaises.get(i).getNombre();
 		return paises;

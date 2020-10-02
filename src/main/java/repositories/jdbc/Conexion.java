@@ -5,25 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
+import dto.ConfigDatabaseDTO;
+
 public class Conexion {
-	public static Conexion instancia;
+	
+	private static Conexion instancia;
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);
-
-	private Conexion() {
-		try {
-			Class.forName("com.mysql.jdbc.Driver"); // quitar si no es necesario
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grupo_11", "root", "root");
-			this.connection.setAutoCommit(false);
-			log.info("Conexión exitosa");
-		} catch (Exception e) {
-			log.error("Conexión fallida", e);
-		}
-	}
-
-	public static Conexion getConexion() {
+		
+	public static Conexion getConexion(ConfigDatabaseDTO conf) {
 		if (instancia == null) {
-			instancia = new Conexion();
+			instancia = new Conexion(conf);
 		}
 		return instancia;
 	}
@@ -32,6 +24,20 @@ public class Conexion {
 		return this.connection;
 	}
 
+	private Conexion(ConfigDatabaseDTO conf) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			this.connection = 
+					DriverManager.getConnection("jdbc:mysql://" + conf.getIp() + ":" + conf.getPort() + "/grupo_11"
+							,conf.getUser(),conf.getPassword());
+			this.connection.setAutoCommit(false);
+			log.info("Conexión exitosa");
+		} catch (Exception e) {
+			log.info("Conexión fallida");
+			throw new DatabaseException("Conexion fallida");
+		}
+	}
+	
 	public void cerrarConexion() {
 		try {
 			this.connection.close();

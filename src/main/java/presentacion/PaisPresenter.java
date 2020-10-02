@@ -2,13 +2,13 @@ package presentacion;
 
 import java.awt.event.ActionEvent;
 
+import business_logic.ForbiddenException;
 import business_logic.PaisController;
-import business_logic.exceptions.ForbiddenException;
 import dto.PaisDTO;
+import presentacion.views.ErrorDialog;
+import presentacion.views.InputDialog;
 import presentacion.views.PaisView;
-import presentacion.views.WorkbenchViewImpl;
-import presentacion.views.swing.ErrorDialogImpl;
-import presentacion.views.swing.InputDialogImpl;
+import presentacion.views.WorkbenchView;
 
 public class PaisPresenter {
 
@@ -25,7 +25,7 @@ public class PaisPresenter {
 	}
 
 	private void onInjectWorkbenchAction() {
-		WorkbenchViewImpl.getInstance().getMntmNewMenuItemPaises().addActionListener((a)->onInit(a));
+		WorkbenchView.getInstance().getMntmNewMenuItemPaises().addActionListener((a)->onInit(a));
 	}
 
 	private void onInit(ActionEvent a) {
@@ -40,7 +40,7 @@ public class PaisPresenter {
 	}
 	
 	private void onDisplayFormForSave(ActionEvent a) {
-		String input = new InputDialogImpl()
+		String input = new InputDialog()
 				.title("Ingrese los datos del nuevo país")
 				.open();
 		if(input != null && !input.trim().isEmpty()) {
@@ -49,7 +49,7 @@ public class PaisPresenter {
 				controller.save(target);
 				reset();
 			}catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class PaisPresenter {
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PaisDTO current = view.getData();
 		if(current != null) {
-			String input = new InputDialogImpl()
+			String input = new InputDialog()
 					.title("Ingrese los nuevos datos del nuevo pais")
 					.setText(current.getNombre())
 					.open();
@@ -68,7 +68,7 @@ public class PaisPresenter {
 					controller.update(target);
 					reset();
 				}catch(ForbiddenException e) {
-					new ErrorDialogImpl().showMessages(e.getMessage());
+					new ErrorDialog().showMessages(e.getMessage());
 				}
 			}	
 		}
@@ -81,7 +81,7 @@ public class PaisPresenter {
 				controller.delete(target.getId());
 				reset();
 			} catch(ForbiddenException e) {
-				new ErrorDialogImpl().showMessages(e.getMessage());
+				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}
 	}

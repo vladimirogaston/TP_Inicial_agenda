@@ -1,10 +1,10 @@
-package presentacion.views.swing;
+package presentacion.views;
 
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-public class ErrorDialogImpl {
+public class ErrorDialog {
 	
 	public void showMessages(String message) {
 		JOptionPane.showMessageDialog(null, message);
