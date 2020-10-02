@@ -13,12 +13,11 @@ import presentacion.views.WorkbenchView;
 
 public class ProvinciaPresenter {
 
-	private ProvinciaView vista;
+	private ProvinciaView vista = ProvinciaView.getInstance();
 	private ProvinciaController controller;
 	
-	public ProvinciaPresenter(ProvinciaView vista, ProvinciaController controller) {
+	public ProvinciaPresenter(ProvinciaController controller) {
 		super();
-		this.vista = vista;
 		this.controller = controller;
 		vista.getTable().getColumn("ID").setPreferredWidth(0);
 		WorkbenchView.getInstance().getMntmNewMenuItemProvincias().addActionListener((a) -> inicializar(a));

@@ -1,27 +1,47 @@
 package dto;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import dto.validators.StringValidator;
 
 public class ConfigDatabaseDTO {
 
-	@NotBlank(message  = "El nombre de usuario es obligatorio.")
 	private String user;
 	
-	@NotBlank(message  = "El password de usuario es obligatorio.")
 	private String password;
 	
-	@NotBlank(message  = "El port es obligatorio.")
-	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El port debe ser un número.")	
 	private String port;
 	
-	@NotBlank(message  = "El ip es obligatorio.")
 	private String ip;
+	
+	private boolean isLocalhost;
+	
+	public List<String>	validate() {
+		List<String> userErrors = new StringValidator(user).notBlank("El usuario es obligatorio").validate();
+		List<String> passwordErrors = new StringValidator(password).notBlank("El password es obligatorio").validate();
+		List<String> portErrors = new StringValidator(port)
+				.notBlank("El port es obligatorio")
+				.regex("El port debe ser un número",Patterns.NON_NEGATIVE_INTEGER_FIELD)
+				.validate();
+		List<String> ipErrors = new LinkedList<>();
+		if(!isLocalhost) {
+			ipErrors = new StringValidator(ip).notBlank("El ip es obligatorio").validate();	
+		}
+		userErrors.addAll(passwordErrors);
+		userErrors.addAll(portErrors);
+		userErrors.addAll(ipErrors);
+		return userErrors;
+	}
 	
 	public ConfigDatabaseDTO() {
 		super();
+		isLocalhost = false;
+	}
+	
+	public ConfigDatabaseDTO isLocalhost(boolean value) {
+		isLocalhost = value;
+		return this;
 	}
 	
 	public ConfigDatabaseDTO user(String user) {
@@ -42,10 +62,6 @@ public class ConfigDatabaseDTO {
 	public ConfigDatabaseDTO port(String port) {
 		setPort(port);
 		return this;
-	}
-	
-	public List<String> validate() {
-		return GenericValidator.getInstance().validate(this);
 	}
 	
 	public String getUser() {
@@ -80,8 +96,17 @@ public class ConfigDatabaseDTO {
 		this.ip = ip;
 	}
 
+	public boolean isLocalhost() {
+		return isLocalhost;
+	}
+
+	public void setLocalhost(boolean isLocalhost) {
+		this.isLocalhost = isLocalhost;
+	}
+
 	@Override
 	public String toString() {
-		return "ConfigDatabaseDTO [user=" + user + ", password=" + password + ", port=" + port + ", ip=" + ip + "]";
-	}	
+		return "ConfigDatabaseDTO [user=" + user + ", password=" + password + ", port=" + port + ", ip=" + ip
+				+ ", isLocalhost=" + isLocalhost + "]";
+	}		
 }

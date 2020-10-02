@@ -2,6 +2,7 @@ package presentacion.views;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,20 +18,23 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dto.ProvinciaDTO;
+
 @SuppressWarnings("serial")
 public class ProvinciaView extends JDialog {
 
-	private static ProvinciaView vista;
 	private JPanel contentPane;
-
 	private DefaultTableModel tableModel;
-	private JTable table;
-	private final String[] nombreColumnas = new String[] { "Provincia", "Pais", "ID" };
-
+	private JTable table;	
 	private JButton btnSalvar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
 
+	private final String[] nombreColumnas = new String[] { "Provincia", "Pais", "ID" };
+	private List<ProvinciaDTO> provincias;
+	
+	private static ProvinciaView vista;
+		
 	public static ProvinciaView getInstance() {
 		if (vista == null)
 			vista = new ProvinciaView();

@@ -12,7 +12,7 @@ public class Conexion {
 	private static Conexion instancia;
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);
-		
+			
 	public static Conexion getConexion(ConfigDatabaseDTO conf) {
 		if (instancia == null) {
 			instancia = new Conexion(conf);

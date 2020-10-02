@@ -16,14 +16,12 @@ import presentacion.views.WorkbenchView;
 
 public class LocalidadPresenter {
 	
-	private LocalidadView adaptor;
+	private LocalidadView view = LocalidadView.getInstance();
 	
 	private LocalidadController controller;
 	
-	public LocalidadPresenter(LocalidadView vista, LocalidadController controller) {
-		assert vista != null;
+	public LocalidadPresenter(LocalidadController controller) {
 		assert controller != null;
-		this.adaptor = vista;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
@@ -35,13 +33,13 @@ public class LocalidadPresenter {
 
 	private void onInit(ActionEvent a) {
 		reset();
-		adaptor.open();
+		view.open();
 	}
 	
 	private void onInjectActions() {
-		adaptor.setActionSave(a -> onDisplayFormForSave(a));
-		adaptor.setActionUpdate(a -> onDisplayFormForUpdate(a));
-		adaptor.setActionDelete(s -> onDelete(s));
+		view.setActionSave(a -> onDisplayFormForSave(a));
+		view.setActionUpdate(a -> onDisplayFormForUpdate(a));
+		view.setActionDelete(s -> onDelete(s));
 	}
 	
 	private void onDisplayFormForSave(ActionEvent a) {
@@ -62,10 +60,11 @@ public class LocalidadPresenter {
 	}
 	
 	private void onDisplayFormForUpdate(ActionEvent a) {
-		LocalidadDTO current = adaptor.getData();
+		LocalidadDTO current = view.getData();
 		if(current != null) {
 			String [] target = new InputSelectDialog()
 					.title("Ingrese los datos de la nueva localidad")
+					.setText(current.getNombre())
 					.setProvincias(getNombreProvincias())
 					.open();
 			if(target == null) return;
@@ -83,7 +82,7 @@ public class LocalidadPresenter {
 	}
 	
 	private void onDelete(ActionEvent s) {
-		LocalidadDTO target = adaptor.getData();
+		LocalidadDTO target = view.getData();
 		if(target != null) {
 			try {
 				int id = target.getId();
@@ -105,7 +104,7 @@ public class LocalidadPresenter {
 	}
 	
 	private void reset() {
-		adaptor.clearData();
-		adaptor.setData(controller.readAll());
+		view.clearData();
+		view.setData(controller.readAll());
 	}
 }

@@ -6,26 +6,26 @@ import java.util.List;
 import business_logic.ControllersFactory;
 import business_logic.Observer;
 import business_logic.PersonaController;
+import business_logic.local.ConfigurationServiceImpl;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import dto.TipoContactoDTO;
+import presentacion.views.ConfigurationView;
 import presentacion.views.ErrorDialog;
 import presentacion.views.PersonaView;
 import presentacion.views.ReporteView;
 import presentacion.views.WorkbenchView;
 
-public class WorkbenchPresenter implements Observer, Presenter{
+public class WorkbenchPresenter implements Observer, Presenter {
 
-	private WorkbenchView workbenchView;
-	private PersonaView formView;
+	private WorkbenchView workbenchView = WorkbenchView.getInstance();
+	private PersonaView formView = PersonaView.getInstance();
+	private ConfigurationView configurationView = ConfigurationView.getInstance();
 
-	public WorkbenchPresenter(WorkbenchView view, PersonaView formView) {
-		assert view != null;
-		assert formView != null;
-		workbenchView = view;
-		this.formView = formView;
+	public WorkbenchPresenter() {
+		configurationView = ConfigurationView.getInstance();
 		onInjectWorkbenchActions();
 		onInjectFormActions();
 	}
@@ -33,8 +33,7 @@ public class WorkbenchPresenter implements Observer, Presenter{
 	@Override
 	public void update() {
 		workbenchView.clearData();
-		PersonaDTO [] personas = getData();
-		if(personas != null) workbenchView.setData(personas);
+		workbenchView.setData(getData());
 	}	
 	
 	private void onInjectWorkbenchActions() {
@@ -78,13 +77,18 @@ public class WorkbenchPresenter implements Observer, Presenter{
 	
 	@Override
 	public void onInit() {
-		update();
 		workbenchView.open();
+		workbenchView.lockOptions();
+		if(!new ConfigurationServiceImpl().isConnectionEnabled()) {
+			configurationView.open();
+			workbenchView.close();
+		}
+		workbenchView.unLockOptions();
+		update();
 	}
 	
-	private PersonaDTO [] getData() {
-		List<PersonaDTO> personas = ControllersFactory.getFactory().makePersonaController().readAll();
-		return personas.toArray(new PersonaDTO[personas.size()]);
+	private List<PersonaDTO> getData() {
+		return ControllersFactory.getFactory().makePersonaController().readAll();
 	}
 
 	private void onUpdateProvinciasList(ActionEvent a) {
@@ -116,6 +120,8 @@ public class WorkbenchPresenter implements Observer, Presenter{
 
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PersonaDTO target = workbenchView.getData();
+		System.out.println(target);
+		/*
 		if (target != null) {
 			formView.clearData();
 			fillProvincias(target.getPais());
@@ -124,7 +130,7 @@ public class WorkbenchPresenter implements Observer, Presenter{
 			fillTiposDeContacto();
 			formView.setData(target);
 			formView.open();
-		}
+		}*/
 	}
 
 	private void fillLocalidades(String provincia) {

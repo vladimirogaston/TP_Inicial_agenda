@@ -6,7 +6,9 @@ public interface ConfigurationService {
 
 	void save(ConfigDatabaseDTO target);
 
-	boolean test(ConfigDatabaseDTO target);
+	boolean onConnect(ConfigDatabaseDTO target);
 
 	ConfigDatabaseDTO getConfiguration();
+	
+	boolean isConnectionEnabled();
 }

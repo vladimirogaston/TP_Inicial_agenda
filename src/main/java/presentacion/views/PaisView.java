@@ -3,6 +3,8 @@ package presentacion.views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,24 +14,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-
 import dto.PaisDTO;
 
 @SuppressWarnings("serial")
 public class PaisView extends JDialog {
 
-	private static PaisView vista;
+	private final String[] nombreColumnas = new String[] { "PaisNombre" };
+	private List<PaisDTO> paises;
+
 	private JPanel contentPane;
-
 	private DefaultTableModel tableModel;
-	private JTable table;
-	private final String[] nombreColumnas = new String[] { "PaisNombre", "ID" };
-
 	private JButton btnSalvar;
 	private JButton btnEditar;
 	private JButton btnEliminar;
+	private JPanel panel;
+	private JScrollPane scrollPane;
+	private JToolBar toolBar;
+	private JTable table;
+
+	private static PaisView vista;
 
 	public static PaisView getInstance() {
 		if (vista == null)
@@ -39,30 +43,26 @@ public class PaisView extends JDialog {
 
 	private PaisView() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 706, 479);
+		setBounds(100, 100, 283, 311);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(
-				new TitledBorder(null, "Pais registrado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(15, 16, 654, 394);
-		contentPane.add(panel_1);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		tableModel = new DefaultTableModel(null, nombreColumnas) {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		contentPane.setLayout(new BorderLayout(0, 0));
 
-		JScrollPane scrollPane = new JScrollPane();
-		panel_1.add(scrollPane, BorderLayout.CENTER);
+		panel = new JPanel();
+		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		contentPane.add(panel, BorderLayout.NORTH);
 
-		JPanel panel_2 = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEADING);
-		scrollPane.setColumnHeaderView(panel_2);
-
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		panel_2.add(toolBar);
+		panel.add(toolBar);
 
 		btnSalvar = new JButton("Crear");
 		toolBar.add(btnSalvar);
@@ -73,48 +73,47 @@ public class PaisView extends JDialog {
 		btnEliminar = new JButton("Eliminar");
 		toolBar.add(btnEliminar);
 
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane.setViewportView(scrollPane_1);
-
-		tableModel = new DefaultTableModel(null, nombreColumnas) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		};
-		;
+		scrollPane = new JScrollPane();
+		contentPane.add(scrollPane, BorderLayout.CENTER);
+		tableModel = new DefaultTableModel(null, nombreColumnas);
 		table = new JTable(tableModel);
 
-		table.getColumnModel().getColumn(0).setMaxWidth(20);
-		table.getColumnModel().getColumn(0).setMinWidth(20);
-		table.getColumnModel().getColumn(0).setWidth(20);
-		table.getColumnModel().getColumn(0).setPreferredWidth(20);
+		scrollPane.setViewportView(table);
 
-		scrollPane_1.setViewportView(table);
 		setModal(true);
+		setResizable(false);
+		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				clearData();
+			}
+		});
 	}
 
 	public void clearData() {
+		paises = null;
 		tableModel.setRowCount(0);
 		tableModel.setColumnCount(0);
 		tableModel.setColumnIdentifiers(nombreColumnas);
 	}
-	
+
 	public void setData(List<PaisDTO> dtos) {
 		assert dtos != null;
+		paises = dtos;
 		for (PaisDTO loc : dtos) {
-			Object[] row = { loc.getNombre(), loc.getId() };
+			Object[] row = { loc.getNombre() };
 			tableModel.addRow(row);
-		}	
+		}
 	}
-	
+
 	public PaisDTO getData() {
-		if(table.getSelectedRowCount() != 1) return null;
+		if (table.getSelectedRowCount() != 1)
+			return null;
 		int row = table.getSelectedRow();
-		String nom = tableModel.getValueAt(row, 0).toString();
-		int id = Integer.parseInt(tableModel.getValueAt(row, 1).toString());
-		return new PaisDTO(id, nom);
+		return paises.get(row);
 	}
-	
+
 	public void open() {
 		setVisible(true);
 	}
