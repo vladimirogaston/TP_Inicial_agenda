@@ -85,14 +85,25 @@ SectionIn RO
     ;File "prerequisitos\java.exe"
     ;ExecWait "$INSTDIR\java.exe INSTALL_SILENT=1 AUTO_UPDATE=0 REBOOT=0 SPONSORS=0 REMOVEOUTOFDATEJRES=1 " 
     ;delete $INSTDIR\java.exe  
+	
+	;JAVA
+	DetailPrint "Comenzando la instalacion de Java"     
+    File "prerequisitos\java.exe"
+    ExecWait "$INSTDIR\java.exe INSTALL_SILENT=1 AUTO_UPDATE=0 REBOOT=0 SPONSORS=0 REMOVEOUTOFDATEJRES=1"
+	delete $INSTDIR\java.exe
 
+	;MARIADB
     DetailPrint "Comenzando la instalacion de Mysql Server"
     File "prerequisitos\mariadb.msi"
-    ExecWait '"msiexec" /i "$INSTDIR\mariadb.msi" SERVICENAME=MySQL DEFAULTUSER=1 PASSWORD=root PORT=3306 /qn'
+    ExecWait '"msiexec" /i "$INSTDIR\mariadb.msi" SERVICENAME=MySQL DEFAULTUSER=1 PASSWORD=root PORT=3306 /qn INSTALLDIR="C:\MariaDB"'
     delete $INSTDIR\mariadb.msi
 
     ;DetailPrint "Comenzando la importacion de la base de datos"
-    ;File "InstallSQLScript.exe"
+	File "scriptAgenda.sql"
+	ExecWait 'C:\MariaDB\bin\mysql --user=root --password=root -e "source $INSTDIR\scriptAgenda.sql"'
+	delete $INSTDIR\scriptAgenda.sql
+	
+	;ExecWait "$INSTDIR\execute.sql"
     ;C:\Program Files\MariaDB 5.5\bin>mysql -u root -p
     ;C:\Program Files\MariaDB 5.5\bin>mysql.exe -root -root -hlocalhost -P3306 < C:\INSTEST\schema.sql
     ;nsExec::ExecToLog '"$0" /C "C:\mysql\bin\mysql.exe" -utheuser -pthepass -hlocalhost -P3306 < "$INSTDIR\schema.sql"'
