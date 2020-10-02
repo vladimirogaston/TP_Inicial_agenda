@@ -3,8 +3,7 @@ package presentacion.views;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -14,8 +13,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import dto.PersonaDTO;
-import repositories.jdbc.Conexion;
-
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.FlowLayout;
@@ -30,23 +27,28 @@ import java.awt.BorderLayout;
 public class WorkbenchView {
 	
 	static final String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
-			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal", "ID" };
+			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal" };
 	
-	JFrame frame;
-	JTable tablaPersonas;
-	DefaultTableModel modelPersonas;
-	JButton btnAgregar;
-	JButton btnBorrar;
-	JButton btnReporte;
-	JButton btnEditar;
-	JPanel panel_1;
-	JMenuItem mntmNewMenuItemPaises;
-	JMenuItem mntmNewMenuItemProvincias;
-	JMenuItem mntmNewMenuItemLocalidades;
-	JMenuItem mntmNewMenuItemTipos;
+	private JFrame frame;
+	private JTable tablaPersonas;
+	private DefaultTableModel modelPersonas;
+	private JButton btnAgregar;
+	private JButton btnBorrar;
+	private JButton btnReporte;
+	private JButton btnEditar;
+	private JPanel panel_1;
+	private JMenuItem mntmNewMenuItemPaises;
+	private JMenuItem mntmNewMenuItemProvincias;
+	private JMenuItem mntmNewMenuItemLocalidades;
+	private JMenuItem mntmNewMenuItemTipos;
+
+	private JToolBar toolBar;
 	static WorkbenchView vista;
+
 	private JMenuItem mntmConfiguracin;
 	private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/agenda.png"));
+
+	private List<PersonaDTO> personas;
 	
 	public static WorkbenchView getInstance() {
 		if(vista == null) vista = new WorkbenchView();
@@ -89,7 +91,7 @@ public class WorkbenchView {
 		panel_1.setBounds(0, 308, 1123, 39);
 		panel.add(panel_1);
 
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		panel_1.add(toolBar);
 
@@ -123,24 +125,6 @@ public class WorkbenchView {
 
 		mntmNewMenuItemTipos = new JMenuItem("Tipos");
 		mnNewMenu.add(mntmNewMenuItemTipos);
-		
-		mntmConfiguracin = new JMenuItem("Configuración");
-		mnNewMenu.add(mntmConfiguracin);
-	}
-
-	public void open() {
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir de la Agenda?",
-						"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (confirm == 0) {
-					System.exit(0);
-				}
-			}
-		});
-		this.frame.setVisible(true);
 	}
 	
 	public JMenuItem getMntmNewMenuItemPaises() {
@@ -159,55 +143,45 @@ public class WorkbenchView {
 		return mntmNewMenuItemTipos;
 	}
 	
+	public void open() {
+		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir de la Agenda?",
+						"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (confirm == 0) {
+					System.exit(0);
+				}
+			}
+		});
+		this.frame.setVisible(true);
+	}
+	
 	public PersonaDTO getData() {
 		if(tablaPersonas.getSelectedRowCount() != 1) return null;
 		int row = tablaPersonas.getSelectedRow();
-		PersonaDTO dto = new PersonaDTO
-				.Builder(getValueAt(row, 0), getValueAt(row, 1))
-				.email(getValueAt(row, 2))
-				.tipoContacto(getValueAt(row, 4))
-				.calle(getValueAt(row, 5))
-				.altura(getValueAt(row, 6))
-				.piso(getValueAt(row, 7))
-				.dpto(getValueAt(row, 8))
-				.localidad(getValueAt(row, 9))
-				.provincia(getValueAt(row, 10))
-				.pais(getValueAt(row, 11))
-				.equipoFutbol(getValueAt(row, 12))
-				.codigoPostal(getValueAt(row, 13))
-				.build();
-		if(getValueAt(row, 14).isEmpty()) dto.setIdPersona(null);
-		else dto.setIdPersona(Integer.parseInt(getValueAt(row, 14)));
-		try {
-			dto.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(getValueAt(row, 3)));
-		} catch (ParseException e) {
-			dto.setFechaNacimiento(null);
-		}
-		return dto;
-	}
-
-	String getValueAt(int row, int column) {
-		Object obj = modelPersonas.getValueAt(row, column);
-		if(obj != null) {
-			return modelPersonas.getValueAt(row, column).toString();
-		}
-		else return "";
+		return personas.get(row);
 	}
 	
-	public void setData(PersonaDTO [] personas) {
+	public void setData(List<PersonaDTO> personas) {
+		this.personas = personas;
 		for(PersonaDTO p : personas) {
-			if(p != null) {
-				Object[] fila = { 
-					p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
-					p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(),
-					p.getEquipoFutbol(), p.getCodigoPostal(), p.getId()
-				};
-				modelPersonas.addRow(fila);	
-			}
+			Object[] fila = { 
+				p.getNombre(), p.getTelefono(), p.getEmail(), p.getFechaNacimiento(), p.getTipoContacto(),
+				p.getCalle(), p.getAltura(), p.getPiso(), p.getDpto(), p.getLocalidad(), p.getProvincia(), p.getPais(),
+				p.getEquipoFutbol(), p.getCodigoPostal()
+			};
+			modelPersonas.addRow(fila);	
 		}
+	}
+	
+	public void close() {
+		System.exit(0);
 	}
 	
 	public void clearData() {
+		personas = null;
 		modelPersonas.setRowCount(0);
 		modelPersonas.setColumnCount(0);
 		modelPersonas.setColumnIdentifiers(nombreColumnas);
@@ -228,8 +202,12 @@ public class WorkbenchView {
 	public void setActionReport(ActionListener listener) {
 		btnReporte.addActionListener(listener);
 	}
+
+	public void lockOptions() {
+		this.toolBar.setEnabled(false);
+	}
 	
-	public void setActionConfiguracion(ActionListener listener) {
-		this.mntmConfiguracin.addActionListener(listener);
+	public void unLockOptions() {
+		this.toolBar.setEnabled(true);
 	}
 }

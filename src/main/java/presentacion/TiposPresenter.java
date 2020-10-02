@@ -12,11 +12,11 @@ import presentacion.views.WorkbenchView;
 
 public class TiposPresenter {
 
-	private TiposView adaptor;
+	private TiposView adaptor = TiposView.getInstance();
 	private TipoController controller;
 
-	public TiposPresenter(TiposView adaptor, TipoController controller) {
-		this.adaptor = adaptor;
+	public TiposPresenter(TipoController controller) {
+		assert controller != null;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();

@@ -23,7 +23,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		params.put("user", target.getUser());
 		params.put("password", target.getPassword());
 		params.put("port", target.getPort());
-		params.put("ip", target.getIp());
+		params.put("ip", target.isLocalhost() ? "localhost" : target.getIp());
 		try {
 			service.updateValues(params);
 		} catch (IOException e) {
@@ -32,12 +32,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public boolean test(ConfigDatabaseDTO target) {
+	public boolean onConnect(ConfigDatabaseDTO target) {
 		try {
 			Conexion.getConexion(target).getSQLConexion();
-			Conexion.getConexion(target).cerrarConexion();
 			return true;
 		} catch(DatabaseException e) {
+			System.out.print(e.getMessage());
 			return false;
 		}
 	}
@@ -55,5 +55,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+
+	@Override
+	public boolean isConnectionEnabled() {
+		ConfigDatabaseDTO target = getConfiguration();
+		if(onConnect(target)) return true;
+		return false;
 	}
 }

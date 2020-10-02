@@ -35,7 +35,7 @@ public class InputSelectDialog {
 		return this;
 	}
 	
-	public InputSelectDialog setProvincias(String [] str) {
+	public InputSelectDialog setData(String [] str) {
 		assert str != null;
 		for(String aux : str) comboBox.addItem(aux);
 		return this;
@@ -70,7 +70,7 @@ public class InputSelectDialog {
 		return new String [] {nombre, prov};
 	}
 
-	public InputSelectDialog setNombreProvincia(String str) {
+	public InputSelectDialog setData(String str) {
 		assert str != null;
 		comboBox.setSelectedItem(str);
 		return this;
