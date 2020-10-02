@@ -19,6 +19,9 @@ import repositories.jdbc.Conexion;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -43,6 +46,7 @@ public class WorkbenchView {
 	JMenuItem mntmNewMenuItemTipos;
 	static WorkbenchView vista;
 	private JMenuItem mntmConfiguracin;
+	private Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icons/agenda.png"));
 	
 	public static WorkbenchView getInstance() {
 		if(vista == null) vista = new WorkbenchView();
@@ -58,6 +62,7 @@ public class WorkbenchView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Agenda");
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		frame.setIconImage(icon);
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
