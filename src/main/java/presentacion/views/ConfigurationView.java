@@ -144,7 +144,8 @@ public class ConfigurationView extends JDialog {
 	}
 		
 	public ConfigDatabaseDTO getData() {
-		return new ConfigDatabaseDTO(textUser.getText(), textPassword.getText(), textIp.getText(), textPort.getText());
+		return new ConfigDatabaseDTO().user(textUser.getText()).password(textPassword.getText())
+				.ip(textIp.getText()).port(textPort.getText());
 	}
 	
 	public void setActionSave(ActionListener listener) {

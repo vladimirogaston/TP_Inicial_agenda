@@ -131,7 +131,6 @@ public class WorkbenchView {
 				int confirm = JOptionPane.showOptionDialog(null, "¿Estás seguro que quieres salir de la Agenda?",
 						"Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if (confirm == 0) {
-					Conexion.getConexion().cerrarConexion();
 					System.exit(0);
 				}
 			}

@@ -9,7 +9,9 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import business_logic.ControllersFactory;
 import business_logic.local.ControllersFactoryImpl;
+import dto.ConfigDatabaseDTO;
 import repositories.DaosFactory;
+import repositories.jdbc.Conexion;
 import repositories.jdbc.DaosFactoryImpl;
 
 public class AgendaApp {
@@ -53,12 +55,12 @@ public class AgendaApp {
 	}
 	
 	public static void main(String[] args) {
-		
 		new AgendaApp()
 			.setUpLookAndFeel()
-			.persitenceLogic(new DaosFactoryImpl())
+			.persitenceLogic(new DaosFactoryImpl(Conexion.getConexion(new ConfigDatabaseDTO().ip("localhost").port("3306").user("root").password("root"))
+					.getSQLConexion()))
 			.domainLogic(new ControllersFactoryImpl())
 			.presentationLogic(new ViewsFactoryImpl())
 			.onInit();
-	}
+  		}
 }

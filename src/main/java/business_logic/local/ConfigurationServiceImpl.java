@@ -6,6 +6,8 @@ import java.util.HashMap;
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
 import repositories.PropertiesServiceImpl;
+import repositories.jdbc.Conexion;
+import repositories.jdbc.DatabaseException;
 
 public class ConfigurationServiceImpl implements ConfigurationService {
 
@@ -31,18 +33,24 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public boolean test(ConfigDatabaseDTO target) {
-		return false;
+		try {
+			Conexion.getConexion(target).getSQLConexion();
+			Conexion.getConexion(target).cerrarConexion();
+			return true;
+		} catch(DatabaseException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public ConfigDatabaseDTO getConfiguration() {
 		ConfigDatabaseDTO ret = null;
 		try {
-			String user = service.readProperty("user");
-			String password = service.readProperty("password");
-			String port = service.readProperty("port");
-			String ip = service.readProperty("ip");
-			ret = new ConfigDatabaseDTO(user, password, port, ip);
+			ret = new ConfigDatabaseDTO()
+					.ip(service.readProperty("ip"))
+					.port(service.readProperty("port"))
+					.user(service.readProperty("user"))
+					.password(service.readProperty("password"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

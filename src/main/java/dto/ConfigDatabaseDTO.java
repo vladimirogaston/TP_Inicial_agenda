@@ -18,15 +18,30 @@ public class ConfigDatabaseDTO {
 	private String port;
 	
 	@NotBlank(message  = "El ip es obligatorio.")
-	@Pattern(regexp = Patterns.NON_NEGATIVE_INTEGER_FIELD, message = "El ip debe ser un número.")	
 	private String ip;
 	
-	public ConfigDatabaseDTO(String user, String password, String port, String ip) {
+	public ConfigDatabaseDTO() {
 		super();
+	}
+	
+	public ConfigDatabaseDTO user(String user) {
 		setUser(user);
+		return this;
+	}
+	
+	public ConfigDatabaseDTO password(String password) {
 		setPassword(password);
-		setPort(port);
+		return this;
+	}
+	
+	public ConfigDatabaseDTO ip(String ip) {
 		setIp(ip);
+		return this;
+	}
+	
+	public ConfigDatabaseDTO port(String port) {
+		setPort(port);
+		return this;
 	}
 	
 	public List<String> validate() {
@@ -63,5 +78,10 @@ public class ConfigDatabaseDTO {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	@Override
+	public String toString() {
+		return "ConfigDatabaseDTO [user=" + user + ", password=" + password + ", port=" + port + ", ip=" + ip + "]";
 	}	
 }
