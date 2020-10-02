@@ -51,9 +51,12 @@ public class LocalidadPresenter {
 		LocalidadDTO dto = new LocalidadDTO(null, target[0], target[1]);
 		if(dto.getNombre() != null) {
 			try {
+				if(dto.getProvincia() == null) {
+					dto.setProvincia("");
+				}
 				controller.save(dto);
 				reset();
-			}catch(ForbiddenException e) {
+			} catch (ForbiddenException e) {
 				new ErrorDialog().showMessages(e.getMessage());
 			}
 		}

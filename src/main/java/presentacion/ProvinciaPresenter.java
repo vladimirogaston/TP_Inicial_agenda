@@ -7,6 +7,7 @@ import java.util.List;
 import business_logic.ControllersFactory;
 import business_logic.ForbiddenException;
 import business_logic.ProvinciaController;
+import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import presentacion.views.ErrorDialog;
 import presentacion.views.InputSelectDialog;
@@ -50,12 +51,15 @@ public class ProvinciaPresenter {
 		ProvinciaDTO dto = new ProvinciaDTO(null, target[0], target[1]);
 		if(dto.getNombre() != null) {
 			try {
+				if(dto.getPais() == null) {
+					dto.setPais("");
+				}
 				controller.save(dto);
 				reset();
-			}catch(ForbiddenException e) {
+			} catch (ForbiddenException e) {
 				new ErrorDialog().showMessages(e.getMessage());
 			}
-		}
+		} 
 	}
 	
 	private void onDisplayFormForUpdate(ActionEvent a) {
@@ -95,7 +99,7 @@ public class ProvinciaPresenter {
 	
 	private String [] getNombrePaises() {
 		List<String> lst = new LinkedList<>();
-		for(ProvinciaDTO aux : ControllersFactory.getFactory().makeProvinciaController().readAll()) {
+		for(PaisDTO aux : ControllersFactory.getFactory().makePaisController().readAll()) {
 			lst.add(aux.getNombre());
 		}
 		String [] paises = new String[lst.size()];
