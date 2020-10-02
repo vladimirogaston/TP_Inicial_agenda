@@ -9,6 +9,7 @@ import presentacion.views.ErrorDialog;
 import presentacion.views.InputDialog;
 import presentacion.views.PaisView;
 import presentacion.views.WorkbenchView;
+import repositories.jdbc.ConstraintViolationException;
 
 public class PaisPresenter {
 
@@ -78,8 +79,8 @@ public class PaisPresenter {
 			try {
 				controller.delete(target.getId());
 				reset();
-			} catch(ForbiddenException e) {
-				new ErrorDialog().showMessages(e.getMessage());
+			} catch (ConstraintViolationException e) {
+				new ErrorDialog().showMessages("No se puede eliminar un pais en uso");
 			}
 		}
 	}

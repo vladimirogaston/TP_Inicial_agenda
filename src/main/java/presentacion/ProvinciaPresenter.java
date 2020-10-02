@@ -13,6 +13,7 @@ import presentacion.views.ErrorDialog;
 import presentacion.views.InputSelectDialog;
 import presentacion.views.ProvinciaView;
 import presentacion.views.WorkbenchView;
+import repositories.jdbc.ConstraintViolationException;
 
 public class ProvinciaPresenter {
 	
@@ -91,8 +92,8 @@ public class ProvinciaPresenter {
 				int id = target.getId();
 				controller.delete(id);
 				reset();
-			} catch(ForbiddenException e) {
-				new ErrorDialog().showMessages(e.getMessage());
+			} catch(ConstraintViolationException e) {
+				new ErrorDialog().showMessages("No se puede eliminar una provincia en uso.");
 			}
 		}
 	}

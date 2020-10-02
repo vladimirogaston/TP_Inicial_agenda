@@ -13,6 +13,7 @@ import presentacion.views.ErrorDialog;
 import presentacion.views.InputSelectDialog;
 import presentacion.views.LocalidadView;
 import presentacion.views.WorkbenchView;
+import repositories.jdbc.ConstraintViolationException;
 
 public class LocalidadPresenter {
 	
@@ -91,8 +92,8 @@ public class LocalidadPresenter {
 				int id = target.getId();
 				controller.delete(id);
 				reset();
-			} catch(ForbiddenException e) {
-				new ErrorDialog().showMessages(e.getMessage());
+			} catch(ConstraintViolationException e) {
+				new ErrorDialog().showMessages("No se puede eliminar una localidad en uso");
 			}
 		}
 	}

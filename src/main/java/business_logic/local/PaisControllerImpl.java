@@ -42,11 +42,7 @@ public class PaisControllerImpl implements PaisController {
 	
 	@Override
 	public void delete(int id) {
-		try {
-			dao.deleteById(id);
-		} catch (ForbiddenException e) {
-			throw new ForbiddenException(e.getMessage());
-		}		
+		dao.deleteById(id);
 	}
 	
 	@Override
