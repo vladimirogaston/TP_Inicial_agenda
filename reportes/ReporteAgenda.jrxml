@@ -81,9 +81,9 @@
 			<frame>
 				<reportElement x="0" y="0" width="550" height="40" uuid="fbf866cd-64dc-4043-b98c-ed8d9f31d19c"/>
 				<staticText>
-					<reportElement x="0" y="0" width="260" height="22" uuid="df09700e-f0a8-43aa-a9d6-1430d1a7476d"/>
-					<textElement>
-						<font size="15"/>
+					<reportElement x="0" y="0" width="260" height="30" uuid="df09700e-f0a8-43aa-a9d6-1430d1a7476d"/>
+					<textElement textAlignment="Center">
+						<font size="21"/>
 					</textElement>
 					<text><![CDATA[Reporte de personas]]></text>
 				</staticText>
@@ -96,7 +96,7 @@
 					<text><![CDATA[Reporte generado el:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="1" y="22" width="259" height="18" uuid="02948d88-0cdf-4c15-9b21-f97d1ffb77e7"/>
+					<reportElement x="1" y="30" width="259" height="13" uuid="02948d88-0cdf-4c15-9b21-f97d1ffb77e7"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="8"/>
 					</textElement>
