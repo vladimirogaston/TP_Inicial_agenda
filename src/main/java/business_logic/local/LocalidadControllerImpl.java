@@ -48,8 +48,7 @@ public class LocalidadControllerImpl implements LocalidadController {
 			throw new ForbiddenException("No se puede eliminar una localidad en uso");
 		}
 	}
-	
-	
+		
 	@Override
 	public List<LocalidadDTO> readAll() {
 		return dao.readAll();
