@@ -1,7 +1,7 @@
 package repositories.jdbc;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class MySqlDataSource extends DataSource {
 
@@ -13,14 +13,16 @@ public class MySqlDataSource extends DataSource {
 	static final String database = "grupo_11";
 	
 	@Override
-	protected void initConnection() {
-		try {
-            Class.forName(driver);
-            DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Error al registrar el driver de MySQL: " + ex.getMessage());
-        } catch (SQLException e) {
-        	System.out.println("Error al iniciar MySQL server: " + e.getMessage());
+	protected Connection stablishConnection() {
+		Connection conn = null;
+		try	{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grupo_11","root","root");
+			conn.setAutoCommit(false);
+			System.out.println("Conexión exitosa");
+		} catch(Exception e) {
+			System.out.println("Conexión fallida");
 		}
+		return conn;
 	}
 }

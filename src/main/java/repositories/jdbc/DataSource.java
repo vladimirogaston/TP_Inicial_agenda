@@ -7,12 +7,11 @@ public abstract class DataSource {
 
 	protected static Connection connection;
 	
-	protected abstract void initConnection();
+	protected abstract Connection stablishConnection();
 	
 	public Connection getConnection() {
 		if(connection == null) {
-			initConnection();
-			System.out.println("Connection open");
+			connection = stablishConnection();
 		}
 		return connection;
 	}

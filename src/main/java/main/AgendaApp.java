@@ -4,8 +4,6 @@ package main;
 import presentacion.ViewsFactory;
 import presentacion.views.ViewsFactoryImpl;
 
-import java.sql.Connection;
-
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -17,7 +15,6 @@ import repositories.jdbc.DataSource;
 import repositories.jdbc.DataSourceFactory;
 import repositories.jdbc.DataSourceFactory.DataSourceType;
 import repositories.jdbc.DataSourceFactoryImpl;
-import repositories.jdbc.H2DataSource;
 
 public class AgendaApp {
 
@@ -62,15 +59,14 @@ public class AgendaApp {
 
 	public static void main(String[] args) {
 		DataSourceFactory.setFactory(new DataSourceFactoryImpl());
-		DataSource ds = DataSourceFactory.getFactory().makeDataSource(DataSourceType.PERSISTENT);
+		DataSource ds = DataSourceFactory.getFactory().makeDataSource(DataSourceType.IN_MEMORY);
 		ds.getConnection();
-		ds.CloseConnection();
-		/*new AgendaApp()
+		
+		new AgendaApp()
 			.setUpLookAndFeel()
 			.persitenceLogic(new DaosFactoryImpl(ds.getConnection()))
 			.domainLogic(new ControllersFactoryImpl())
 			.presentationLogic(new ViewsFactoryImpl())
 			.onInit();
-		*/
 	}
 }

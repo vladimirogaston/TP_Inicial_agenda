@@ -1,5 +1,6 @@
 package repositories.jdbc;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -12,14 +13,17 @@ public class H2DataSource extends DataSource {
 	static final String password = "";
 		
 	@Override
-	protected void initConnection() {
+	protected Connection stablishConnection() {
+		Connection conn = null;
 		try {
 			Class.forName(driver);
-			connection = DriverManager.getConnection(url+";"+scriptdb, "sa", "");
+			conn = DriverManager.getConnection(url + ";" + scriptdb, user, password);
+			System.out.println("Connection open");
 		} catch (SQLException e) {
 			System.out.println("Connection fails: " + e.getMessage());
 		} catch (ClassNotFoundException e1) {
 			System.out.println("Error driver registry: " + e1.getMessage());
 		}
+		return conn;
 	}
 }
