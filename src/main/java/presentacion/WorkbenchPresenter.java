@@ -79,12 +79,12 @@ public class WorkbenchPresenter implements Observer, Presenter {
 	@Override
 	public void onInit() {
 		workbenchView.open();
-		workbenchView.lockOptions();
+		/*workbenchView.lockOptions();
 		if(!new ConfigurationServiceImpl().isConnectionEnabled()) {
 			configurationView.open();
 			workbenchView.close();
 		}
-		workbenchView.unLockOptions();
+		*/workbenchView.unLockOptions();
 		update();
 	}
 	
@@ -164,7 +164,6 @@ public class WorkbenchPresenter implements Observer, Presenter {
 
 	private void onDisplayReport(ActionEvent r) {
 		List<PersonaDTO> target = ControllersFactory.getFactory().makePersonaController().readAll();
-		//Collections.sort(target, Comparator.comparing(PersonaDTO::getNombre));
 		ReporteView reporte = new ReporteView();
 		reporte.setData(target);
 		reporte.open();

@@ -15,6 +15,8 @@ public class ConfigDatabaseDTO {
 	
 	private String ip;
 	
+	private String driver;
+	
 	private boolean isLocalhost;
 	
 	public List<String>	validate() {
@@ -102,6 +104,14 @@ public class ConfigDatabaseDTO {
 
 	public void setLocalhost(boolean isLocalhost) {
 		this.isLocalhost = isLocalhost;
+	}
+
+	public String getDriver() {
+		return driver;
+	}
+
+	public void setDriver(String driver) {
+		this.driver = driver;
 	}
 
 	@Override

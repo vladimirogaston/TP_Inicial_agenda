@@ -26,10 +26,14 @@ public class Conexion {
 
 	private Conexion(ConfigDatabaseDTO conf) {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			this.connection = 
-					DriverManager.getConnection("jdbc:mysql://" + conf.getIp() + ":" + conf.getPort() + "/grupo_11"
-							,conf.getUser(),conf.getPassword());
+			
+			Class.forName("org.h2.Driver");
+			this.connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+			
+			//Class.forName("com.mysql.jdbc.Driver");
+			//this.connection = DriverManager.getConnection("jdbc:mysql://" + conf.getIp() + ":" + conf.getPort() + "/grupo_11", 
+			//		conf.getUser(),conf.getPassword());
+
 			this.connection.setAutoCommit(false);
 			log.info("Conexión exitosa");
 		} catch (Exception e) {

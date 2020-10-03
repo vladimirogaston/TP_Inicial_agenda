@@ -10,12 +10,14 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import business_logic.ControllersFactory;
-import business_logic.local.ConfigurationServiceImpl;
 import business_logic.local.ControllersFactoryImpl;
 import repositories.DaosFactory;
-import repositories.jdbc.Conexion;
 import repositories.jdbc.DaosFactoryImpl;
-import repositories.jdbc.DatabaseException;
+import repositories.jdbc.DataSource;
+import repositories.jdbc.DataSourceFactory;
+import repositories.jdbc.DataSourceFactory.DataSourceType;
+import repositories.jdbc.DataSourceFactoryImpl;
+import repositories.jdbc.H2DataSource;
 
 public class AgendaApp {
 
@@ -31,6 +33,7 @@ public class AgendaApp {
 			try {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
 		}
 		return this;
@@ -58,14 +61,16 @@ public class AgendaApp {
 	}
 
 	public static void main(String[] args) {
-		Connection conn = null;
-		try {
-			conn = Conexion.getConexion(new ConfigurationServiceImpl().getConfiguration()).getSQLConexion();
-		} catch (DatabaseException e) {
-			System.out.print(e.getMessage());
-		}
-
-		new AgendaApp().setUpLookAndFeel().persitenceLogic(new DaosFactoryImpl(conn))
-				.domainLogic(new ControllersFactoryImpl()).presentationLogic(new ViewsFactoryImpl()).onInit();
+		DataSourceFactory.setFactory(new DataSourceFactoryImpl());
+		DataSource ds = DataSourceFactory.getFactory().makeDataSource(DataSourceType.PERSISTENT);
+		ds.getConnection();
+		ds.CloseConnection();
+		/*new AgendaApp()
+			.setUpLookAndFeel()
+			.persitenceLogic(new DaosFactoryImpl(ds.getConnection()))
+			.domainLogic(new ControllersFactoryImpl())
+			.presentationLogic(new ViewsFactoryImpl())
+			.onInit();
+		*/
 	}
 }

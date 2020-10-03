@@ -13,8 +13,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	private PropertiesServiceImpl service;
 	
+	private PropertiesServiceImpl dev;
+	
 	public ConfigurationServiceImpl() {
 		this.service = new PropertiesServiceImpl("conf/db.properties");
+		dev = new PropertiesServiceImpl("dev.properties");
 	}
 	
 	@Override
