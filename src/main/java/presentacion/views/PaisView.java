@@ -47,6 +47,7 @@ public class PaisView extends JDialog {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setTitle("Paises");
 
 		tableModel = new DefaultTableModel(null, nombreColumnas) {
 			public boolean isCellEditable(int row, int column) {

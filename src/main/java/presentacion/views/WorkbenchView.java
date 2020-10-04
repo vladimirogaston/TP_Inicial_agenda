@@ -121,7 +121,7 @@ public class WorkbenchView {
 		mntmNewMenuItemLocalidades = new JMenuItem("Localidades");
 		mnNewMenu.add(mntmNewMenuItemLocalidades);
 
-		mntmNewMenuItemTipos = new JMenuItem("Tipos");
+		mntmNewMenuItemTipos = new JMenuItem("Tipos de Contacto");
 		mnNewMenu.add(mntmNewMenuItemTipos);
 	}
 	

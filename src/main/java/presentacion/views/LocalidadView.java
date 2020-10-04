@@ -47,6 +47,7 @@ public class LocalidadView extends JDialog {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setTitle("Localidades");
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(
