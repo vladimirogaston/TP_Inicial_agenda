@@ -105,6 +105,10 @@ public class TiposView extends JDialog {
 		setVisible(true);
 	}
 
+	public DefaultTableModel getTable() {
+		return this.tableModel;
+	}
+	
 	public void setActionSave(ActionListener object) {
 		btnNewButtonSalvar.addActionListener(object);
 	}

@@ -63,7 +63,6 @@ public class PaisDaoImpl extends GenericJdbcDao<PaisDTO> implements PaisDao {
 	}
 	
 	private PaisDTO getData(List<PaisDTO> paises) {
-		assert paises != null;
 		if(paises.isEmpty()) return null;
 		return paises.get(0);
 	}

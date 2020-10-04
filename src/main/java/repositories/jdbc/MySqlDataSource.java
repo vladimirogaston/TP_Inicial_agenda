@@ -5,19 +5,49 @@ import java.sql.DriverManager;
 
 public class MySqlDataSource extends DataSource {
 
-	static final String driver = "com.mysql.jdbc.Driver";
-	static final String host = "localhost";
-	static final String port = "3306";
-	static final String user= "root";
-	static final String password = "root";
-	static final String database = "grupo_11";
+	String driver;
+	String host;
+	String port;
+	String user;
+	String password;
+	String database;
+	
+	public MySqlDataSource dbName(String db) {
+		this.database = db;
+		return this;
+	}
+	
+	public MySqlDataSource driver(String driver) {
+		this.driver = driver;
+		return this;
+	}
+	
+	public MySqlDataSource port(String port) {
+		this.port = port;
+		return this;
+	}
+	
+	public MySqlDataSource pass(String pass) {
+		this.password = pass;
+		return this;
+	}
+	
+	public MySqlDataSource user(String user) {
+		this.user = user;
+		return this;
+	}
+	
+	public MySqlDataSource host(String host) {
+		this.host = host;
+		return this;
+	}
 	
 	@Override
 	protected Connection stablishConnection() {
 		Connection conn = null;
 		try	{
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/grupo_11","root","root");
+			Class.forName(driver);
+			conn = DriverManager.getConnection("jdbc:mysql://"+ host + ":" + port + "/grupo_11", user, password);
 			conn.setAutoCommit(false);
 			System.out.println("Conexión exitosa");
 		} catch(Exception e) {

@@ -24,27 +24,23 @@ public class TipoContactoDaoImpl extends GenericJdbcDao<TipoContactoDTO> impleme
 	
 	@Override
 	public boolean insert(TipoContactoDTO dto) {
-		assert dto != null; 
 		return getTemplate().query(insert).param(dto.getNombre()).excecute();
 	}
 
 	@Override
 	public boolean update(TipoContactoDTO dto) {
-		assert dto != null;
 		return getTemplate().query(update).param(dto.getNombre()).param(dto.getId())
 			.excecute();
 	}
 
 	@Override
 	public boolean deleteById(Integer id) {
-		assert id != null;
 		return getTemplate().query(deleteById).param(id).excecute();
 	}
 
 	@Override
 	public TipoContactoDTO readByID(Integer id) {
-		assert id != null;
-		return getData(getTemplate().query(readById).excecute(mapper));
+		return getData(getTemplate().query(readById).param(id).excecute(mapper));
 	}
 
 	@Override
@@ -54,14 +50,12 @@ public class TipoContactoDaoImpl extends GenericJdbcDao<TipoContactoDTO> impleme
 
 	@Override
 	public TipoContactoDTO readByName(String nombre) {
-		assert nombre != null;
 		return getData(getTemplate().query(readByName).param(nombre).excecute(mapper));
 	}
 
 	@Override
 	protected Mapper<TipoContactoDTO> getMapper() {
 		return new Mapper<TipoContactoDTO>() {
-
 			@Override
 			public TipoContactoDTO map(Object[] obj) {
 				return new TipoContactoDTO((Integer) obj[0], (String) obj[1]);
@@ -70,7 +64,6 @@ public class TipoContactoDaoImpl extends GenericJdbcDao<TipoContactoDTO> impleme
 	}
 	
 	private TipoContactoDTO getData(List<TipoContactoDTO> tipos) {
-		assert tipos != null;
 		if(tipos.isEmpty()) return null;
 		return tipos.get(0);		
 	}

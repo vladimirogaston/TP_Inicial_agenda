@@ -137,7 +137,6 @@ public class ConfigurationView extends JDialog {
 	}
 	
 	public void setData(ConfigDatabaseDTO dto) {
-		assert dto != null;
 		this.textUser.setText(dto.getUser());
 		this.textPassword.setText(dto.getPassword());
 		this.textIp.setText(dto.getIp());
@@ -152,12 +151,10 @@ public class ConfigurationView extends JDialog {
 	}
 	
 	public void setActionSave(ActionListener listener) {
-		assert listener != null;
 		okButton.addActionListener(listener);
 	}
 		
 	public void setActionLocalhost(ActionListener listener) {
-		assert listener != null;
 		this.chckbxIsLocalhost.addActionListener(listener);
 	}
 

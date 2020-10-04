@@ -17,7 +17,6 @@ public class PaisPresenter {
 	private PaisController controller;
 
 	public PaisPresenter(PaisController controller) {
-		assert controller != null;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
@@ -77,7 +76,7 @@ public class PaisPresenter {
 		PaisDTO target = view.getData();
 		if(target != null) {
 			try {
-				controller.delete(target.getId());
+				controller.deleteById(target.getId());
 				reset();
 			} catch (ConstraintViolationException e) {
 				new ErrorDialog().showMessages("No se puede eliminar un pais en uso");

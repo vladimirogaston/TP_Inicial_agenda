@@ -90,7 +90,7 @@ public class ProvinciaPresenter {
 		if(target != null) {
 			try {
 				int id = target.getId();
-				controller.delete(id);
+				controller.deleteById(id);
 				reset();
 			} catch(ConstraintViolationException e) {
 				new ErrorDialog().showMessages("No se puede eliminar una provincia en uso.");

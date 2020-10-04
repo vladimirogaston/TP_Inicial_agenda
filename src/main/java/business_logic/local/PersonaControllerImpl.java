@@ -17,13 +17,11 @@ public class PersonaControllerImpl implements PersonaController {
 	private PersonaDao dao;
 	
 	public PersonaControllerImpl(DaosFactory dao) {
-		assert dao != null;
 		this.dao = dao.createPersonaDAO();
 	}
 			
 	@Override
 	public boolean save(PersonaDTO personaDto) {
-		assert personaDto != null;
 		PersonaDTO target = dao.readByPhone(personaDto.getTelefono());
 		if(target != null) {
 			throw new ForbiddenException(FORBIDDEN);
@@ -33,7 +31,6 @@ public class PersonaControllerImpl implements PersonaController {
 
 	@Override
 	public boolean update(PersonaDTO personaDto) {
-		assert personaDto != null;
 		if(dao.readByID(personaDto.getId()) == null) {
 			throw new NotFoundException(NOT_FOUND);
 		}
@@ -47,12 +44,8 @@ public class PersonaControllerImpl implements PersonaController {
 	}
 
 	@Override
-	public void delete(int id) {
-		try {
-			dao.deleteById(id);	
-		}catch(ForbiddenException e) {
-			throw new ForbiddenException("No se puede eliminar la persona");
-		}
+	public boolean deleteById(Integer id) {
+		return dao.deleteById(id);	
 	}
 	
 	@Override

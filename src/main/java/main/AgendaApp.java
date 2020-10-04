@@ -59,7 +59,9 @@ public class AgendaApp {
 
 	public static void main(String[] args) {
 		DataSourceFactory.setFactory(new DataSourceFactoryImpl());
-		DataSource ds = DataSourceFactory.getFactory().makeDataSource(DataSourceType.IN_MEMORY);
+		DataSource ds = DataSourceFactory
+				.getFactory()
+				.makeDataSource(DataSourceType.PERSISTENT);
 		ds.getConnection();
 		
 		new AgendaApp()

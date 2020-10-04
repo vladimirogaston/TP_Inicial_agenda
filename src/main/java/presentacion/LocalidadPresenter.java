@@ -22,7 +22,6 @@ public class LocalidadPresenter {
 	private LocalidadController controller;
 	
 	public LocalidadPresenter(LocalidadController controller) {
-		assert controller != null;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
@@ -90,7 +89,7 @@ public class LocalidadPresenter {
 		if(target != null) {
 			try {
 				int id = target.getId();
-				controller.delete(id);
+				controller.deleteById(id);
 				reset();
 			} catch(ConstraintViolationException e) {
 				new ErrorDialog().showMessages("No se puede eliminar una localidad en uso");

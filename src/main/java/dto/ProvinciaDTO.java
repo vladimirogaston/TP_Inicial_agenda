@@ -19,6 +19,14 @@ public class ProvinciaDTO {
 		this.nombre = nombre;
 	}
 
+	public ProvinciaDTO() {
+	}
+
+	public ProvinciaDTO(String nom, String pa) {
+		setNombre(nom);
+		setPais(pa);
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -47,5 +55,4 @@ public class ProvinciaDTO {
 	public String toString() {
 		return "ProvinciaDTO [id=" + id + ", nombre=" + nombre + ", pais=" + pais + "]";
 	}
-	
 }

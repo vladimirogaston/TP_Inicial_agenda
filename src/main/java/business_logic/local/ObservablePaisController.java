@@ -14,8 +14,8 @@ public class ObservablePaisController  extends ObservableImpl implements PaisCon
 	}
 	
 	@Override
-	public void delete(int id) {
-		controller.delete(id);
+	public boolean deleteById(Integer id) {
+		return controller.deleteById(id);
 	}
 
 	@Override

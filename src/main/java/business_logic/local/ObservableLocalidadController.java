@@ -14,8 +14,8 @@ public class ObservableLocalidadController extends ObservableImpl implements Loc
 	}
 	
 	@Override
-	public void delete(int id) {
-		controller.delete(id);
+	public boolean deleteById(Integer id) {
+		return controller.deleteById(id);
 	}
 
 	@Override

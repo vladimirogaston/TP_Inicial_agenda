@@ -6,18 +6,13 @@ import java.util.HashMap;
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
 import repositories.PropertiesServiceImpl;
-import repositories.jdbc.Conexion;
-import repositories.jdbc.DatabaseException;
 
 public class ConfigurationServiceImpl implements ConfigurationService {
 
 	private PropertiesServiceImpl service;
 	
-	private PropertiesServiceImpl dev;
-	
 	public ConfigurationServiceImpl() {
-		this.service = new PropertiesServiceImpl("conf/db.properties");
-		dev = new PropertiesServiceImpl("dev.properties");
+		service = new PropertiesServiceImpl("conf/db.properties");
 	}
 	
 	@Override
@@ -36,13 +31,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public boolean onConnect(ConfigDatabaseDTO target) {
-		try {
-			Conexion.getConexion(target).getSQLConexion();
-			return true;
-		} catch(DatabaseException e) {
-			System.out.print(e.getMessage());
-			return false;
-		}
+		return false;
 	}
 
 	@Override

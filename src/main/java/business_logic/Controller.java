@@ -1,10 +1,4 @@
 package business_logic;
 
-import java.util.List;
-
-public interface Controller<T> extends SaveUpdateController<T> {
-		
-	void delete(int id);
-	
-	List<T> readAll();
+public interface Controller<T, K> extends SaverController<T>,UpdaterController<T>,DeleterController<K>,Reader<T> {	
 }

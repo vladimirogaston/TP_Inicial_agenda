@@ -12,13 +12,11 @@ public class TipoControllerImpl implements TipoController {
 	private TipoContactoDao dao;
 	
 	public TipoControllerImpl(TipoContactoDao dao) {
-		assert dao != null;
 		this.dao = dao;
 	}
 	
 	@Override
 	public boolean save(TipoContactoDTO tipoDto) {
-		assert tipoDto != null;
 		if(dao.readByName(tipoDto.getNombre()) != null) {
 			throw new ForbiddenException("El tipo ya esta en uso.");
 		}
@@ -27,17 +25,12 @@ public class TipoControllerImpl implements TipoController {
 
 	@Override
 	public boolean update(TipoContactoDTO tipoDto) {
-		assert tipoDto != null;
 		return dao.update(tipoDto);
 	}
 	
 	@Override
-	public void delete(int id) {
-		try {
-			dao.deleteById(id);	
-		}catch(Throwable t) {
-			throw t;
-		}
+	public boolean deleteById(Integer id) {
+		return dao.deleteById(id);	
 	}
 	
 	@Override

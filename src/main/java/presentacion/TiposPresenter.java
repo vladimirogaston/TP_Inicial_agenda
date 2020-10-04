@@ -17,7 +17,6 @@ public class TiposPresenter {
 	private TipoController controller;
 
 	public TiposPresenter(TipoController controller) {
-		assert controller != null;
 		this.controller = controller;
 		onInjectWorkbenchAction();
 		onInjectActions();
@@ -77,7 +76,7 @@ public class TiposPresenter {
 		TipoContactoDTO target = adaptor.getData();
 		if(target != null) {
 			try {
-				controller.delete(target.getId());
+				controller.deleteById(target.getId());
 				reset();
 			} catch(ConstraintViolationException e) {
 				new ErrorDialog().showMessages("No se puede eliminar un tipo en uso.");

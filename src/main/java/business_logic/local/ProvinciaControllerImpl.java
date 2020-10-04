@@ -14,13 +14,11 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 	private ProvinciaDao dao;
 	
 	public ProvinciaControllerImpl(ProvinciaDao dao) {
-		assert dao != null;
 		this.dao = dao;
 	}
 	
 	@Override
 	public boolean save(ProvinciaDTO provinciaDto) {
-		assert provinciaDto != null;
 		ProvinciaDTO target = dao.readByName(provinciaDto.getNombre());
 		if(target != null) {
 			throw new ForbiddenException(FORBIDDEN);
@@ -30,7 +28,6 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 
 	@Override
 	public boolean update(ProvinciaDTO provinciaDto) {
-		assert provinciaDto != null;
 		if(dao.readByName(provinciaDto.getNombre()) != null) {
 			throw new ForbiddenException(FORBIDDEN);
 		}
@@ -41,12 +38,8 @@ public class ProvinciaControllerImpl implements ProvinciaController {
 	}
 	
 	@Override
-	public void delete(int id) {
-		try{
-			dao.deleteById(id);
-		}catch(Throwable t) {
-			throw t;
-		}
+	public boolean deleteById(Integer id) {
+		return dao.deleteById(id);
 	}
 	
 	@Override

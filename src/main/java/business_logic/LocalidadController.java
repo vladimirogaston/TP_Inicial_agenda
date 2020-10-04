@@ -4,7 +4,7 @@ import java.util.List;
 
 import dto.LocalidadDTO;
 
-public interface LocalidadController extends Controller<LocalidadDTO>{
+public interface LocalidadController extends Controller<LocalidadDTO, Integer>{
 	
 	List<LocalidadDTO> readByProvincia(String provincia);
 }

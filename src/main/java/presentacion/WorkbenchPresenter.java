@@ -1,14 +1,11 @@
 package presentacion;
 
 import java.awt.event.ActionEvent;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import business_logic.ControllersFactory;
 import business_logic.Observer;
 import business_logic.PersonaController;
-import business_logic.local.ConfigurationServiceImpl;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
@@ -54,7 +51,7 @@ public class WorkbenchPresenter implements Observer, Presenter {
 		PersonaDTO target = workbenchView.getData();
 		if (target != null) {
 			PersonaController controller = ControllersFactory.getFactory().makePersonaController();
-			controller.delete(target.getId());
+			controller.deleteById(target.getId());
 			update();	
 		}
 	}
@@ -121,7 +118,6 @@ public class WorkbenchPresenter implements Observer, Presenter {
 
 	private void onDisplayFormForUpdate(ActionEvent a) {
 		PersonaDTO target = workbenchView.getData();
-		System.out.println(target);
 		if (target != null) {
 			formView.clearData();
 			fillProvincias(target.getPais());

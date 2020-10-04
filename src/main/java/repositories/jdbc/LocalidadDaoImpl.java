@@ -25,20 +25,17 @@ public class LocalidadDaoImpl extends GenericJdbcDao<LocalidadDTO> implements Lo
 
 	@Override
 	public boolean insert(LocalidadDTO dto) {
-		assert dto != null;
 		return getTemplate().query(insert).param(dto.getNombre()).param(dto.getProvincia()).excecute();
 	}
 
 	@Override
 	public boolean update(LocalidadDTO dto) {
-		assert dto != null;
 		return getTemplate().query(update).param(dto.getNombre()).param(dto.getProvincia())
 				.param(dto.getId()).excecute();
 	}
 
 	@Override
 	public boolean deleteById(Integer id) {
-		assert id != null;
 		return getTemplate().query(deleteById).param(id).excecute();
 	}
 
@@ -49,19 +46,16 @@ public class LocalidadDaoImpl extends GenericJdbcDao<LocalidadDTO> implements Lo
 
 	@Override
 	public LocalidadDTO readByID(Integer id) {
-		assert id != null;
 		return getData(getTemplate().query(readById).param(id).excecute(mapper));
 	}
 
 	@Override
 	public List<LocalidadDTO> readPorProvincia(String provincia) {
-		assert provincia != null;
 		return getTemplate().query(readByProvincia).param(provincia).excecute(mapper);
 	}
 
 	@Override
 	public LocalidadDTO readByName(String nombre) {
-		assert nombre != null;
 		return getData(getTemplate().query(readByName).param(nombre).excecute(mapper));
 	}
 
@@ -77,7 +71,7 @@ public class LocalidadDaoImpl extends GenericJdbcDao<LocalidadDTO> implements Lo
 	}
 	
 	private LocalidadDTO getData(List<LocalidadDTO> localidades) {
-		if(localidades.size() == 0) return null;
+		if(localidades.isEmpty()) return null;
 		return localidades.get(0);
 	}
 }

@@ -17,7 +17,6 @@ public class JdbcTemplate {
 	private Map<Integer, Param<?>> params;
 	
 	public JdbcTemplate(Connection conn) {
-		assert connection != null;
 		connection = conn;
 		params = new HashMap<>();
 	}
@@ -30,7 +29,6 @@ public class JdbcTemplate {
 	}
 	
 	public JdbcTemplate query(String query) {
-		assert query != null;
 		this.query = query;
 		return this;
 	}

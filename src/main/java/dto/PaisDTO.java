@@ -10,6 +10,10 @@ public class PaisDTO {
 	
 	String nombre;
 	
+	public static PaisDTO makeTestDTO() {
+		return new PaisDTO(null, "TestPais");
+	}
+	
 	public PaisDTO(String nombre) {
 		super();
 		this.nombre = nombre;

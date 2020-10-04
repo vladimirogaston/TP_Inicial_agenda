@@ -91,8 +91,20 @@ public class PersonaDTO {
 	}
 
 	public static PersonaDTO makeTestDto() {
-		return new Builder("John", "333").email("john@qm.com").fechaNacimiento(new Date()).tipoContacto("Friend")
-				.calle("c1").altura("1").piso("1").dpto("A").localidad("Waco").build();
+		return new Builder("John", "333")
+				.email("john@qm.com")
+				.fechaNacimiento(new Date())
+				.tipoContacto("Friend")
+				.calle("c1")
+				.altura("1")
+				.piso("1")
+				.dpto("A")
+				.localidad("Waco")
+				.pais("Argentina")
+				.provincia("Buenos Aires")
+				.codigoPostal("332")
+				.equipoFutbol("EquipoTest")
+				.build();
 	}
 
 	public static class Builder {

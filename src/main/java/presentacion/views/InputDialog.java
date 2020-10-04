@@ -25,14 +25,11 @@ public class InputDialog {
 	}
 	
 	public InputDialog title(String title) {
-		assert title != null;
-		assert title.trim().isEmpty();
 		this.title = title;
 		return this;
 	}
 	
 	public InputDialog setText(String text) {
-		assert text != null;
 		textField.setText(text);
 		return this;
 	}
@@ -54,6 +51,6 @@ public class InputDialog {
 		if(nombre.trim().isEmpty()) {
 			return null;
 		}
-		return nombre.toString();
+		return nombre;
 	}
 }

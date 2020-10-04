@@ -2,5 +2,5 @@ package business_logic;
 
 import dto.PaisDTO;
 
-public interface PaisController extends Controller<PaisDTO>{
+public interface PaisController extends Controller<PaisDTO, Integer>{
 }

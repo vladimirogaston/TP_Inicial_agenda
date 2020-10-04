@@ -13,13 +13,11 @@ public class PaisControllerImpl implements PaisController {
 	private PaisDao dao;
 	
 	public PaisControllerImpl(PaisDao dao) {
-		assert dao != null;
 		this.dao = dao;
 	}	
 	
 	@Override
 	public boolean save(PaisDTO paisDTO) {
-		assert paisDTO != null;
 		PaisDTO target = dao.readByName(paisDTO.getNombre());
 		if(target != null) {
 			throw new ForbiddenException("No se puede utilizar un nombre de pais que ya está en uso");
@@ -29,7 +27,6 @@ public class PaisControllerImpl implements PaisController {
 
 	@Override
 	public boolean update(PaisDTO paisDTO) {
-		assert paisDTO != null;
 		PaisDTO target = dao.readByName(paisDTO.getNombre());
 		if(target != null) {
 			throw new ForbiddenException("No se puede utilizar un nombre de pais que ya está en uso");
@@ -41,8 +38,8 @@ public class PaisControllerImpl implements PaisController {
 	}
 	
 	@Override
-	public void delete(int id) {
-		dao.deleteById(id);
+	public boolean deleteById(Integer id) {
+		return dao.deleteById(id);
 	}
 	
 	@Override
