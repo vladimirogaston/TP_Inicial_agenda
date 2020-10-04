@@ -26,8 +26,8 @@ import java.awt.BorderLayout;
 
 public class WorkbenchView {
 	
-	static final String[] nombreColumnas = { "Nombre y apellido", "Telefono", "Email", "Fecha cumple", "Tipo", "Calle", "Altura",
-			"Piso", "Dpto", "Localidad", "Provincia", "Pais", "Equipo", "CodigoPostal" };
+	static final String[] nombreColumnas = { "Nombre y Apellido", "Telefono", "Email", "Cumpleaños", "Tipo", "Calle", "Altura",
+			"Piso", "Departamento", "Localidad", "Provincia", "Pais", "Equipo", "CP" };
 	
 	private JFrame frame;
 	private JTable tablaPersonas;
