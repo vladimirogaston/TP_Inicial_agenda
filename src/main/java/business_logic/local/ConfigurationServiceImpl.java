@@ -14,7 +14,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	private PropertiesServiceImpl service;
 	
 	public ConfigurationServiceImpl() {
-		this.service = new PropertiesServiceImpl("conf/db.properties");
+		this.service = new PropertiesServiceImpl("conf\\db.properties");
 	}
 	
 	@Override

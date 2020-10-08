@@ -1,33 +1,29 @@
 package presentacion.views;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import dto.PersonaDTO;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
-
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import javax.swing.SwingConstants;
 
 public class WorkbenchView {
 	
@@ -55,8 +51,6 @@ public class WorkbenchView {
 	private ImageIcon icon_edit = new ImageIcon(getClass().getResource("/icons/edit.png"));
 	private ImageIcon icon_delete = new ImageIcon(getClass().getResource("/icons/delete.png"));
 	private ImageIcon icon_report = new ImageIcon(getClass().getResource("/icons/report.png"));
-	private ImageIcon icon_exit = new ImageIcon(getClass().getResource("/icons/exit.png"));
-
 	private List<PersonaDTO> personas;
 	
 	public static WorkbenchView getInstance() {
@@ -69,7 +63,7 @@ public class WorkbenchView {
 		super();
 		frame = new JFrame();
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 1132, 391);
+		frame.setBounds(100, 100, 1101, 410);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Agenda");
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -80,7 +74,7 @@ public class WorkbenchView {
 		panel.setLayout(null);
 
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(0, 28, 1126, 294);
+		spPersonas.setBounds(0, 28, 1094, 294);
 		panel.add(spPersonas);
 
 		modelPersonas = new DefaultTableModel(null, nombreColumnas) {
@@ -95,41 +89,41 @@ public class WorkbenchView {
 		spPersonas.setViewportView(tablaPersonas);
 		
 		panel_1 = new JPanel();
-		panel_1.setBounds(0, 323, 1126, 39);
+		panel_1.setBounds(0, 323, 1094, 41);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
 		toolBar = new JToolBar();
-		toolBar.setBounds(0, 0, 1126, 30);
+		toolBar.setBounds(0, 0, 1094, 41);
 		toolBar.setFloatable(false);
 		panel_1.add(toolBar);
 
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnAgregar.setPreferredSize(new Dimension(80, 30));
+		btnAgregar.setPreferredSize(new Dimension(80, 25));
 		btnAgregar.setIcon(icon_add);
 		toolBar.add(btnAgregar);
 
 		btnBorrar = new JButton("Borrar");
 		btnBorrar.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnBorrar.setPreferredSize(new Dimension(80, 30));
+		btnBorrar.setPreferredSize(new Dimension(80, 25));
 		btnBorrar.setIcon(icon_delete);
 		toolBar.add(btnBorrar);
 
 		btnEditar = new JButton("Editar");
 		btnEditar.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnEditar.setPreferredSize(new Dimension(80, 30));
+		btnEditar.setPreferredSize(new Dimension(80, 25));
 		btnEditar.setIcon(icon_edit);
 		toolBar.add(btnEditar);
 
 		btnReporte = new JButton("Reporte");
 		btnReporte.setHorizontalTextPosition(SwingConstants.RIGHT);
-		btnReporte.setPreferredSize(new Dimension(80, 30));
+		btnReporte.setPreferredSize(new Dimension(80, 25));
 		btnReporte.setIcon(icon_report);
 		toolBar.add(btnReporte);
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 1126, 28);
+		menuBar.setBounds(0, 0, 1094, 28);
 		panel.add(menuBar);
 
 		JMenu mnNewMenu = new JMenu("Opciones");
