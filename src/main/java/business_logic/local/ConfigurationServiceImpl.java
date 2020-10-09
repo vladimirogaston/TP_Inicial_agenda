@@ -1,7 +1,10 @@
 package business_logic.local;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+
+import javax.swing.JOptionPane;
 
 import business_logic.ConfigurationService;
 import dto.ConfigDatabaseDTO;
@@ -14,7 +17,20 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	private PropertiesServiceImpl service;
 	
 	public ConfigurationServiceImpl() {
-		this.service = new PropertiesServiceImpl("conf\\db.properties");
+		String userHomePath = System.getProperty("user.home");
+		File fileDirectory = new File(userHomePath, "Agenda"); 
+		fileDirectory.mkdirs(); 
+		File file = new File(userHomePath + File.separator + "Agenda\\configuration.properties");
+		if(!file.exists())
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
+		this.service = new PropertiesServiceImpl(file.getAbsolutePath());
+		
+		//this.service = new PropertiesServiceImpl("conf/db.properties");
 	}
 	
 	@Override
